@@ -1,30 +1,43 @@
-# Project- or Teamname
+# Papaya - App
 
-**_a short abstract, a tagline or a logo_**
+**"If life gives you papayas, make an app 🍋"**
 
-**[Documentation](https://gitlab.bht-berlin.de/maschubert/sose22-project-template/-/wikis/home)**  
+
+**[Documentation](https://gitlab.bht-berlin.de/s84634/papaya-app/-/wikis/home)**  
 
 
 ## Project Members
 
-- Name Matrikelnummer
-- Name Matrikelnummer
-- ...
+- Haruki Saito 911989
+- Lukas Sekoulidis 911928
+- Stephan Hartmann 911427
+- Wencke Hartwig 887198
 
 
 ## Project description
 
-_a more alaborated descritpion of the project._
+Papaya ist eine Web App, die User:innen die Möglichkeit bietet, 
+alle wichtigen Notizen organisiert, übersichtlich und individuell
+anpassbar an einem Ort zu sammeln.
+
+Notizen, sortiert nach eigenen Bedürfnissen in Kategorien, To-Do Listen,
+Erinnerungen zu wichtigen Ereignissen, Papaya hilft dabei, den Kopf im Alltag
+freizuhalten.
 
 
 ## Tooling
 
-- git
-- issue tracker
-- other...
+- Gitlab
+- Issue Tracker - ebenfalls Gitlab
+- Wiki - ebenfalls Gitlab
 
 
 ## Tech
 
-_list of used tools, programming languages, technologies, etc..._
+- JavaScript
+- React (including HTML, CSS)
+- node.js
+- Express.js
+- mongoDB
+
 
