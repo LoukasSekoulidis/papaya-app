@@ -16,19 +16,14 @@
 
 ## Project description
 
-Papaya ist eine Web App, die User:innen die Möglichkeit bietet, 
-alle wichtigen Notizen organisiert, übersichtlich und individuell
-anpassbar an einem Ort zu sammeln.
-
-Notizen, sortiert nach eigenen Bedürfnissen in Kategorien, To-Do Listen,
-Erinnerungen zu wichtigen Ereignissen, Papaya hilft dabei, den Kopf im Alltag
-freizuhalten.
+Papaya ist eine Notizen/To-Do App, die User:innen die Möglichkeit bietet, all ihre wichtigen Notizen organisiert, übersichtlich und individuell anpassbar an einem Ort zu sammeln.
+Hierbei besteht die Möglichkeit neben Notizen auch To-Do Listen zu erstellen, Erinnerungen einzuschalten und durch Ordner eine eigene Struktur anzulegen.
 
 
 ## Tooling
 
 - Gitlab
-- Issue Tracker - ebenfalls Gitlab
+- Issue Tracker - Trello
 - Wiki - ebenfalls Gitlab
 
 
