@@ -23,7 +23,7 @@ Hierbei besteht die Möglichkeit neben Notizen auch To-Do Listen zu erstellen, E
 ## Tooling
 
 - Gitlab
-- Issue Tracker - Trello
+- Issue Tracker - [Trello](https://trello.com/b/qq8ozzTd/papaya-app)
 - Wiki - ebenfalls Gitlab
 
 
