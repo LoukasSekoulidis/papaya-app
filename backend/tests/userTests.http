@@ -1,0 +1,63 @@
+// Login mit Basic Authentication mit korrekten Credentials test@gmx.de:TestPW
+// Base64 encoding & decoding: https://www.base64decode.org
+###
+# @name loginTest
+GET http://localhost:8080/authenticate/login
+Authorization: Basic dGVzdEBnbXguZGU6VGVzdFBX
+
+@testToken = {{loginTest.response.headers.Authorization}}
+
+// Rufe alle User ab
+###
+GET http://localhost:8080/userManagement
+Authorization: {{testToken}}
+
+// Legt ersten User an
+###
+POST http://localhost:8080/userManagement
+Content-Type: application/json
+Authorization: {{testToken}}
+
+{
+    "userMail": "test@gmx.de",
+    "userName": "Lukas Sekoulidis",
+    "password": "TestPW",
+}
+
+// Rufe den User mit userMail test@gmx.de ab. 
+###
+GET http://localhost:8080/userManagement/test@gmx.de
+Authorization: {{testToken}}
+
+// Lege zweiten User an
+###
+POST http://localhost:8080/userManagement
+Content-Type: application/json
+Authorization: {{testToken}}
+
+{
+    "userMail": "max@muster.de",
+    "userName": "Max Muster",
+    "password": "maxMuss"
+}
+
+// Ändere beim zweiten User den User-Name. Zur Selektion des Users verwende die userID.
+###
+PUT http://localhost:8080/userManagement/max@muster.de
+Content-Type: application/json
+Authorization: {{testToken}}
+
+{
+    "userName": "Manfred Müller",
+    "password": "maxMüsste"
+}
+
+// Rufe alle User ab. Es sollten 2 User zurückgegeben werden.
+###
+GET http://localhost:8080/userManagement
+Authorization: {{testToken}}
+
+// Lösche den User mit der User-ID manfred
+###
+DELETE  http://localhost:8080/userManagement/max@muster.de
+Authorization: {{testToken}}

@@ -14,7 +14,7 @@ function initDB(callback) {
         }
     }
     else {
-        mongoose.connect(connectionString, { useCreateIndex: true, useFindAndModify: false, useNewUrlParser: true, useUnifiedTopology: true })
+        mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true }) //useCreateIndex: true, useFindAndModify: false, 
         _db = mongoose.connection
 
         _db.on('error', console.error.bind(console, 'connection error:'))

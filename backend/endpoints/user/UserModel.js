@@ -1,12 +1,12 @@
 var mongoose = require('mongoose')
 const Schema = mongoose.Schema;
-const bcrypt = require('bcrypt')
+const bcryptjs = require('bcryptjs')
 
 const userSchema = new Schema({
-  id: Number, // aus DB
   userMail: {
     type: String,
-    unique: true, // als unique identifier für jeden User?
+    required: true,
+    unique: true
   },
   userName: {
     type: String,
@@ -30,7 +30,7 @@ userSchema.pre('save', function (next) {
   if (!user.isModified('password')) {
     return next();
   }
-  bcrypt.hash(user.password, 10).then((hashedPassword) => {
+  bcryptjs.hash(user.password, 10).then((hashedPassword) => {
     user.password = hashedPassword;
     next();
   });
@@ -44,10 +44,10 @@ userSchema.pre('save', function (next) {
 userSchema.pre('updateOne', function (next) {
   var user = this._update
 
-  if(!user.password) {
+  if (!user.password) {
     return next()
   }
-  bcrypt.hash(user.password, 10).then((hashedPassword) => {
+  bcryptjs.hash(user.password, 10).then((hashedPassword) => {
     user.password = hashedPassword;
     next();
   });
@@ -62,7 +62,7 @@ userSchema.methods.comparePassword = function (candidatePassword, next) {
     input: candidatePassword,
     password: this.password
   }))
-  bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+  bcryptjs.compare(candidatePassword, this.password, function (err, isMatch) {
     if (err) return next(err);
     next(null, isMatch);
   });
