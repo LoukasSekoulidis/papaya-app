@@ -1,6 +1,6 @@
 // React Functions
 import { React, useRef } from "react"
-import Form from "./Form"
+import FormTemplate from "./FormTemplate"
 
 // API Call
 const userAPI = require('../api/user-api')
@@ -34,7 +34,7 @@ export default function SignUpForm() {
     // lets to browser validation too, even tho monogodb fields are required in schema
     return(
         <div>
-            <Form
+            <FormTemplate
                 handleSubmit={handleSubmit}
                 mailRef={mailRef}
                 passwordRef={passwordRef}

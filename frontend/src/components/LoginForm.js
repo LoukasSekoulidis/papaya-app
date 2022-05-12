@@ -3,7 +3,7 @@ import { React, useRef } from "react"
 import  { useNavigate } from 'react-router-dom'
 
 // Component
-import Form from "./Form"
+import FormTemplate from "./FormTemplate"
 
 const userAPI = require('../api/user-api')
 
@@ -31,7 +31,7 @@ export default function LoginForm() {
   
     return (
         <div>
-            <Form
+            <FormTemplate
                 handleSubmit={handleSubmit}
                 mailRef={mailRef}
                 passwordRef={passwordRef}

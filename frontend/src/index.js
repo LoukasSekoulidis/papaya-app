@@ -7,7 +7,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import App from './App'
 
 // CSS
-import './index.css'
+// import './index.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 // Routes
 import SignUp from './routes/signup'
