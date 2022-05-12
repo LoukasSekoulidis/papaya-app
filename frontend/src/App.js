@@ -1,7 +1,7 @@
 import Login from './components/Login';
 import Register from './components/Register';
 
-function App() {
+export default function App() {
   return (
     <div>
       <Register />
@@ -9,5 +9,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

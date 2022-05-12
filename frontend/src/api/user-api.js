@@ -1,3 +1,11 @@
+import { Buffer } from 'buffer'
+
+const encodeLoginData = (userMail, password) => {
+    let data = `${userMail}:${password}` // usermail:password
+    let encodedData = Buffer.from(data, 'ascii').toString('base64')
+    return encodedData
+}
+
 export const createUser = async (mail, userName, password) => {
     const API_URL = 'http://localhost:8080/userManagement/'
     const response = await fetch(API_URL, {
@@ -23,16 +31,17 @@ export const createUser = async (mail, userName, password) => {
 }
 
 export const login = async (mail, password) => {
-    const API_URL = 'http://localhost:8080/login/'
+
+    const encodedData = encodeLoginData(mail, password)
+    const authString = `Basic ${encodedData}`
+    console.log(authString)
+
+    const API_URL = 'http://localhost:8080/authenticate/login/'
     const response = await fetch(API_URL, {
         method: 'GET', 
         headers: {
-            Authorization: 'aaaaaahhh',// didnt figure out yet
+            Authorization: authString,// didnt figure out yet
         },
-        body: JSON.stringify({
-            userMail: mail,
-            password: password,
-        })
     })
 
     const json = await response.json()
@@ -48,3 +57,4 @@ export const login = async (mail, password) => {
 export const test = (mail, password) => {
     console.log(`Mail: ${mail}, Password: ${password}`)
 }
+

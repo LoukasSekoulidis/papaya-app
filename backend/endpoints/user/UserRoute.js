@@ -26,7 +26,8 @@ router.get('/:userMail', authenticationService.isAuthenticated, (req, res, next)
   });
 });
 
-router.post('/', authenticationService.isAuthenticated, (req, res, next) => {
+// router.post('/', authenticationService.isAuthenticated, (req, res, next) => {
+router.post('/', (req, res, next) => {
   console.log('In Post!')
   userService.createUser(req.body, (err, postedUser) => {
     if (postedUser) {

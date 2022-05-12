@@ -6,11 +6,19 @@ const database = require('./database/db');
 const userRoutes = require('./endpoints/user/UserRoute');
 const authenticationRoutes = require('./endpoints/authentication/AuthenticationRoute');
 
+const cors = require('cors')
+
 const app = express();
+
+app.use(cors({
+  origin: '*'
+}));
+
 app.use(bodyParser.json());
 
 app.use('/userManagement', userRoutes);
 app.use('/authenticate', authenticationRoutes);
+
 
 database.initDB((error, db) => {
   if (db) {
