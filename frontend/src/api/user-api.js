@@ -1,4 +1,9 @@
+// React Functions
+// import  { Navigate } from 'react-router-dom'
+
+// NPM imports
 import { Buffer } from 'buffer'
+
 
 const encodeLoginData = (userMail, password) => {
     let data = `${userMail}:${password}` // usermail:password
@@ -20,13 +25,18 @@ export const createUser = async (mail, userName, password) => {
         })
     })
 
-    const json = await response.json()
-    console.log(json)
+    const responseJSON = await response.json()
 
     if (response.ok){
-        // redirect to main page or whatever
+        return ({
+            response: true,
+            error: null
+        })
     } else {
-        // throw an error
+        return({
+            response: false,
+            error: responseJSON.Error
+        })
     }
 }
 
@@ -34,27 +44,30 @@ export const login = async (mail, password) => {
 
     const encodedData = encodeLoginData(mail, password)
     const authString = `Basic ${encodedData}`
-    console.log(authString)
 
     const API_URL = 'http://localhost:8080/authenticate/login/'
     const response = await fetch(API_URL, {
         method: 'GET', 
         headers: {
-            Authorization: authString,// didnt figure out yet
+            Authorization: authString,
         },
     })
 
-    const json = await response.json()
-    console.log(json)
+    const responseJSON = await response.json()
 
-    if (response.ok) {
-        //redirect cuz login was sucessful
+    if (response.ok){
+        return ({
+            response: true,
+            error: null
+        })
     } else {
-        // show error
+        return({
+            response: false,
+            error: responseJSON.Error
+        })
     }
 }
 
 export const test = (mail, password) => {
     console.log(`Mail: ${mail}, Password: ${password}`)
 }
-

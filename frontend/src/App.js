@@ -1,11 +1,12 @@
-import Login from './components/Login';
-import Register from './components/Register';
+import LoginForm from './components/LoginForm'
+import SignUpButton from './components/SignUpButton'
+
 
 export default function App() {
   return (
     <div>
-      <Register />
-      <Login />
+      <LoginForm />
+      <SignUpButton />
     </div>
-  );
+  )
 }

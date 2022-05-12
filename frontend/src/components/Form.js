@@ -1,9 +1,11 @@
+// React Functions
 import React from 'react'
 
 export default function Form({handleSubmit, mailRef, passwordRef, useCase}) {
   
   return (
     <div>
+        <p>{ useCase }</p>
         <form onSubmit={handleSubmit}>
             <label>
               mail:

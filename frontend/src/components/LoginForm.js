@@ -1,22 +1,32 @@
+// React Functions
 import { React, useRef } from "react"
+import  { useNavigate } from 'react-router-dom'
+
+// Component
 import Form from "./Form"
 
 const userAPI = require('../api/user-api')
 
-export default function Login() {
-
+export default function LoginForm() {
+    
+    const navigate = useNavigate()
     const mailRef = useRef()
     const passwordRef = useRef()
     
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
         const mail = mailRef.current.value
         const password = passwordRef.current.value
 
-        // console.log(`Mail: ${mail}, Password: ${password}`)
+        const apiRequest = await userAPI.login(mail, password)
+        
+        if (apiRequest.response) {
+            return navigate('/home')    
+        } else {
+            console.log(apiRequest.error)
+        }
 
-        userAPI.login(mail, password)
     }
   
     return (
@@ -30,7 +40,3 @@ export default function Login() {
         </div>
     )
 }
-
-
-
-

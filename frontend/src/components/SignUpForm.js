@@ -1,9 +1,11 @@
+// React Functions
 import { React, useRef } from "react"
 import Form from "./Form"
 
+// API Call
 const userAPI = require('../api/user-api')
 
-export default function Register() {
+export default function SignUpForm() {
     
     const mailRef = useRef()
     const passwordRef = useRef()
