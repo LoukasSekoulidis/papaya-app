@@ -3,7 +3,7 @@
 **"If life gives you papayas, make an app 🍋"**
 
 
-**[Documentation](https://gitlab.bht-berlin.de/s84634/papaya-app/-/wikis/home)**  
+**[Documentation](https://gitlab.bht-berlin.de/s84634/papaya-app/-/wikis/General)**  
 
 
 ## Project Members
