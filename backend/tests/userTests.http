@@ -21,7 +21,7 @@ Authorization: {{testToken}}
 {
     "userMail": "test@gmx.de",
     "userName": "Lukas Sekoulidis",
-    "password": "TestPW",
+    "password": "TestPW"
 }
 
 // Rufe den User mit userMail test@gmx.de ab. 
