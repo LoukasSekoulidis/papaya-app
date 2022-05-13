@@ -19,14 +19,14 @@ Content-Type: application/json
 Authorization: {{testToken}}
 
 {
-    "userMail": "test@gmx.de",
-    "userName": "Lukas Sekoulidis",
-    "password": "TestPW",
+    "userMail": "stephan@gmx.de",
+    "userName": "Stephan",
+    "password": "TestPW"
 }
 
 // Rufe den User mit userMail test@gmx.de ab. 
 ###
-GET http://localhost:8080/userManagement/test@gmx.de
+GET http://localhost:8080/userManagement/Stephan
 Authorization: {{testToken}}
 
 // Lege zweiten User an
@@ -43,13 +43,12 @@ Authorization: {{testToken}}
 
 // Ändere beim zweiten User den User-Name. Zur Selektion des Users verwende die userID.
 ###
-PUT http://localhost:8080/userManagement/max@muster.de
+PUT http://localhost:8080/userManagement/Stephan
 Content-Type: application/json
 Authorization: {{testToken}}
 
 {
-    "userName": "Manfred Müller",
-    "password": "maxMüsste"
+    "userName": "Manfred"
 }
 
 // Rufe alle User ab. Es sollten 2 User zurückgegeben werden.
@@ -59,5 +58,5 @@ Authorization: {{testToken}}
 
 // Lösche den User mit der User-ID manfred
 ###
-DELETE  http://localhost:8080/userManagement/max@muster.de
+DELETE  http://localhost:8080/userManagement/Manfred
 Authorization: {{testToken}}

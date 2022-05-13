@@ -15,7 +15,7 @@ router.get('/', authenticationService.isAuthenticated, (req, res, next) => {
   });
 });
 
-router.get('/:userMail', authenticationService.isAuthenticated, (req, res, next) => {
+router.get('/:userName', authenticationService.isAuthenticated, (req, res, next) => {
   userService.getUser(req.url.split('/')[1], (err, user) => {
     if (user) {
       res.status(200).json(user);
@@ -38,7 +38,7 @@ router.post('/', (req, res, next) => {
   });
 });
 
-router.put('/:userMail', authenticationService.isAuthenticated, (req, res, next) => {
+router.put('/:userName', authenticationService.isAuthenticated, (req, res, next) => {
   userService.updateUser(req.url.split('/')[1], req.body, (err, updatedUser) => {
     if (updatedUser) {
       res.status(200).json(updatedUser);
@@ -49,7 +49,7 @@ router.put('/:userMail', authenticationService.isAuthenticated, (req, res, next)
   });
 });
 
-router.delete('/:userMail', authenticationService.isAuthenticated, (req, res, next) => {
+router.delete('/:userName', authenticationService.isAuthenticated, (req, res, next) => {
   userService.deleteUser(req.url.split('/')[1], (err, deletedUser) => {
     if (deletedUser) {
       res.status(200).json({ Deleted: deletedUser });
