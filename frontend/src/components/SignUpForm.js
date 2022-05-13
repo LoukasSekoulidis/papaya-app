@@ -1,5 +1,8 @@
 // React Functions
 import { React, useRef } from "react"
+import  { useNavigate } from 'react-router-dom'
+
+// Components
 import FormTemplate from "./FormTemplate"
 
 // API Call
@@ -7,10 +10,11 @@ const userAPI = require('../api/user-api')
 
 export default function SignUpForm() {
     
+    const navigate = useNavigate()
     const mailRef = useRef()
     const passwordRef = useRef()
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
         const mail = mailRef.current.value
@@ -24,7 +28,14 @@ export default function SignUpForm() {
 
         // console.log(`This is ${userName} with following mail: ${mail} and this password: ${password}`)
 
-        userAPI.createUser(mail, userName, password)
+        // userAPI.createUser(mail, userName, password)
+        const apiRequest = await userAPI.createUser(mail, userName, password)
+
+        if (apiRequest.response) {
+            return navigate('/')    
+        } else {
+            console.log(apiRequest.error)
+        }
 
         mailRef.current.value = null
         passwordRef.current.value = null
