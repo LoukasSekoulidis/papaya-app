@@ -2,19 +2,19 @@
 // Base64 encoding & decoding: https://www.base64decode.org
 ###
 # @name loginTest
-GET http://localhost:8080/authenticate/login
+GET http://localhost:8080/api/v1/login
 Authorization: Basic dGVzdEBnbXguZGU6VGVzdFBX
 
 @testToken = {{loginTest.response.headers.Authorization}}
 
 // Rufe alle User ab
 ###
-GET http://localhost:8080/userManagement
+GET http://localhost:8080/api/v1/user
 Authorization: {{testToken}}
 
 // Legt ersten User an
 ###
-POST http://localhost:8080/userManagement
+POST http://localhost:8080/api/v1/user/create
 Content-Type: application/json
 Authorization: {{testToken}}
 
@@ -26,12 +26,12 @@ Authorization: {{testToken}}
 
 // Rufe den User mit userMail test@gmx.de ab. 
 ###
-GET http://localhost:8080/userManagement/Stephan
+GET http://localhost:8080/api/v1/user/Stephan
 Authorization: {{testToken}}
 
 // Lege zweiten User an
 ###
-POST http://localhost:8080/userManagement
+POST http://localhost:8080/api/v1/user/create
 Content-Type: application/json
 Authorization: {{testToken}}
 
@@ -43,20 +43,20 @@ Authorization: {{testToken}}
 
 // Ändere beim zweiten User den User-Name. Zur Selektion des Users verwende die userID.
 ###
-PUT http://localhost:8080/userManagement/Stephan
+PUT http://localhost:8080/api/v1/user/update/Manfred
 Content-Type: application/json
 Authorization: {{testToken}}
 
 {
-    "userName": "Manfred"
+    "userName": "Udo"
 }
 
 // Rufe alle User ab. Es sollten 2 User zurückgegeben werden.
 ###
-GET http://localhost:8080/userManagement
+GET http://localhost:8080/api/v1/user
 Authorization: {{testToken}}
 
 // Lösche den User mit der User-ID manfred
 ###
-DELETE  http://localhost:8080/userManagement/Manfred
+DELETE  http://localhost:8080/api/v1/user/delete/Udo
 Authorization: {{testToken}}

@@ -26,7 +26,7 @@ router.get('/:userName', authenticationService.isAuthenticated, (req, res, next)
   });
 });
 
-router.post('/', (req, res, next) => {
+router.post('/create', (req, res, next) => {
   console.log('In Post!')
   userService.createUser(req.body, (err, postedUser) => {
     if (postedUser) {
@@ -38,8 +38,8 @@ router.post('/', (req, res, next) => {
   });
 });
 
-router.put('/:userName', authenticationService.isAuthenticated, (req, res, next) => {
-  userService.updateUser(req.url.split('/')[1], req.body, (err, updatedUser) => {
+router.put('/update/:userName', authenticationService.isAuthenticated, (req, res, next) => {
+  userService.updateUser(req.url.split('/')[2], req.body, (err, updatedUser) => {
     if (updatedUser) {
       res.status(200).json(updatedUser);
     }
@@ -49,8 +49,8 @@ router.put('/:userName', authenticationService.isAuthenticated, (req, res, next)
   });
 });
 
-router.delete('/:userName', authenticationService.isAuthenticated, (req, res, next) => {
-  userService.deleteUser(req.url.split('/')[1], (err, deletedUser) => {
+router.delete('/delete/:userName', authenticationService.isAuthenticated, (req, res, next) => {
+  userService.deleteUser(req.url.split('/')[2], (err, deletedUser) => {
     if (deletedUser) {
       res.status(200).json({ Deleted: deletedUser });
     }

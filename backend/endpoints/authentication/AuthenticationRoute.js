@@ -3,7 +3,7 @@ const router = express.Router();
 
 var authenticationService = require('./AuthenticationService')
 
-router.get('/login', (req, res, next) => {
+router.get('/', (req, res, next) => {
   if (typeof req.headers.authorization != "undefined") {
 
     authenticationService.createSessionTokenBasic(req.headers, (err, token, user) => {

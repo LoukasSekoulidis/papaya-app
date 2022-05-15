@@ -16,8 +16,8 @@ app.use(cors({
 
 app.use(bodyParser.json());
 
-app.use('/userManagement', userRoutes);
-app.use('/authenticate', authenticationRoutes);
+app.use('/api/v1/user', userRoutes);
+app.use('/api/v1/login', authenticationRoutes);
 
 
 database.initDB((error, db) => {
