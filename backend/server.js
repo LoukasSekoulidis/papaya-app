@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 const database = require('./database/db');
 const userRoutes = require('./endpoints/user/UserRoute');
+const noteRoutes = require('./endpoints/note/NoteRoute');
 const authenticationRoutes = require('./endpoints/authentication/AuthenticationRoute');
 
 const cors = require('cors')
@@ -17,6 +18,7 @@ app.use(cors({
 app.use(bodyParser.json());
 
 app.use('/api/v1/user', userRoutes);
+app.use('/api/v1/note', noteRoutes);
 app.use('/api/v1/login', authenticationRoutes);
 
 
