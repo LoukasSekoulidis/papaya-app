@@ -77,7 +77,7 @@ router.post('/getByOwnerID', AuthenticationService.isAuthenticated, function(req
         else if (note.length > 0) {
             return res.send(Object.values(note))
         } else {
-            return res.send(Object.values(forum))
+            return res.send(Object.values(note))
         }
     })
 })
