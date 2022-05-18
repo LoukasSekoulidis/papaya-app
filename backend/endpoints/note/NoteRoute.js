@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router()
-var AuthenticationService = require('..authentication/AuthenticationService')
+// var AuthenticationService = require('..authentication/AuthenticationService')
+var AuthenticationService = require('../authentication/AuthenticationService')
 var NoteService = require('./NoteService')
 
 // Notiz neu anlegen
