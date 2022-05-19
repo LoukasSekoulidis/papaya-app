@@ -1,13 +1,24 @@
 // React Functions
-import { React, useRef } from "react"
+import { React, useRef, useState } from "react"
 import  { useNavigate } from 'react-router-dom'
 
-// Component
+// Components
 import FormTemplate from "./FormTemplate"
+// import AlertBox from './AlertBox'
 
+// CSS
+// import { Alert } from 'react-bootstrap'
 const userAPI = require('../api/user-api')
 
 export default function LoginForm() {
+
+    // const [showError, setShowError] = useState(false)
+    // const [errorMessage, setErrorMessage] = useState({
+    //     errorTitle: 'Title',
+    //     errorMessage: 'Message'
+    // })
+    // const [show, setShow] = useState(false)
+    const [error, setError] = useState()
     
     const navigate = useNavigate()
     const mailRef = useRef()
@@ -24,18 +35,32 @@ export default function LoginForm() {
         if (apiRequest.response) {
             return navigate('/home')    
         } else {
-            console.log(apiRequest.error)
+            // errorMessage = apiRequest.error
+            // setErrorMessage({
+            //     errorTitle: apiRequest.error,
+            //     errorMessage: apiRequest.error
+            // })
+            // setShowError(true)
+            // console.log(errorMessage)
+
+            setError(apiRequest.error)
+            // setShow(true)
         }
 
     }
   
     return (
         <div>
+            {/* <AlertBox showIt={show} errorObject={error}/> */}
+            {/* <Alert show={show} key={'danger'} variant={'danger'}>
+                {error}
+            </Alert> */}
             <FormTemplate
                 handleSubmit={handleSubmit}
                 mailRef={mailRef}
                 passwordRef={passwordRef}
-                useCase={'Login'}  
+                useCase={'Login'}
+                error={error}  
             />
         </div>
     )

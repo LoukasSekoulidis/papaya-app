@@ -13,6 +13,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 // Routes
 import SignUp from './routes/signup'
 import Home from './routes/home'
+import CreateNote from './routes/createNote'
+// import ProtectedRoute from './routes/ProtectedRoute'
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -20,9 +23,10 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path='/' element={<App />} />
-      <Route path='signup' element={<SignUp />} />
-      <Route path='home' element={<Home />} />
+      <Route path='/signup' element={<SignUp />} />
+      <Route path='/home' element={<Home />} />
+      {/* <ProtectedRoute exact path='/home' component={Home} /> */}
+      <Route path='note' element={<CreateNote />} />
     </Routes>
   </BrowserRouter>
-
-);
+)
