@@ -61,3 +61,39 @@ Authorization: {{testToken}}
 ###
 DELETE  http://localhost:8080/api/v1/user/delete/Udo
 Authorization: {{testToken}}
+
+###
+# @name postNoteTest
+POST http://localhost:8080/api/v1/note/create
+Content-Type: application/json
+Authorization: {{testToken}}
+
+{
+    "noteTitle": "Test Note 07",
+    "noteInput": "Test Inhalt 07"
+}
+
+###
+@testNoteID =  {{postNoteTest.response.body._id}}
+
+###
+DELETE http://localhost:8080/api/v1/note/delete/{{testNoteID}}
+Authorization: {{testToken}}
+
+###
+PUT http://localhost:8080/api/v1/note/update/{{testNoteID}}
+Content-Type: application/json
+Authorization: {{testToken}}
+
+{
+    "noteTitle": "Geänderte Note 07",
+    "noteInput": "Geänderter Inhalt 07"
+}
+
+###
+GET http://localhost:8080/api/v1/note/myNotes
+Authorization: {{testToken}}
+
+###
+GET http://localhost:8080/api/v1/note/myNotes/{{testNoteID}}
+Authorization: {{testToken}}
