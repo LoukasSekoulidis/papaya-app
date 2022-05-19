@@ -4,13 +4,23 @@ const bodyParser = require('body-parser');
 
 const database = require('./database/db');
 const userRoutes = require('./endpoints/user/UserRoute');
+const noteRoutes = require('./endpoints/note/NoteRoute');
 const authenticationRoutes = require('./endpoints/authentication/AuthenticationRoute');
 
+const cors = require('cors')
+
 const app = express();
+
+app.use(cors({
+  origin: '*'
+}));
+
 app.use(bodyParser.json());
 
-app.use('/userManagement', userRoutes);
-app.use('/authenticate', authenticationRoutes);
+app.use('/api/v1/user', userRoutes);
+app.use('/api/v1/note', noteRoutes);
+app.use('/api/v1/login', authenticationRoutes);
+
 
 database.initDB((error, db) => {
   if (db) {

@@ -12,13 +12,13 @@ function getUsers(callback) {
   });
 };
 
-function getUser(userMail, callback) {
-  userModel.findOne({ userMail: userMail }, (err, user) => {
+function getUser(userName, callback) {
+  userModel.findOne({ userName: userName }, (err, user) => {
     if (err) {
       return callback(err, null);
     }
     else if (!user) {
-      return callback(`No User -- ${userMail} -- in Database`, null);
+      return callback(`No User -- ${userName} -- in Database`, null);
     }
     else {
       return callback(null, user);
@@ -49,13 +49,13 @@ function createUser(props, callback) {
   });
 };
 
-function updateUser(givenMail, props, callback) {
-  userModel.findOne({ userMail: givenMail }, function (err, user) {
+function updateUser(userName, props, callback) {
+  userModel.findOne({ userName: userName }, function (err, user) {
     if (err) {
       return callback(err)
     }
     else if (!user) {
-      return callback(`Problem finding User: User with given userMail -- ${givenMail} -- does not exist!`);
+      return callback(`Problem finding User: User with given userMail -- ${userName} -- does not exist!`);
     }
     else {
       Object.assign(user, props);
@@ -71,16 +71,16 @@ function updateUser(givenMail, props, callback) {
   });
 }
 
-function deleteUser(givenMail, callback) {
-  userModel.findOneAndDelete({ userMail: givenMail }, function (err, deletetUser) {
+function deleteUser(userName, callback) {
+  userModel.findOneAndDelete({ userName: userName }, function (err, deletetUser) {
     if (err) {
       return callback(err);
     }
     else if (!deletetUser) {
-      return callback('Error deleting User: No user in database with given userMail: ' + givenMail);
+      return callback('Error deleting User: No user in database with given userName: ' + userName);
     }
     else {
-      return callback(null, givenMail);
+      return callback(null, userName);
     }
   })
 }
