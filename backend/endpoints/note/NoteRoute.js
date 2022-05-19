@@ -1,87 +1,71 @@
 var express = require('express')
 var router = express.Router()
-var AuthenticationService = require('..authentication/AuthenticationService')
+var AuthenticationService = require('../authentication/AuthenticationService')
 var NoteService = require('./NoteService')
 
 // Notiz neu anlegen
-router.post('/', AuthenticationService.isAuthenticated, function(req, res){
+router.post('/create', AuthenticationService.isAuthenticated, function (req, res) {
     // [key] des hier anzulegenden Objekts, wenn key vorhanden -> überschreiben, wenn nicht vorhanden -> erstellen
-    req.body['ownerID'] = req.userID
-    NoteService.createNote(req.body, function (err, note) {
+    // ownerID wird aus dem Token geholt
+    NoteService.createNote(req, function (err, note) {
         if (err) {
-            console.log("Error at createNote")
-            return res.json({ msg: err.message, successful: false })
+            return res.status(400).json(err);
         }
         else if (note) {
-            return res.json({
-                msg: "The note has been saved.",
-                successful: true,
-                note: note
-            }) 
-        }   
+            return res.status(201).json(note);
+        }
     })
 })
 
 // Notiz löschen
-router.delete('/', AuthenticationService.isAuthenticated, function(req, res, next){
-    NoteService.deleteNote(req.body, function (err, note) {
+router.delete('/delete/:noteID', AuthenticationService.isAuthenticated, function (req, res, next) {
+    let urlID = req.url.split('/')[2];
+    NoteService.deleteNote(urlID, function (err, note) {
         if (err) {
-            console.log("Error at deleteNote")
-            return res.json({ msg: err.message, successful: false })
+            return res.status(400).json(err);
         }
         else if (note) {
-            return res.json({ msg: "The note has been deleted.", successful: true })
-        }   
+            return res.status(204).send();
+        }
     })
 })
 
 // Notiz abändern
-router.put('/', AuthenticationService.isAuthenticated, function(req, res, next){
-    NoteService.updateNote(req.body, function (err, nte) {
+router.put('/update/:noteID', AuthenticationService.isAuthenticated, function (req, res, next) {
+    let urlID = req.url.split('/')[2];
+    NoteService.updateNote(urlID, req.body, function (err, note) {
         if (err) {
-            console.log("Error at updateNote")
-            return res.json({ msg: err.message, successful: false })
+            return res.status(400).json(err);
         }
         else if (note) {
-            return res.json({
-                msg: "The note has been updated.",
-                successful: true,
-                note: note
-            })
-        }   
-    })
-})
-      
-// Notiz per ownerID selektieren / (die des eingeloggten Users)
-router.get('/getByOwnerID', AuthenticationService.isAuthenticated, function(req, res, next) {
-    NoteService.getByOwnerID(req.userID, function(err, note) {
-        if (err) {
-            console.log("Error at getByOwnerID")
-            return res.json({ msg: err.message, successful: false })
-        }
-        else if (note.length > 0) {
-            return res.send(Object.values(note))
-        } else {
-            return res.send(Object.values(note))
+            return res.status(201).json(note);
         }
     })
 })
 
-// Notiz per ownerID selektieren (die des im JSON Body mitgegebenen Users)
-router.post('/getByOwnerID', AuthenticationService.isAuthenticated, function(req, res, next) {
-    NoteService.getByOwnerID(req.body.ownerID, function(err, note) {
+// Notizen per ownerID selektieren / (die des eingeloggten Users)
+router.get('/myNotes', AuthenticationService.isAuthenticated, function (req, res, next) {
+    NoteService.getByOwnerID(req.headers, function (err, note) {
         if (err) {
-            console.log("Error at getByOwnerID")
-            return res.json({ msg: err.message, successful: false })
+            return res.status(404).json(err);
         }
-        else if (note.length > 0) {
-            return res.send(Object.values(note))
-        } else {
-            return res.send(Object.values(note))
+        else if (note) {
+            return res.status(200).json(note);
+        }
+    })
+})
+
+// Notiz per ownerID selektieren / eine Spezifische
+router.get('/myNotes/:noteID', AuthenticationService.isAuthenticated, function (req, res, next) {
+    let urlID = req.url.split('/')[2];
+    NoteService.getByNoteID(urlID, function (err, note) {
+        if (err) {
+            return res.status(404).json(err);
+        }
+        else if (note) {
+            return res.status(200).json(note);
         }
     })
 })
 
 module.exports = router
-
-

@@ -1,8 +1,21 @@
 const Note = require('./NoteModel')
+const jwt = require("jsonwebtoken");
 
-function createNote(note, callback) {
-    let newNote = new Note(note)
-    console.log(newNote)
+function createNote(props, callback) {
+    body = props.body;
+    header = props.headers;
+    if (typeof header.authorization !== "undefined") {
+        let token = header.authorization.split(" ")[1];
+        tokenInfos = jwt.decode(token);
+    }
+    else {
+        return callback('No token received, need ownerID', null);
+    }
+    const newNote = new Note({
+        noteTitle: body.noteTitle,
+        noteInput: body.noteInput,
+        ownerID: tokenInfos.userMail
+    });
     newNote.save(function (err, note) {
         if (err) {
             callback(err, null)
@@ -14,10 +27,8 @@ function createNote(note, callback) {
 }
 
 function getNote(callback) {
-    Note.find(function(err, notes)
-    {
-        if(err)
-        {
+    Note.find(function (err, notes) {
+        if (err) {
             console.log('Fehler bei Suche nach Notiz.' + err)
             return callback(err, null)
         }
@@ -28,13 +39,18 @@ function getNote(callback) {
     })
 }
 
-function getByOwnerID(ownerID, callback) {
-    Note.find( { ownerID : ownerID }, function(err, note)
-    {
-        if(err)
-        {
-            console.log('Notis mit OwnerID nicht gefunden.' + err)
-            return callback(err, null) 
+function getByOwnerID(header, callback) {
+    if (typeof header.authorization !== "undefined") {
+        let token = header.authorization.split(" ")[1];
+        tokenInfos = jwt.decode(token);
+    }
+    else {
+        return callback('No token received, need ownerID', null);
+    }
+    Note.find({ ownerID: tokenInfos.userMail }, function (err, note) {
+        if (err) {
+            console.log('Notiz mit OwnerID nicht gefunden.' + err)
+            return callback(err, null)
         }
         else {
             console.log('Notiz mit OwnerID gefunden.' + note)
@@ -43,50 +59,46 @@ function getByOwnerID(ownerID, callback) {
     })
 }
 
-function getByNoteID(note, callback) {
-    Note.findOne( { _id: note._id }, function(err, note)
-    {
-        if(err || note === null)
-        {
+function getByNoteID(noteID, callback) {
+    Note.findById(noteID, function (err, note) {
+        if (err || note === null) {
             console.log('Notiz mit NotizID nicht gefunden.' + err)
-            return callback(err, null) 
+            return callback(err, null)
         }
         else {
-            console.log('Notiz mit NotizID gefunden.')
-            return callback(null, notiz)
-        }
-    })
-}
-
-function updateNote(note, callback) {
-    let updateInfo = {} 
-    if(note.noteTitle) {
-        updateInfo['noteTitle'] = note.noteTitle
-    }
-    if(note.noteInput) {
-        updateInfo['noteInput'] = note.noteInput
-    }
-    Note.updateOne( { _id: note._id }, updateInfo, function(err, note)
-    {
-        if(err)
-        {
-            console.log('Notiz nicht aktualisiert.' + err)
-            return callback(err, null) 
-        }
-        else {
-            console.log('Notiz aktualisiert.')
+            console.log('Notiz mit NotizID gefunden: ' + note)
             return callback(null, note)
         }
     })
 }
 
-function deleteNote(note, callback) {
-    Note.deleteOne( { _id: note._id }, function(err, note)
-    {
-        if(err)
-        {
+function updateNote(noteID, props, callback) {
+    Note.findById(noteID, function (err, note) {
+        if (err) {
+            return callback(err)
+        }
+        else if (!note) {
+            return callback(`Note with noteID: ${noteID}, does not exist!`);
+        }
+        else {
+            Object.assign(note, props);
+            note.save((err) => {
+                if (err) {
+                    return callback(err, null);
+                }
+                else {
+                    return callback(null, note);
+                }
+            })
+        }
+    })
+}
+
+function deleteNote(noteID, callback) {
+    Note.findByIdAndDelete(noteID, function (err, note) {
+        if (err) {
             console.log('Notiz nicht gelöscht.' + err)
-            return callback(err, null) 
+            return callback(err, null)
         }
         else {
             console.log('Notiz gelöscht.')
