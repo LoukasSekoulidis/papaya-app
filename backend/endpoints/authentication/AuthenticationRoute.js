@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 var authenticationService = require('./AuthenticationService')
+var confirmationService = require('../confirmation/ConfirmationService')
 
-router.get('/', (req, res, next) => {
+router.get('/', confirmationService.isVerified, (req, res, next) => {
   if (typeof req.headers.authorization != "undefined") {
 
     authenticationService.createSessionTokenBasic(req.headers, (err, token, user) => {

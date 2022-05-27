@@ -21,6 +21,13 @@ const userSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  confirmed: {
+    type: Boolean,
+    default: false,
+  },
+  confirmationCode:{
+    type: String
+  }
 })
 
 // PW hashen beim User anlegen

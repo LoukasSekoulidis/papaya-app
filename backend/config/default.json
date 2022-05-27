@@ -9,5 +9,9 @@
             "useUnifiedTopology": true
         },
         "connectionString": "mongodb://localhost/papayaDB"
-    }
+    },
+    "mail": {
+        "user" : "papaya.mailer@gmail.com",
+        "pass": "mailer.papaya" 
+      }
 }
