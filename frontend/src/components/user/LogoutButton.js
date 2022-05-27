@@ -3,7 +3,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 // import { useNavigate } from 'react-router-dom'
 
-const userAPI = require('../api/user-api')
+const userAPI = require('../../api/user-api')
 
 export default function LogoutButton() {
 

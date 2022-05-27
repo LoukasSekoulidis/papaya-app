@@ -1,5 +1,5 @@
-import LoginForm from './components/LoginForm'
-import SignUpButton from './components/SignUpButton'
+import LoginForm from './components/user/LoginForm'
+import SignUpButton from './components/user/SignUpButton'
 
 
 export default function App() {

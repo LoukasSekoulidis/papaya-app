@@ -8,7 +8,8 @@ import FormTemplate from "./FormTemplate"
 
 // CSS
 // import { Alert } from 'react-bootstrap'
-const userAPI = require('../api/user-api')
+const userAPI = require('../../api/user-api')
+
 
 export default function LoginForm() {
 

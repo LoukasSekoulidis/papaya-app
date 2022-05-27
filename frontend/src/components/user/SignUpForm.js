@@ -6,7 +6,7 @@ import  { useNavigate } from 'react-router-dom'
 import FormTemplate from "./FormTemplate"
 
 // API Call
-const userAPI = require('../api/user-api')
+const userAPI = require('../../api/user-api')
 
 export default function SignUpForm() {
     

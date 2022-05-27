@@ -13,7 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 // Routes
 import SignUp from './routes/signup'
 import Home from './routes/home'
-import CreateNote from './routes/createNote'
+import UpdateNote from './routes/updateNote'
 // import ProtectedRoute from './routes/ProtectedRoute'
 
 
@@ -26,7 +26,7 @@ root.render(
       <Route path='/signup' element={<SignUp />} />
       <Route path='/home' element={<Home />} />
       {/* <ProtectedRoute exact path='/home' component={Home} /> */}
-      <Route path='note' element={<CreateNote />} />
+      <Route path='/home/note/:id' element={<UpdateNote />} />
     </Routes>
   </BrowserRouter>
 )

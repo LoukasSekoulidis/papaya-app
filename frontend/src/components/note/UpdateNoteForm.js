@@ -1,25 +1,40 @@
 // React Functions
-import { React, useRef, useState } from 'react'
-import  { useNavigate } from 'react-router-dom'
+import { React, useRef, useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 
 
 // CSS
 import { Button, Container, Alert } from 'react-bootstrap'
 import Form from 'react-bootstrap/Form'
 
-// API
+// API 
 
-const noteAPI = require('../api/note-api')
+const noteAPI = require('../../api/note-api')
 
-export default function CreateNoteForm() {
+export default function UpdateNoteForm() {
 
   const [error, setError] = useState()
 
-  const navigate = useNavigate()
   const [show, setShow] = useState(false)
 
   const titleRef = useRef()
   const noteRef = useRef()
+  
+  const params = useParams()
+  const navigate = useNavigate()
+
+  const getNote = async () => {
+    const id = params.id
+    const apiRequest = await noteAPI.getNote(id)
+
+    if(apiRequest){
+      titleRef.current.value = apiRequest.note.noteTitle
+      noteRef.current.value = apiRequest.note.noteInput
+    } else {
+      setError(apiRequest.error)
+      setShow(true)
+    }
+  }
 
   const handleSubmit = async (e) => {
       e.preventDefault()
@@ -27,21 +42,25 @@ export default function CreateNoteForm() {
       const title = titleRef.current.value
       const note = noteRef.current.value
 
-      const apiRequest = await noteAPI.create(title, note)
+
+      const apiRequest = await noteAPI.update(params.id, title, note)
 
       if (apiRequest.response) {
-        window.location.reload(false);    
+        return navigate(`/home`)
     } else {
         setError(apiRequest.error)
         setShow(true)
-    }
-
-    
+    }    
   }
+
+  useEffect(() => {
+    getNote()
+  }, [])
+
 
   return (
     <Container>
-      <h2 className='mt-3'>Create a Note</h2>
+      <h2 className='mt-3'>Update a Note</h2>
       <Form onSubmit={handleSubmit}>
         <Form.Group className='mt-3 mb-3' controlId="form.Name">
             <Form.Label>Title</Form.Label>
@@ -52,10 +71,11 @@ export default function CreateNoteForm() {
             <Form.Control ref={noteRef} as="textarea" rows={3} />
         </Form.Group>
         <Button className='mb-3' variant="primary" type="submit">
-        Create
+        Update
       </Button>
       </Form>
       {/* <div>{error}</div> */}
+      <Button variant='primary' onClick={()=> {getNote()}}>Get ID</Button>
       <Alert show={show} key={'danger'} variant={'danger'}>
       {error}
       </Alert>

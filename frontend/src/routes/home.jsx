@@ -1,15 +1,14 @@
 // React Functions
 import React, { useEffect, useState } from 'react'
+import  { useNavigate } from 'react-router-dom'
+
 
 // Components
-import LogoutButton from '../components/LogoutButton'
-// import CreateNoteButton from '../components/CreateNoteButton'
-// import NoteContainer from '../components/NoteContainer'
-import CreateNoteForm from '../components/CreateNoteForm'
-// import Note from '../components/Note'
+import LogoutButton from '../components/user/LogoutButton'
+import CreateNoteForm from '../components/note/CreateNoteForm'
 
 // CSS
-import { Container } from 'react-bootstrap'
+import { Button, Container } from 'react-bootstrap'
 
 const noteAPI = require('../api/note-api')
 
@@ -19,8 +18,25 @@ export default function Home() {
   // api call to get notes
 
   const [notes, setNotes] = useState([])
+  const [error, setError] = useState()
 
-  // readNotes()
+  const navigate = useNavigate()
+
+
+  const deleteNote = async (id) => {
+    const apiRequest = await noteAPI.remove(id)
+
+    if(apiRequest.response) {
+      window.location.reload(false);    
+    } else {
+      setError(apiRequest.error)
+    }
+  }
+
+  const updateNote = (id) => {
+    return navigate(`note/${id}`)
+
+  }
 
   // async function readNotes(){
   //   const apiRequest = await noteAPI.read()
@@ -66,12 +82,14 @@ export default function Home() {
         {notes.map(note => (
           // console.log(note)
           // <Note key={note._id} title={note.title} content={note.content}/>
-          <li key={note._id}>
-            <div className="card w-50">
+          <li style={{ listStyleType: "none" }} key={note._id}>
+            <div className="mb-2 card">
               <div className="card-body">
                       <h5 className="card-title">{note.noteTitle}</h5>
                       <p className="card-text">{note.noteInput}</p>
-                      {/* <a href="#" class="btn btn-primary">Button</a> */}
+                      <p style={{'color': 'rgb(255,0,0'}}>{error}</p>
+                      <Button onClick={() => {updateNote(note._id)}} variant='secondary'>Update</Button>
+                      <Button className='m-2' onClick={() => {deleteNote(note._id)}} variant='danger'>Delete</Button>
               </div>
             </div>
           </li>
