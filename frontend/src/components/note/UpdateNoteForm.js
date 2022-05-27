@@ -8,8 +8,8 @@ import { Button, Container, Alert } from 'react-bootstrap'
 import Form from 'react-bootstrap/Form'
 
 // API 
-
 const noteAPI = require('../../api/note-api')
+
 
 export default function UpdateNoteForm() {
 
@@ -75,7 +75,6 @@ export default function UpdateNoteForm() {
       </Button>
       </Form>
       {/* <div>{error}</div> */}
-      <Button variant='primary' onClick={()=> {getNote()}}>Get ID</Button>
       <Alert show={show} key={'danger'} variant={'danger'}>
       {error}
       </Alert>
