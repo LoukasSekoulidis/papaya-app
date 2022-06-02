@@ -1,6 +1,8 @@
 // React Functions
 import { React, useRef, useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import MDEditor from '@uiw/react-md-editor'
+
 
 
 // CSS
@@ -17,6 +19,9 @@ export default function UpdateNoteForm() {
 
   const [show, setShow] = useState(false)
 
+  // for markdown
+  const [value, setValue] = useState('')
+
   const titleRef = useRef()
   const noteRef = useRef()
   
@@ -29,7 +34,8 @@ export default function UpdateNoteForm() {
 
     if(apiRequest){
       titleRef.current.value = apiRequest.note.noteTitle
-      noteRef.current.value = apiRequest.note.noteInput
+      // noteRef.current.value = apiRequest.note.noteInput
+      setValue(apiRequest.note.noteInput)
     } else {
       setError(apiRequest.error)
       setShow(true)
@@ -40,7 +46,9 @@ export default function UpdateNoteForm() {
       e.preventDefault()
 
       const title = titleRef.current.value
-      const note = noteRef.current.value
+      // const note = noteRef.current.value
+
+      const note = value
 
 
       const apiRequest = await noteAPI.update(params.id, title, note)
@@ -59,7 +67,7 @@ export default function UpdateNoteForm() {
 
 
   return (
-    <Container>
+    <Container data-color-mode="light">
       <h2 className='mt-3'>Update a Note</h2>
       <Form onSubmit={handleSubmit}>
         <Form.Group className='mt-3 mb-3' controlId="form.Name">
@@ -68,7 +76,11 @@ export default function UpdateNoteForm() {
         </Form.Group>
         <Form.Group className='mb-3' controlId="form.Textarea">
             <Form.Label>Note</Form.Label>
-            <Form.Control ref={noteRef} as="textarea" rows={3} />
+            <MDEditor 
+              className='mt-3'
+              value={value} 
+              onChange={setValue}
+            />
         </Form.Group>
         <Button className='mb-3' variant="primary" type="submit">
         Update
