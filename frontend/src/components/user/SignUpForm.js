@@ -28,15 +28,11 @@ export default function SignUpForm() {
         if(mail === '') return
         if(password === '') return
 
-        // console.log(`This is ${userName} with following mail: ${mail} and this password: ${password}`)
-
-        // userAPI.createUser(mail, userName, password)
         const apiRequest = await userAPI.createUser(mail, userName, password)
 
         if (apiRequest.response) {
             return navigate('/')    
         } else {
-            // console.log(apiRequest.error)
             setError(apiRequest.error)
         }
 
@@ -45,7 +41,6 @@ export default function SignUpForm() {
 
     }
 
-    // lets to browser validation too, even tho monogodb fields are required in schema
     return(
         <div>
             <FormTemplate

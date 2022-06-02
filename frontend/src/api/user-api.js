@@ -12,7 +12,7 @@ const encodeLoginData = (userMail, password) => {
     return encodedData
 }
 
-const saveToken = (response) => {
+const saveToken = async (response) => {
     const token = response.headers.get('Authorization');
     localStorage.setItem(LOCAL_STORAGE_KEY, token)
 }
@@ -32,7 +32,6 @@ export const createUser = async (mail, userName, password) => {
     })
 
     const responseJSON = await response.json()
-    console.log(response)
 
     if (response.ok){
         return ({
@@ -60,8 +59,6 @@ export const login = async (mail, password) => {
         },
     })
 
-    // console.log(response)s
-    // console.log(response.headers.get('Authorization'))
     saveToken(response)
     
     const responseJSON = await response.json()
@@ -79,10 +76,33 @@ export const login = async (mail, password) => {
     }
 }
 
-export const test = (mail, password) => {
-    console.log(`Mail: ${mail}, Password: ${password}`)
-}
-
 export const logout = () => {
     localStorage.removeItem(LOCAL_STORAGE_KEY)
+}
+
+export const verify = async (id) => {
+    const API_URL = `http://localhost:8080/api/v1/confirmation/${id}`
+    const response = await fetch(API_URL, {
+        method: 'GET',
+        // headers: {
+        //     'content-type': 'application/json',
+        // },
+        // body: JSON.stringify({
+        //     userVerify: true,
+        // })
+    })
+
+    const responseJSON = await response.json()
+
+    if (response.ok){
+        return ({
+            response: true,
+            error: null
+        })
+    } else {
+        return({
+            response: false,
+            error: responseJSON.Error
+        })
+    }
 }
