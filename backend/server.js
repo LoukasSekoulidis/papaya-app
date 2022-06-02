@@ -12,7 +12,8 @@ const cors = require('cors')
 const app = express();
 
 app.use(cors({
-  origin: '*'
+  origin: '*',
+  exposedHeaders: ['Authorization']
 }));
 
 app.use(bodyParser.json());
