@@ -79,7 +79,7 @@ export default function UpdateNoteForm() {
             <MDEditor 
               className='mt-3'
               value={value} 
-              onChange={setValue}
+              onChange={setValue} 
             />
         </Form.Group>
         <Button className='mb-3' variant="primary" type="submit">

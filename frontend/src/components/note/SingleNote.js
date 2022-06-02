@@ -11,7 +11,7 @@ const SingleNote = ({id, title, input, updateNote, deleteNote, error}) => {
       <li style={{ listStyleType: "none" }} key={id}>
         <div data-color-mode="light" className="mb-2 card">
           <div className="card-body">
-            <h5 className="card-title">{title}</h5>
+            <h3 className="card-title">{title}</h3>
             {/* <p className="card-text">{input}</p> */}
             <MDEditor.Markdown source={input} />
             <p style={{'color': 'rgb(255,0,0'}}>{error}</p>
