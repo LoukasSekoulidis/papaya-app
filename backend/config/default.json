@@ -11,7 +11,7 @@
         "connectionString": "mongodb://localhost/papayaDB"
     },
     "mail": {
-        "user" : "papaya.mailer@gmail.com",
-        "pass": "mailer.papaya" 
-      }
+        "user": "testnodemailconfirmation@gmail.com",
+        "pass": "fyjcbhgaweciftvo"
+    }
 }

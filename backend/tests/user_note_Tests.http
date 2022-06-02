@@ -16,7 +16,7 @@ Authorization: {{testToken}}
 # eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTWFpbCI6InNla291bGlkaXMubHVrYXNAaWNsb3VkLmNvbSIsImlhdCI6MTY1MzY0Mjg3OX0.iUKF6cDoDGZIo5qaT2FgR2b3IWwhu0LdBCXNLMjeJm4
 
 ###
-GET http://localhost:8080/api/v1/confirmation/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTWFpbCI6InNla291bGlkaXMubHVrYXNAaWNsb3VkLmNvbSIsImlhdCI6MTY1MzY0Mjg3OX0.iUKF6cDoDGZIo5qaT2FgR2b3IWwhu0LdBCXNLMjeJm4
+GET http://localhost:8080/api/v1/confirmation/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTWFpbCI6InNla291bGlkaXMubHVrYXNAaWNsb3VkLmNvbSIsImlhdCI6MTY1NDE3NzkzMn0.3P1Fd3qDOxZLWpKKU1Wh6if7Y2I0ZUMphWOuBHZh1iY
 
 
 ###
