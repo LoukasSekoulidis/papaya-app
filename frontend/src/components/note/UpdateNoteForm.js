@@ -63,6 +63,7 @@ export default function UpdateNoteForm() {
 
   useEffect(() => {
     getNote()
+    // eslint-disable-next-line
   }, [])
 
 

@@ -1,10 +1,28 @@
 // DummyChange
 // Login mit Basic Authentication mit korrekten Credentials test@gmx.de:TestPW
 // Base64 encoding & decoding: https://www.base64decode.org
+
+### 
+POST http://localhost:8080/api/v1/user/create
+Content-Type: application/json
+Authorization: {{testToken}}
+
+{
+    "userMail": "sekoulidis.lukas@icloud.com",
+    "userName": "Lukas Sekoulidis",
+    "password": "TestPW"
+}
+
+# eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTWFpbCI6InNla291bGlkaXMubHVrYXNAaWNsb3VkLmNvbSIsImlhdCI6MTY1MzY0Mjg3OX0.iUKF6cDoDGZIo5qaT2FgR2b3IWwhu0LdBCXNLMjeJm4
+
+###
+GET http://localhost:8080/api/v1/confirmation/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTWFpbCI6InNla291bGlkaXMubHVrYXNAaWNsb3VkLmNvbSIsImlhdCI6MTY1NDE3NzkzMn0.3P1Fd3qDOxZLWpKKU1Wh6if7Y2I0ZUMphWOuBHZh1iY
+
+
 ###
 # @name loginTest
 GET http://localhost:8080/api/v1/login
-Authorization: Basic dGVzdEBnbXguZGU6VGVzdFBX
+Authorization: Basic c2Vrb3VsaWRpcy5sdWthc0BpY2xvdWQuY29tOlRlc3RQVw==
 
 @testToken = {{loginTest.response.headers.Authorization}}
 

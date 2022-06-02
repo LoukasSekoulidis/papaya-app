@@ -1,5 +1,9 @@
+const jwt = require('jsonwebtoken');
+const config = require('config');
+
 const User = require('./UserModel');
 const userModel = require('./UserModel');
+const nodeMailer = require('../confirmation/ConfirmationMailer');
 
 function getUsers(callback) {
   userModel.find((err, users) => {
@@ -27,11 +31,14 @@ function getUser(userName, callback) {
 };
 
 function createUser(props, callback) {
+  const token = jwt.sign({userMail: props.userMail}, config.get('session.tokenKey'));
+
   const newUser = new User({
     userMail: props.userMail,
     userName: props.userName,
     password: props.password,
-    isAdministrator: props.isAdministrator
+    isAdministrator: props.isAdministrator,
+    confirmationCode: token
   });
   newUser.save((err, user) => {
     if (err && err.code === 11000) {
@@ -44,6 +51,11 @@ function createUser(props, callback) {
       return callback(err, null);
     }
     else {
+      nodeMailer.sendConfirmationMail(
+        user.userName,
+        user.userMail,
+        user.confirmationCode
+      )
       return callback(null, user);
     }
   });

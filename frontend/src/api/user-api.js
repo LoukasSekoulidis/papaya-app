@@ -84,12 +84,6 @@ export const verify = async (id) => {
     const API_URL = `http://localhost:8080/api/v1/confirmation/${id}`
     const response = await fetch(API_URL, {
         method: 'GET',
-        // headers: {
-        //     'content-type': 'application/json',
-        // },
-        // body: JSON.stringify({
-        //     userVerify: true,
-        // })
     })
 
     const responseJSON = await response.json()
@@ -98,7 +92,7 @@ export const verify = async (id) => {
         return ({
             response: true,
             error: null,
-            // user: response.userName
+            user: responseJSON.userName
         })
     } else {
         return({

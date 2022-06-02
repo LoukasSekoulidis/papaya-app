@@ -14,32 +14,29 @@ export const Verify = () => {
 
   const params = useParams()
   const [response, setResponse] = useState('')
-  const [user, setUser] = useState('')
 
   // eslint-disable-next-line
   const getVerified = async () => {
     const id = params.id
     const apiRequest = await userAPI.verify(id)
 
-    // WOULD BE NICE TO HAVE THE USER NAME IN RESPONSE, THANKS!
-
     if(apiRequest){
       setResponse(`${apiRequest.user}, your account has been activated.`)
-      setUser(apiRequest.user)
     } else {
       setResponse(apiRequest.error)
     }
   }
 
-  // useEffect(() => {
-  //   getVerified()
-  // }, [])
+  useEffect(() => {
+    getVerified()
+    // eslint-disable-next-line
+  }, [])
   
   return (
     <React.Fragment>
       <div className='info_container'>
-        <h1>Thanks for using our service!</h1>
-        <h3>{response}</h3>
+        <h1>{response}</h1>
+        <h3>Thanks for using our service!</h3>
       </div>
     </React.Fragment>
   )

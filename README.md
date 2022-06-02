@@ -3,7 +3,7 @@
 **"If life gives you papayas, make an app 🍋"**
 
 
-**[Documentation](https://gitlab.bht-berlin.de/s84634/papaya-app/-/wikis/home)**  
+**[Documentation](https://gitlab.bht-berlin.de/s84634/papaya-app/-/wikis/General)**  
 
 
 ## Project Members
@@ -24,7 +24,7 @@ Hierbei besteht die Möglichkeit neben Notizen auch To-Do Listen zu erstellen, E
 
 - Gitlab
 - Issue Tracker - [Trello](https://trello.com/b/qq8ozzTd/papaya-app)
-- Wiki - ebenfalls Gitlab
+- Wiki - [Gitlab](https://gitlab.bht-berlin.de/s84634/papaya-app/-/wikis/General)
 
 
 ## Tech
