@@ -97,7 +97,8 @@ export const verify = async (id) => {
     if (response.ok){
         return ({
             response: true,
-            error: null
+            error: null,
+            // user: response.userName
         })
     } else {
         return({

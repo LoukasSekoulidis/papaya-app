@@ -1,7 +1,6 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 
-
 const SingleNote = ({id, title, input, updateNote, deleteNote, error}) => {
   
   return (
@@ -20,6 +19,5 @@ const SingleNote = ({id, title, input, updateNote, deleteNote, error}) => {
     </React.Fragment>
   )
 }
-
 
 export default SingleNote

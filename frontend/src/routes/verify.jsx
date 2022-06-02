@@ -14,14 +14,18 @@ export const Verify = () => {
 
   const params = useParams()
   const [response, setResponse] = useState('')
+  const [user, setUser] = useState('')
 
   // eslint-disable-next-line
   const getVerified = async () => {
     const id = params.id
     const apiRequest = await userAPI.verify(id)
 
+    // WOULD BE NICE TO HAVE THE USER NAME IN RESPONSE, THANKS!
+
     if(apiRequest){
-      setResponse('Your account has been activated.')
+      setResponse(`${apiRequest.user}, your account has been activated.`)
+      setUser(apiRequest.user)
     } else {
       setResponse(apiRequest.error)
     }
