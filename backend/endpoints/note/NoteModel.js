@@ -1,4 +1,7 @@
 var mongoose = require('mongoose')
+var dateGermany = new Date()
+dateGermany.toISOString
+
 const Schema = mongoose.Schema;
 
 const noteSchema = new Schema({
@@ -15,9 +18,9 @@ const noteSchema = new Schema({
     type: String,
     required: true
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
+  creationTime: {
+    type: String,
+    default: dateGermany
   }
 });
 
