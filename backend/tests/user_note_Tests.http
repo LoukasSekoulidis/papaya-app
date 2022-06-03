@@ -87,14 +87,30 @@ Content-Type: application/json
 Authorization: {{testToken}}
 
 {
-    "noteTitle": "Derdiedas",
-    "noteInput": "Testtesttest"
+    "noteTitle": "DasDasDa",
+    "noteInput": "Testtesttest",
+    "categoryID": "Mouse"
 }
 
 ###
 @testNoteID =  {{postNoteTest.response.body._id}}
 
 ###
+# @name postCatTest
+POST  http://localhost:8080/api/v1/category/create
+Content-Type: application/json
+Authorization: {{testToken}}
+
+{
+    "categoryTitle": "CatCat"
+}
+
+###
+@testCategoryID =  {{postCatTest.response.body._id}}
+###
+
+
+
 DELETE http://localhost:8080/api/v1/note/delete/{{testNoteID}}
 Authorization: {{testToken}}
 
@@ -104,9 +120,15 @@ Content-Type: application/json
 Authorization: {{testToken}}
 
 {
-    "noteTitle": "Geänderte Note 07",
-    "noteInput": "Geänderter Inhalt 07"
+    "noteTitle": "DieDieDie",
+    "noteInput": "Why",
+    "categoryID": "de3r"
 }
+
+###
+GET http://localhost:8080/api/v1/category/getAll/TestCategory
+Content-Type: application/json
+Authorization: {{testToken}}
 
 ###
 GET http://localhost:8080/api/v1/note/myNotes?noteTitle=Derdiedas

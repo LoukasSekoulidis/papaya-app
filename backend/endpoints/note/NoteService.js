@@ -1,4 +1,5 @@
 const Note = require('./NoteModel')
+const Category = require('../category/CategoryModel')
 const jwt = require("jsonwebtoken");
 
 function createNote(props, callback) {
@@ -11,10 +12,21 @@ function createNote(props, callback) {
     else {
         return callback('No token received, need ownerID', null);
     }
+
+    if (body.categoryID != undefined) {
+        console.log("in Test")
+        Category.findOne({ categoryTitle: body.categoryID }, function (err, result) {
+            if (!result) {
+                callback(null);
+            }
+        })
+    }
+    console.log('After test')
     const newNote = new Note({
         noteTitle: body.noteTitle,
         noteInput: body.noteInput,
-        ownerID: tokenInfos.userMail
+        ownerID: tokenInfos.userMail,
+        categoryID: body.categoryID
     });
     newNote.save(function (err, note) {
         if (err) {
