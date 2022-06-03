@@ -6,6 +6,8 @@ const database = require('./database/db');
 const userRoutes = require('./endpoints/user/UserRoute');
 const noteRoutes = require('./endpoints/note/NoteRoute');
 const authenticationRoutes = require('./endpoints/authentication/AuthenticationRoute');
+const confirmationRoutes = require('./endpoints/confirmation/ConfirmationRoute');
+
 
 const cors = require('cors')
 
@@ -21,6 +23,7 @@ app.use(bodyParser.json());
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/note', noteRoutes);
 app.use('/api/v1/login', authenticationRoutes);
+app.use('/api/v1/confirmation', confirmationRoutes);
 
 
 database.initDB((error, db) => {

@@ -8,6 +8,10 @@
             "useNewUrlParser": true,
             "useUnifiedTopology": true
         },
-        "connectionString": "mongodb://localhost/papayaDB"
+        "connectionString": "mongodb://127.0.0.1/papayaDB"
+    },
+    "mail": {
+        "user": "testnodemailconfirmation@gmail.com",
+        "pass": "fyjcbhgaweciftvo"
     }
 }
