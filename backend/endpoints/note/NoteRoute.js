@@ -50,6 +50,17 @@ router.get('/myNotes', AuthenticationService.isAuthenticated, function (req, res
             return res.status(404).json(err);
         }
         else if (note) {
+            const { ownerID, noteTitle, noteInput } = req.query;
+            if (ownerID) {
+                note = note.filter(r => r.ownerID === ownerID)
+            }
+            if (noteTitle) {
+                note = note.filter(r => r.noteTitle === noteTitle)
+            }
+            if (noteInput) {
+                console.log('in get');
+                note = note.filter(r => r.noteInput === noteInput)
+            }
             return res.status(200).json(note);
         }
     })

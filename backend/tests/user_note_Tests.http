@@ -87,8 +87,8 @@ Content-Type: application/json
 Authorization: {{testToken}}
 
 {
-    "noteTitle": "Test Note 07",
-    "noteInput": "Test Inhalt 07"
+    "noteTitle": "Derdiedas",
+    "noteInput": "Testtesttest"
 }
 
 ###
@@ -109,7 +109,7 @@ Authorization: {{testToken}}
 }
 
 ###
-GET http://localhost:8080/api/v1/note/myNotes
+GET http://localhost:8080/api/v1/note/myNotes?noteTitle=Derdiedas
 Authorization: {{testToken}}
 
 ###
