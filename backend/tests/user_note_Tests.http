@@ -101,8 +101,12 @@ Content-Type: application/json
 Authorization: {{testToken}}
 
 {
-    "categoryTitle": "Cat"
+    "categoryTitle": "zzzz"
 }
+
+###
+GET http://localhost:8080/api/v1/category
+Authorization: {{testToken}}
 
 ###
 @testCategoryID =  {{postCatTest.response.body._id}}
@@ -121,7 +125,7 @@ Authorization: {{testToken}}
 {
     "noteTitle": "DieDieDie",
     "noteInput": "Why",
-    "categoryID": "Cat"
+    "categoryID": "Cat2"
 }
 
 ###

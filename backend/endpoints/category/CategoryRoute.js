@@ -4,6 +4,15 @@ var AuthenticationService = require('../authentication/AuthenticationService')
 var CategoryService = require('./CategoryService')
 
 
+router.get('/', AuthenticationService.isAuthenticated, function (req, res) {
+  CategoryService.getAllCategories((err, result) => {
+    if (err) {
+      res.status(400).json({ Error: err })
+    } else {
+      res.status(200).json(result)
+    }
+  })
+})
 
 router.get('/getAll/:categoryID', AuthenticationService.isAuthenticated, function (req, res) {
   let urlID = req.url.split('/')[2];
@@ -16,6 +25,7 @@ router.get('/getAll/:categoryID', AuthenticationService.isAuthenticated, functio
     }
   })
 })
+
 
 router.post('/create', AuthenticationService.isAuthenticated, function (req, res) {
   CategoryService.createCategory(req, (err, category) => {

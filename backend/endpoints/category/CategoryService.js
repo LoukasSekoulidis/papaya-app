@@ -12,8 +12,10 @@ function createCategory(props, callback) {
   else {
     return callback('No token received, need ownerID', null);
   }
+
   const newCategory = new Category({
     categoryTitle: body.categoryTitle,
+    color: body.color,
     ownerID: tokenInfos.userMail
   });
   newCategory.save(function (err, category) {
@@ -61,6 +63,16 @@ function deleteCategory(categoryID, callback) {
   })
 }
 
+function getAllCategories(callback) {
+  Category.find(function (err, categories) {
+    if (err) {
+      return callback('Error finding Categories')
+    } else {
+      return callback(null, categories)
+    }
+  })
+}
+
 function getAllChildrenOf(categoryID, callback) {
   console.log(categoryID);
   Note.find({ categoryID: categoryID }, function (err, notes) {
@@ -84,5 +96,6 @@ module.exports = {
   createCategory,
   updateCategory,
   deleteCategory,
-  getAllChildrenOf
+  getAllChildrenOf,
+  getAllCategories
 }

@@ -10,6 +10,10 @@ const categorySchema = new Schema({
   ownerID: {
     type: String,
     required: true,
+  },
+  color: {
+    type: String,
+    default: '#FAFAFA'
   }
 });
 
