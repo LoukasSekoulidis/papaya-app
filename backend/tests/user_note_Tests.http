@@ -88,8 +88,7 @@ Authorization: {{testToken}}
 
 {
     "noteTitle": "DasDasDa",
-    "noteInput": "Testtesttest",
-    "categoryID": "Mouse"
+    "noteInput": "Testtesttest"
 }
 
 ###
@@ -102,7 +101,7 @@ Content-Type: application/json
 Authorization: {{testToken}}
 
 {
-    "categoryTitle": "CatCat"
+    "categoryTitle": "Cat"
 }
 
 ###
@@ -122,7 +121,7 @@ Authorization: {{testToken}}
 {
     "noteTitle": "DieDieDie",
     "noteInput": "Why",
-    "categoryID": "de3r"
+    "categoryID": "Cat"
 }
 
 ###
