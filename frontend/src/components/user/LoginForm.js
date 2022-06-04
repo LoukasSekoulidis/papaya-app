@@ -3,7 +3,7 @@ import { React, useRef, useState } from "react"
 import  { useNavigate } from 'react-router-dom'
 
 // Components
-import FormTemplate from "./FormTemplate"
+import SignInTemplate from "./SignInTemplate"
 // import AlertBox from './AlertBox'
 
 // CSS
@@ -22,16 +22,44 @@ export default function LoginForm() {
     const [error, setError] = useState()
     
     const navigate = useNavigate()
-    const mailRef = useRef()
-    const passwordRef = useRef()
+    // const mailRef = useRef()
+    // const passwordRef = useRef()
     
-    const handleSubmit = async (e) => {
-        e.preventDefault()
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault()
 
-        const mail = mailRef.current.value
-        const password = passwordRef.current.value
+    //     const mail = mailRef.current.value
+    //     const password = passwordRef.current.value
+
+    //     const apiRequest = await userAPI.login(mail, password)
+        
+    //     if (apiRequest.response) {
+    //         return navigate('/home')    
+    //     } else {
+    //         // errorMessage = apiRequest.error
+    //         // setErrorMessage({
+    //         //     errorTitle: apiRequest.error,
+    //         //     errorMessage: apiRequest.error
+    //         // })
+    //         // setShowError(true)
+    //         // console.log(errorMessage)
+
+    //         setError(apiRequest.error)
+    //         // setShow(true)
+    //     }
+
+    // }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const data = new FormData(e.currentTarget);
+
+        const mail = data.get('email')
+        const password = data.get('password')
 
         const apiRequest = await userAPI.login(mail, password)
+
+        console.log('after request')
         
         if (apiRequest.response) {
             return navigate('/home')    
@@ -47,7 +75,6 @@ export default function LoginForm() {
             setError(apiRequest.error)
             // setShow(true)
         }
-
     }
   
     return (
@@ -56,12 +83,12 @@ export default function LoginForm() {
             {/* <Alert show={show} key={'danger'} variant={'danger'}>
                 {error}
             </Alert> */}
-            <FormTemplate
+            <SignInTemplate
                 handleSubmit={handleSubmit}
-                mailRef={mailRef}
-                passwordRef={passwordRef}
-                useCase={'Login'}
-                error={error}  
+                // mailRef={mailRef}
+                // passwordRef={passwordRef}
+                // useCase={'Login'}
+                // error={error}  
             />
         </div>
     )

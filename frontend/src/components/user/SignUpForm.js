@@ -3,7 +3,7 @@ import { React, useRef, useState } from "react"
 import  { useNavigate } from 'react-router-dom'
 
 // Components
-import FormTemplate from "./FormTemplate"
+import SignUpTemplate from "./SignUpTemplate"
 
 // API Call
 const userAPI = require('../../api/user-api')
@@ -16,14 +16,18 @@ export default function SignUpForm() {
     const [error, setError] = useState()
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        const data = new FormData(e.currentTarget);
+        
+        const userName = data.get('username')
+        const mail = data.get('email')
+        const password = data.get('password')
 
+        // const mail = mailRef.current.value
+        // const password = passwordRef.current.value
 
-        const mail = mailRef.current.value
-        const password = passwordRef.current.value
-
-        const userNameArray = mail.split('@')
-        const userName = userNameArray[0]
+        // const userNameArray = mail.split('@')
+        // const userName = userNameArray[0]
 
         if(mail === '') return
         if(password === '') return
@@ -36,19 +40,23 @@ export default function SignUpForm() {
             setError(apiRequest.error)
         }
 
-        mailRef.current.value = null
-        passwordRef.current.value = null
+        data.set('username', "")
+        data.set('email', "")
+        data.set('password', "")
+
+        // mailRef.current.value = null
+        // passwordRef.current.value = null
 
     }
 
     return(
         <div>
-            <FormTemplate
+            <SignUpTemplate
                 handleSubmit={handleSubmit}
-                mailRef={mailRef}
-                passwordRef={passwordRef}
-                useCase={'Sign Up'}
-                error={error}  
+                // mailRef={mailRef}
+                // passwordRef={passwordRef}
+                // useCase={'Sign Up'}
+                // error={error}  
             />
         </div>
     )

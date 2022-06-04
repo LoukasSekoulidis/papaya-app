@@ -28,6 +28,8 @@ function isVerified(req, res, next) {
 
   const base64Credentials = req.headers.authorization.split(' ')[1];
   const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
+
+  console.log(credentials);
   const [usermail, password] = credentials.split(':')
   console.log(usermail)
   if (usermail !== null) {

@@ -8,7 +8,7 @@ export default function Landing() {
   return (
     <React.Fragment>
         <LoginForm />
-        <SignUpButton />
+        {/* <SignUpButton /> */}
     </React.Fragment>
   )
 }
