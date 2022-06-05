@@ -22,6 +22,7 @@ import { NotFound } from './routes/notFound'
 import ProtectedRoute from './routes/ProtectedRoute'
 import { Verify } from './routes/verify'
 import Landing from './routes/landing'
+import Dashboard from './components/Dashboard/Dashboard'
 
 // check for logged in user
 const LOCAL_STORAGE_KEY = 'papaya.token'
@@ -45,6 +46,7 @@ export default function App() {
         } />
       <Route path='/home/note/:id' element={<UpdateNote />} />
       <Route path='/verify/:id' element={<Verify />} />
+      <Route path='/dashboard' element={<Dashboard />}/>
     </Routes>
   )
 }

@@ -11,8 +11,8 @@ const userAPI = require('../../api/user-api')
 export default function SignUpForm() {
     
     const navigate = useNavigate()
-    const mailRef = useRef()
-    const passwordRef = useRef()
+    // const mailRef = useRef()
+    // const passwordRef = useRef()
     const [error, setError] = useState()
 
     const handleSubmit = async (e) => {
@@ -56,7 +56,7 @@ export default function SignUpForm() {
                 // mailRef={mailRef}
                 // passwordRef={passwordRef}
                 // useCase={'Sign Up'}
-                // error={error}  
+                error={error}  
             />
         </div>
     )

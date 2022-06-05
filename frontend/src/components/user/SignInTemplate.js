@@ -7,7 +7,7 @@ import { Link } from "react-router-dom"
 
 // import { Container, Form, Button } from 'react-bootstrap'
 
-export default function SignInTemplate({handleSubmit, mailRef, passwordRef, useCase, error}) {
+export default function SignInTemplate({handleSubmit, error}) {
 
 return (
       <Container component="main" maxwidth="xs">
@@ -52,6 +52,9 @@ return (
             >
               Sign In
             </Button>
+            <div style={{color: "red"}}>
+              {error}
+            </div>
             <Grid container>
               {/* <Grid item xs>
                 <Link href="#" variant="body2">

@@ -1,5 +1,5 @@
 // React Functions
-import { React, useRef, useState } from "react"
+import { React, useState } from "react"
 import  { useNavigate } from 'react-router-dom'
 
 // Components
@@ -70,10 +70,9 @@ export default function LoginForm() {
             //     errorMessage: apiRequest.error
             // })
             // setShowError(true)
-            // console.log(errorMessage)
+            console.log(apiRequest.error)
 
             setError(apiRequest.error)
-            // setShow(true)
         }
     }
   
@@ -88,7 +87,7 @@ export default function LoginForm() {
                 // mailRef={mailRef}
                 // passwordRef={passwordRef}
                 // useCase={'Login'}
-                // error={error}  
+                error={error}  
             />
         </div>
     )

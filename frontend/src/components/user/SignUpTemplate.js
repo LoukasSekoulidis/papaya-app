@@ -1,15 +1,16 @@
 // React Functions
 import React from 'react'
-import { Typography, TextField, Box, CssBaseline, Grid, Container, Button } from '@mui/material';
+import { Typography, TextField, Box, CssBaseline, Container, Button } from '@mui/material';
 
 // CSS
-import { Link } from "react-router-dom"
+// import { Link } from "react-router-dom"
 
 // import { Container, Form, Button } from 'react-bootstrap'
 
-export default function SignUpTemplate({handleSubmit, mailRef, passwordRef, useCase, error}) {
+export default function SignUpTemplate({handleSubmit, error}) {
 
 return (
+    <React.Fragment>
       <Container component="main" maxwidth="xs">
         <CssBaseline />
         <Box
@@ -59,8 +60,12 @@ return (
             >
               Sign Up
             </Button>
+            <div style={{color: "red"}}>
+              {error}
+            </div>
           </Box>
         </Box>
       </Container>
+      </React.Fragment>
 )
         }

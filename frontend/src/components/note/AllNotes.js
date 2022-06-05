@@ -4,20 +4,15 @@ import  { useNavigate } from 'react-router-dom'
 
 
 // Components
-import LogoutButton from '../components/user/LogoutButton'
-import CreateNoteForm from '../components/note/CreateNoteForm'
-import SingleNote from '../components/note/SingleNote'
+import SingleNote from './SingleNote'
 
 // CSS
 import { Container } from 'react-bootstrap'
-import Dashboard from '../components/Dashboard/Dashboard'
 
-const noteAPI = require('../api/note-api')
+const noteAPI = require('../../api/note-api')
 
 
 export default function Home() {
-
-  // api call to get notes
 
   const [notes, setNotes] = useState([])
   const [error, setError] = useState()
@@ -50,12 +45,7 @@ export default function Home() {
   }, [])
 
   return (
-    <main>
-      <Container className='mt-3'>
-        <h2 className='mb-3'>Home</h2>
-        <LogoutButton />
-      </Container>
-        <CreateNoteForm />
+    <React.Fragment>
       <Container>
           {notes.map(note => (
             <SingleNote 
@@ -70,6 +60,6 @@ export default function Home() {
             />
           ))}
       </Container>
-    </main>
+    </React.Fragment>
   )
 }
