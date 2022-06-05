@@ -15,7 +15,9 @@ function createNote(props, callback) {
 
     if (body.categoryID != undefined) {
         console.log("in Test")
-        Category.findOne({ categoryTitle: body.categoryID }, function (err, result) {
+
+        // please check if the user who wants to add note to category owns the category
+        Category.findOne({ _id: body.categoryID }, function (err, result) {
             console.log(result)
             if (result == null) {
                 return callback(null);

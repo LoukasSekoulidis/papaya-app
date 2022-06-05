@@ -29,7 +29,7 @@ function createCategory(props, callback) {
 }
 
 function updateCategory(categoryID, props, callback) {
-  Category.findOne({ categoryTitle: categoryID }, function (err, category) {
+  Category.findOne({ _id: categoryID }, function (err, category) {
     if (err) {
       return callback(err)
     }
@@ -51,13 +51,13 @@ function updateCategory(categoryID, props, callback) {
 }
 
 function deleteCategory(categoryID, callback) {
-  Category.findOneAndDelete({ categoryTitle: categoryID }, function (err, category) {
+  Category.findOneAndDelete({ _id: categoryID }, function (err, category) {
     if (err) {
       console.log('Category nicht gelöscht.' + err)
       return callback(err, null)
     }
     else {
-      console.log('Notiz gelöscht.')
+      console.log('Category gelöscht.')
       return callback(null, category)
     }
   })
