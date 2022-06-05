@@ -1,17 +1,5 @@
-// // React Imports
-// import React from 'react'
-
-// const Dashboard = () => {
-//   return (
-//     <React.Fragment>
-//         <div>Dashboard</div>
-//     </React.Fragment>
-//   )
-// }
-
-// export default Dashboard
-
 import * as React from 'react';
+import { useState } from 'react'
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -22,30 +10,15 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
 
 import AllNotes from '../note/AllNotes'
+import SecondaryItemList from './SecondaryItemList'
+import PrimaryItemList from './PrimaryItemList'
 
-// function Copyright(props) {
-//   return (
-//     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-//       {'Copyright © '}
-//       <Link color="inherit" href="https://mui.com/">
-//         Your Website
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
 
 const drawerWidth = 240;
 
@@ -96,10 +69,14 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 function DashboardContent() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
+  // const [state, setState] = useState('notes')
+
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -151,9 +128,10 @@ function DashboardContent() {
           </Toolbar>
           <Divider />
           <List component="nav">
-            {mainListItems}
+            <PrimaryItemList />
             <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
+            <SecondaryItemList />
+
           </List>
         </Drawer>
         {/* main content */}
@@ -173,7 +151,7 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
               <Grid item xs={12} md={8} lg={9}>
-                  <AllNotes />
+                <AllNotes />
               </Grid>
             </Grid>
           </Container>

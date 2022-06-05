@@ -1,6 +1,5 @@
-import { asyncLocalStorage } from "../components/misc/asyncLocalStorage"
-
 // GLOBAL VARIABLES
+import { asyncLocalStorage } from "../components/misc/asyncLocalStorage"
 const LOCAL_STORAGE_KEY = 'papaya.token'
 
 const API_URL = 'http://localhost:8080/api/v1/note'
@@ -136,6 +135,38 @@ export const getNote = async (id) => {
         return ({
             response: true,
             note: responseJSON
+        })
+    } else {
+        return({
+            response: false,
+            error: responseJSON.Error
+        })
+    }
+}
+
+export const getNotesByCategory = async (categoryID) => {
+
+    const api = 'http://localhost:8080/api/v1/category/getAll/'
+    const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
+
+    if(!asyncToken){
+        console.log('no token')
+    }
+    const url = `${api}${categoryID}`
+    const response = await fetch(url, {
+        method: 'GET',
+        withCredentials: true,
+        headers: {
+            'Authorization': asyncToken
+        },
+    })
+    const responseJSON = await response.json()
+
+    if (response.ok){
+        return ({
+            response: true,
+            error: null,
+            notes: responseJSON
         })
     } else {
         return({

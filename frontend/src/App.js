@@ -47,6 +47,7 @@ export default function App() {
       <Route path='/home/note/:id' element={<UpdateNote />} />
       <Route path='/verify/:id' element={<Verify />} />
       <Route path='/dashboard' element={<Dashboard />}/>
+      <Route path='/dashboard/:id' element={<Dashboard />}/>
     </Routes>
   )
 }

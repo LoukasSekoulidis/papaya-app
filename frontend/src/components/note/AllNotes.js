@@ -1,6 +1,6 @@
 // React Functions
 import React, { useEffect, useState } from 'react'
-import  { useNavigate } from 'react-router-dom'
+import  { useNavigate, useParams } from 'react-router-dom'
 
 
 // Components
@@ -12,12 +12,15 @@ import { Container } from 'react-bootstrap'
 const noteAPI = require('../../api/note-api')
 
 
-export default function Home() {
+export default function AllNotes() {
 
   const [notes, setNotes] = useState([])
   const [error, setError] = useState()
 
   const navigate = useNavigate()
+
+  const params = useParams()
+  const id = params.id
 
   const deleteNote = async (id) => {
     const apiRequest = await noteAPI.remove(id)
@@ -34,14 +37,25 @@ export default function Home() {
 
   }
 
-  const readNotes = async () => {
+  const readAllNotes = async () => {
       const apiRequest = await noteAPI.read()
       const notesFromResponse = apiRequest.notes
       setNotes(notesFromResponse)
   }
 
+  const readNotesByCategory = async () => {
+    const apiRequest = await noteAPI.getNotesByCategory(id)
+    const notesFromResponse = apiRequest.notes
+    setNotes(notesFromResponse)
+  }
+
   useEffect(() => {
-    readNotes()
+    if(id === undefined) {
+      readAllNotes()
+    } else {
+      readNotesByCategory(id)
+    }
+    // eslint-disable-next-line
   }, [])
 
   return (

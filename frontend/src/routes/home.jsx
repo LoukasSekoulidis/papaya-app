@@ -10,7 +10,6 @@ import SingleNote from '../components/note/SingleNote'
 
 // CSS
 import { Container } from 'react-bootstrap'
-import Dashboard from '../components/Dashboard/Dashboard'
 
 const noteAPI = require('../api/note-api')
 
