@@ -3,13 +3,17 @@ const Schema = mongoose.Schema;
 
 const categorySchema = new Schema({
   id: Number,
-  noteID: { // = id der Note die diese Kategorie besitzt
-    type: String,
-    required: true
-  },
   categoryTitle: {
     type: String,
-    required: true
+    required: true,
+  },
+  ownerID: {
+    type: String,
+    required: true,
+  },
+  color: {
+    type: String,
+    default: '#FAFAFA'
   }
 });
 

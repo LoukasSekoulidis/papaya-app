@@ -21,6 +21,9 @@ const noteSchema = new Schema({
   creationTime: {
     type: String,
     default: dateGermany
+  },
+  categoryID: {
+    type: String,
   }
 });
 

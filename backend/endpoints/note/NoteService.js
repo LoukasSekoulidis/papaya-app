@@ -1,4 +1,5 @@
 const Note = require('./NoteModel')
+const Category = require('../category/CategoryModel')
 const jwt = require("jsonwebtoken");
 
 function createNote(props, callback) {
@@ -11,19 +12,46 @@ function createNote(props, callback) {
     else {
         return callback('No token received, need ownerID', null);
     }
-    const newNote = new Note({
-        noteTitle: body.noteTitle,
-        noteInput: body.noteInput,
-        ownerID: tokenInfos.userMail
-    });
-    newNote.save(function (err, note) {
-        if (err) {
-            callback(err, null)
-        } else {
-            console.log('New note created!')
-            callback(null, note)
-        }
-    })
+
+    if (body.categoryID != undefined) {
+        console.log("in Test")
+        Category.findOne({ categoryTitle: body.categoryID }, function (err, result) {
+            console.log(result)
+            if (result == null) {
+                return callback(null);
+            }
+            else {
+                const newNote = new Note({
+                    noteTitle: body.noteTitle,
+                    noteInput: body.noteInput,
+                    ownerID: tokenInfos.userMail,
+                    categoryID: body.categoryID
+                });
+                newNote.save(function (err, note) {
+                    if (err) {
+                        callback(err, null)
+                    } else {
+                        console.log('New note created!')
+                        callback(null, note)
+                    }
+                })
+            }
+        })
+    } else {
+        const newNote = new Note({
+            noteTitle: body.noteTitle,
+            noteInput: body.noteInput,
+            ownerID: tokenInfos.userMail,
+        });
+        newNote.save(function (err, note) {
+            if (err) {
+                callback(err, null)
+            } else {
+                console.log('New note created!')
+                callback(null, note)
+            }
+        })
+    }
 }
 
 function getNote(callback) {
@@ -81,15 +109,33 @@ function updateNote(noteID, props, callback) {
             return callback(`Note with noteID: ${noteID}, does not exist!`);
         }
         else {
-            Object.assign(note, props);
-            note.save((err) => {
-                if (err) {
-                    return callback(err, null);
-                }
-                else {
-                    return callback(null, note);
-                }
-            })
+            if (props.categoryID != undefined) {
+                Category.findOne({ categoryTitle: props.categoryID }, function (err, result) {
+                    if (!result) {
+                        return callback("Category does not exist")
+                    } else {
+                        Object.assign(note, props);
+                        note.save((err) => {
+                            if (err) {
+                                return callback(err, null);
+                            }
+                            else {
+                                return callback(null, note);
+                            }
+                        })
+                    }
+                })
+            } else {
+                Object.assign(note, props);
+                note.save((err) => {
+                    if (err) {
+                        return callback(err, null);
+                    }
+                    else {
+                        return callback(null, note);
+                    }
+                })
+            }
         }
     })
 }

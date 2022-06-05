@@ -7,7 +7,7 @@ const userRoutes = require('./endpoints/user/UserRoute');
 const noteRoutes = require('./endpoints/note/NoteRoute');
 const authenticationRoutes = require('./endpoints/authentication/AuthenticationRoute');
 const confirmationRoutes = require('./endpoints/confirmation/ConfirmationRoute');
-
+const categoryRoutes = require('./endpoints/category/CategoryRoute');
 
 const cors = require('cors')
 
@@ -24,6 +24,7 @@ app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/note', noteRoutes);
 app.use('/api/v1/login', authenticationRoutes);
 app.use('/api/v1/confirmation', confirmationRoutes);
+app.use('/api/v1/category', categoryRoutes);
 
 
 database.initDB((error, db) => {
