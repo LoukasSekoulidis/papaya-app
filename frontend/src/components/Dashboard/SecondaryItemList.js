@@ -10,10 +10,11 @@ import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal'
 import TextField from '@mui/material/TextField';
 
-
 import SingleListItem from './SingleListItem'
 
 const categoryAPI = require('../../api/category-api')
+
+
 
 
 const SecondaryItemList = () => {
@@ -23,6 +24,9 @@ const SecondaryItemList = () => {
     const [error, setError] = useState()
     
     const [category, setCategory] = useState('')
+
+
+
 
     const getCategories = async () => {
         const apiRequest = await categoryAPI.read()
@@ -92,8 +96,10 @@ const SecondaryItemList = () => {
                     categoryTitle={category.categoryTitle}
                     key={uuidv4()} 
                     id={category._id}
+                    
                 />
-            ))}
+                ))}
+
             <Modal
                 open={open}
                 onClose={handleClose}

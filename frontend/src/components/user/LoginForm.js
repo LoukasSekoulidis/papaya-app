@@ -62,7 +62,7 @@ export default function LoginForm() {
         console.log('after request')
         
         if (apiRequest.response) {
-            return navigate('/home')    
+            return navigate('/dashboard')    
         } else {
             // errorMessage = apiRequest.error
             // setErrorMessage({

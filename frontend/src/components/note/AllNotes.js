@@ -13,11 +13,12 @@ export default function AllNotes() {
 
   const [notes, setNotes] = useState([])
   const [error, setError] = useState()
+  const [selectedCategory, setSelectedCategory] = useState()
 
   const navigate = useNavigate()
 
   const params = useParams()
-  const id = params.id
+  const categoryID = params.id
 
   const deleteNote = async (id) => {
     const apiRequest = await noteAPI.remove(id)
@@ -41,16 +42,17 @@ export default function AllNotes() {
   }
 
   const readNotesByCategory = async () => {
-    const apiRequest = await noteAPI.getNotesByCategory(id)
+    const apiRequest = await noteAPI.getNotesByCategory(categoryID)
     const notesFromResponse = apiRequest.notes
     setNotes(notesFromResponse)
   }
 
   useEffect(() => {
-    if(id === undefined) {
+    if(categoryID === undefined) {
       readAllNotes()
     } else {
-      readNotesByCategory(id)
+      readNotesByCategory(categoryID)
+      // setSelectedCategory(categoryID)
     }
     // eslint-disable-next-line
   }, [])

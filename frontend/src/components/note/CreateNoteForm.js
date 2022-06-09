@@ -22,6 +22,8 @@ export default function CreateNoteForm() {
 
   const [categories, setCategories] = useState([])
 
+  const [selectedCategory, setSelectedCategory] = useState()
+
 
     const getCategories = async () => {
         const apiRequest = await categoryAPI.read()
@@ -42,26 +44,28 @@ export default function CreateNoteForm() {
     }, [])
 
   const titleRef = useRef()
-  const categoryRef = useRef()
+  // const categoryRef = useRef()
 
   const handleSubmit = async (e) => {
       e.preventDefault()
 
       const title = titleRef.current.value
-      const categoryID = categoryRef.current.value
-      console.log(categoryID)
+      const categoryID = selectedCategory
 
       const note = value
 
       const apiRequest = await noteAPI.create(title, note, categoryID)
 
       if (apiRequest.response) {
-        // window.location.reload(false);    
+        window.location.reload(false);
     } else {
         setError(apiRequest.error)
     }
+  }
 
-    
+  const handleChange = (e) => {
+    setSelectedCategory(e.target.value);
+    console.log(e.target.value);
   }
 
   return (
@@ -71,13 +75,18 @@ export default function CreateNoteForm() {
             <Form.Control ref={titleRef} type="text" placeholder="Title" />
         </Form.Group>
         <Form.Group className='mb-3' controlId="form.Category">
-            <select className="form-select">
+            <select 
+              className="form-select"
+              value = {selectedCategory}
+              onChange = {handleChange}
+            >
               <option value={''}>Select Category</option>
               {categories.map(category => (
                 <option 
                     key={category._id}
                     value={category._id}
-                    ref={categoryRef}
+                    id={category.categoryTitle}
+
                 >{category.categoryTitle}</option>
             ))}
             </select>

@@ -34,16 +34,16 @@ export default function App() {
   return (
     <Routes>
       <Route path='*' element={<NotFound />} />
-      <Route path='/' element={<Navigate to={user ? "/home" : "/landing"} />} />
+      <Route path='/' element={<Navigate to={user ? "/dashboard" : "/landing"} />} />
       <Route path='/signup' element={<SignUp />} />
       <Route path='/landing' element={<Landing />} />
-      <Route
-        path='/home'
+      {/* <Route
+        path='/dashboard'
         element={
           <ProtectedRoute user={user}>
             <Home />
           </ProtectedRoute>
-        } />
+        } /> */}
       <Route path='/dashboard/note/:id' element={<UpdateNote />} />
       <Route path='/verify/:id' element={<Verify />} />
       <Route path='/dashboard' element={<Dashboard />}/>
