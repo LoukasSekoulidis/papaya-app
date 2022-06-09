@@ -36,6 +36,7 @@ export const read = async () => {
 }
 
 export const create = async (title) => {
+    console.log(title)
     const url = `${API_URL}/create`
     const response = await fetch(url, {
         method: 'POST',
@@ -44,7 +45,7 @@ export const create = async (title) => {
             'content-type': 'application/json',
         },
         body: JSON.stringify({
-            categoryTitle: title,
+            categoryTitle: title
         })
     })
 

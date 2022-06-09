@@ -6,9 +6,6 @@ import  { useNavigate, useParams } from 'react-router-dom'
 // Components
 import SingleNote from './SingleNote'
 
-// CSS
-import { Container } from 'react-bootstrap'
-
 const noteAPI = require('../../api/note-api')
 
 
@@ -33,7 +30,7 @@ export default function AllNotes() {
   }
 
   const updateNote = (id) => {
-    return navigate(`note/${id}`)
+    return navigate(`/dashboard/note/${id}`)
 
   }
 
@@ -60,7 +57,7 @@ export default function AllNotes() {
 
   return (
     <React.Fragment>
-      <Container>
+      {/* <Container> */}
           {notes.map(note => (
             <SingleNote 
               note={note} 
@@ -73,7 +70,7 @@ export default function AllNotes() {
               key={note._id}
             />
           ))}
-      </Container>
+      {/* </Container> */}
     </React.Fragment>
   )
 }

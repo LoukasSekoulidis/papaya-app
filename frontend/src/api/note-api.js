@@ -6,7 +6,7 @@ const API_URL = 'http://localhost:8080/api/v1/note'
 const token = localStorage.getItem(LOCAL_STORAGE_KEY)
 
 
-export const create = async (title, note) => {
+export const create = async (title, note, categoryID) => {
     const url = `${API_URL}/create`
     const response = await fetch(url, {
         method: 'POST',
@@ -17,6 +17,7 @@ export const create = async (title, note) => {
         body: JSON.stringify({
             noteTitle: title,
             noteInput: note,
+            categoryID: categoryID
         })
     })
 
@@ -88,7 +89,7 @@ export const remove = async (id) => {
     }
 }
 
-export const update = async (id, noteTitle, noteInput) => {
+export const update = async (id, noteTitle, noteInput, categoryTitle) => {
     const url = `${API_URL}/update/${id}`
     const response = await fetch(url, {
         method: 'PUT',
@@ -100,6 +101,7 @@ export const update = async (id, noteTitle, noteInput) => {
         body: JSON.stringify({
             noteTitle: noteTitle,
             noteInput: noteInput,
+            categoryTitle: categoryTitle
         })
     })
     const responseJSON = await response.json()
