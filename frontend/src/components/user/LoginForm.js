@@ -1,6 +1,6 @@
 // React Functions
 import { React, useRef, useState } from "react"
-import  { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 // Components
 import FormTemplate from "./FormTemplate"
@@ -20,11 +20,11 @@ export default function LoginForm() {
     // })
     // const [show, setShow] = useState(false)
     const [error, setError] = useState()
-    
+
     const navigate = useNavigate()
     const mailRef = useRef()
     const passwordRef = useRef()
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault()
 
@@ -32,9 +32,9 @@ export default function LoginForm() {
         const password = passwordRef.current.value
 
         const apiRequest = await userAPI.login(mail, password)
-        
+
         if (apiRequest.response) {
-            return navigate('/home')    
+            return navigate('/home')
         } else {
             // errorMessage = apiRequest.error
             // setErrorMessage({
@@ -49,7 +49,7 @@ export default function LoginForm() {
         }
 
     }
-  
+
     return (
         <div>
             {/* <AlertBox showIt={show} errorObject={error}/> */}
@@ -61,7 +61,7 @@ export default function LoginForm() {
                 mailRef={mailRef}
                 passwordRef={passwordRef}
                 useCase={'Login'}
-                error={error}  
+                error={error}
             />
         </div>
     )
