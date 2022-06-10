@@ -6,13 +6,11 @@ import  { useNavigate } from 'react-router-dom'
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import NoiseControlOffIcon from '@mui/icons-material/NoiseControlOff';
 
 import ContextMenuCategorySideBar from '../misc/ContextMenuCategorySideBar'
 
 const categoryAPI = require('../../api/category-api')
-
-
 
 const SingleListItem = ({categoryTitle, id}) => {
 
@@ -61,7 +59,7 @@ const SingleListItem = ({categoryTitle, id}) => {
       <div onContextMenu={handleContextMenu}>
         <ListItemButton onClick={handleOnClick}>
         <ListItemIcon>
-            <AssignmentIcon />
+            <NoiseControlOffIcon/>
         </ListItemIcon>
         <ListItemText primary={categoryTitle} />
         </ListItemButton>

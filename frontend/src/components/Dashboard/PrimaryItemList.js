@@ -23,7 +23,7 @@ const PrimaryItemList = () => {
             <ListItemIcon>
                 <DashboardIcon />
             </ListItemIcon>
-            <ListItemText primary="Notes" />
+            <ListItemText primary="All Notes" />
             </ListItemButton>
         </React.Fragment>
     )
