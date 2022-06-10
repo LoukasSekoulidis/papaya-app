@@ -41,24 +41,12 @@ const SingleListItem = ({categoryTitle, id}) => {
     );
   };
 
-  const handleCloseContextMenu = () => {
+  const handleClose = () => {
     setContextMenu(null);
   };
 
   const deleteCategory = async () => {
       const apiRequest = await categoryAPI.remove(id)
-
-      if(apiRequest.response) {
-          console.log(apiRequest.response)
-          window.location.reload(false);
-      } else {
-          console.log(apiRequest.error)
-          // setError(apiRequest.error)
-      }
-  };
-
-  const updateCategory = async (updatedTitle, updatedColor) => {
-    const apiRequest = await categoryAPI.update(id, updatedTitle, updatedColor)
 
       if(apiRequest.response) {
           console.log(apiRequest.response)
@@ -79,10 +67,10 @@ const SingleListItem = ({categoryTitle, id}) => {
         </ListItemButton>
         <ContextMenuCategorySideBar 
           contextMenu={contextMenu} 
-          handleClose={handleCloseContextMenu} 
-          id={id} 
+          handleClose={handleClose} 
+          categoryID={id} 
           deleteCategory={deleteCategory}
-          updateCategory={() => {updateCategory()}}
+          // updateCategory={() => {updateCategory()}}
         />
     </div>
   )

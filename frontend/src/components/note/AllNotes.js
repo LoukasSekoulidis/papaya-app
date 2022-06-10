@@ -13,6 +13,7 @@ export default function AllNotes() {
 
   const [notes, setNotes] = useState([])
   const [error, setError] = useState()
+  // use this to pre select category in selector
   const [selectedCategory, setSelectedCategory] = useState()
 
   const navigate = useNavigate()

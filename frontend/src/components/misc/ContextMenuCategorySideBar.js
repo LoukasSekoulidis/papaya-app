@@ -14,7 +14,10 @@ import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal'
 import TextField from '@mui/material/TextField';
 
-export default function ContextMenuStyle({contextMenu, handleCloseContextMenu, categoryID, deleteCategory, updateCategory}) {
+const categoryAPI = require('../../api/category-api')
+
+
+export default function ContextMenuCategorySideBar({contextMenu, handleClose, categoryID, deleteCategory}) {
 
     const style = {
         position: 'absolute',
@@ -30,20 +33,39 @@ export default function ContextMenuStyle({contextMenu, handleCloseContextMenu, c
     const [open, setOpen] = useState(false)
     const [category, setCategory] = useState('')
 
+    // handleOpen for modal
     const handleOpen = () => {
+        handleClose()
         setOpen(true)
     }
-
-    const handleClose = () => {
+    // handleClose for modal
+    const handleCloseModal = () => {
         setOpen(false)
+        // close context menu on closing update modal
     }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const updatedTitle = category
+
+        const apiRequest = await categoryAPI.update(categoryID, updatedTitle)
+    
+        if(apiRequest.response) {
+            console.log(apiRequest.response)
+            window.location.reload(false);
+        } else {
+            console.log(apiRequest.error)
+            // setError(apiRequest.error)
+        }
+    }
+
     return (
       <div>
 
       <Menu
         style={{'boxShadow': '1px'}}
         open={contextMenu !== null}
-        onClose={handleCloseContextMenu}
+        onClose={handleClose}
         anchorReference="anchorPosition"
         anchorPosition={
             contextMenu !== null
@@ -69,9 +91,9 @@ export default function ContextMenuStyle({contextMenu, handleCloseContextMenu, c
 
     <Modal
         open={open}
-        onClose={handleClose}
+        onClose={handleCloseModal}
         >
-        <Box component="form" onSubmit={() => {updateCategory(category)}} sx={style}>
+        <Box component="form" onSubmit={handleSubmit} sx={style}>
             <TextField
                 style ={{width: '100%'}}
                 margin="normal"
@@ -89,7 +111,7 @@ export default function ContextMenuStyle({contextMenu, handleCloseContextMenu, c
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
             >
-            Create
+            Update
             </Button>
         </Box>
     </Modal>
