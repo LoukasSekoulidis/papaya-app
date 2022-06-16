@@ -63,8 +63,9 @@ function deleteCategory(categoryID, callback) {
   })
 }
 
-function getAllCategories(callback) {
-  Category.find(function (err, categories) {
+function getAllCategories(userMail, callback) {
+  console.log(userMail)
+  Category.find({ ownerID: userMail }, function (err, categories) {
     if (err) {
       return callback('Error finding Categories')
     } else {

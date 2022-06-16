@@ -5,7 +5,7 @@ var CategoryService = require('./CategoryService')
 
 
 router.get('/', AuthenticationService.isAuthenticated, function (req, res) {
-  CategoryService.getAllCategories((err, result) => {
+  CategoryService.getAllCategories(req.userMail, (err, result) => {
     if (err) {
       res.status(400).json({ Error: err })
     } else {
