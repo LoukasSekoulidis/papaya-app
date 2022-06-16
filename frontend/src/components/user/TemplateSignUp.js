@@ -1,15 +1,11 @@
 // React Functions
 import React from 'react'
-import { Typography, TextField, Box, CssBaseline, Grid, Container, Button } from '@mui/material';
+import { Typography, TextField, Box, CssBaseline, Container, Button } from '@mui/material';
 
-// CSS
-import { Link } from "react-router-dom"
-
-// import { Container, Form, Button } from 'react-bootstrap'
-
-export default function SignInTemplate({handleSubmit, error}) {
+export default function TemplateSignUp({handleSubmit, error}) {
 
 return (
+    <React.Fragment>
       <Container component="main" maxwidth="xs">
         <CssBaseline />
         <Box
@@ -21,9 +17,17 @@ return (
           }}
         >
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign up
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <TextField
+              style ={{width: '100%'}}
+              margin="normal"
+              required
+              id="username"
+              label="Username"
+              name="username"
+            />
             <TextField
               style ={{width: '100%'}}
               margin="normal"
@@ -32,7 +36,6 @@ return (
               label="Email Address"
               name="email"
               autoComplete="email"
-              autoFocus
             />
             <TextField
               style ={{width: '100%'}}
@@ -50,27 +53,14 @@ return (
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Sign Up
             </Button>
             <div style={{color: "red"}}>
               {error}
             </div>
-            <Grid container>
-              {/* <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid> */}
-              <Grid item>
-                <Link to={'/signup'}>Sign Up</Link>
-
-                {/* <Link to="/signup" href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link> */}
-              </Grid>
-            </Grid>
           </Box>
         </Box>
       </Container>
+      </React.Fragment>
 )
         }

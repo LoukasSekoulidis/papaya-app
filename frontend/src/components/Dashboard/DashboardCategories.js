@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
-// import  { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 
 import ListSubheader from '@mui/material/ListSubheader';
@@ -10,14 +9,15 @@ import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal'
 import TextField from '@mui/material/TextField';
 
-import SingleListItem from './SingleListItem'
+import DashboardCategory from './DashboardCategory'
+
 
 const categoryAPI = require('../../api/category-api')
 
 
 
 
-const SecondaryItemList = () => {
+const DashboardCategories = () => {
 
     const [categories, setCategories] = useState([])
     const [open, setOpen] = useState(false)
@@ -85,14 +85,14 @@ const SecondaryItemList = () => {
     
 
     return (
-        <React.Fragment>
+        <>
             <ListSubheader style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}} component="div" inset>
                 Categories
                 <AddIcon onClick={handleOpen} />
             </ListSubheader>
-            {/* {error && <p>{error}</p>} */}
+            {error && <p>{error}</p>}
             {categories.map(category => (
-                <SingleListItem 
+                <DashboardCategory 
                     categoryTitle={category.categoryTitle}
                     key={uuidv4()} 
                     id={category._id}
@@ -126,8 +126,8 @@ const SecondaryItemList = () => {
                     </Button>
                 </Box>
             </Modal>
-        </React.Fragment>
+        </>
     )
 }
 
-export default SecondaryItemList
+export default DashboardCategories

@@ -1,9 +1,9 @@
 import React from 'react'
 import MDEditor from '@uiw/react-md-editor'
-import ContextMenuStyle from '../misc/ContextMenuStyle'
+import ContextMenuNote from '../misc/ContextMenuNote'
 
 
-const SingleNote = ({id, title, input, updateNote, deleteNote, error}) => {
+const Note = ({id, title, input, updateNote, deleteNote, error}) => {
 
 
   const [contextMenu, setContextMenu] = React.useState(null);
@@ -36,7 +36,7 @@ const SingleNote = ({id, title, input, updateNote, deleteNote, error}) => {
               <h3 className="card-title">{title}</h3>
               <MDEditor.Markdown source={input} />
               {error && <p style={{'color': 'rgb(255,0,0'}}>{error}</p>}
-              <ContextMenuStyle contextMenu={contextMenu} handleClose={handleClose} deleteNote={deleteNote} id={id}/>
+              <ContextMenuNote contextMenu={contextMenu} handleClose={handleClose} deleteNote={deleteNote} id={id}/>
             </div>
           </div>
         </li>
@@ -45,4 +45,4 @@ const SingleNote = ({id, title, input, updateNote, deleteNote, error}) => {
   )
 }
 
-export default SingleNote
+export default Note

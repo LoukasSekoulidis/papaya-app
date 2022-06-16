@@ -8,11 +8,11 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import NoiseControlOffIcon from '@mui/icons-material/NoiseControlOff';
 
-import ContextMenuCategorySideBar from '../misc/ContextMenuCategorySideBar'
+import ContextMenuCategory from '../misc/ContextMenuCategory'
 
 const categoryAPI = require('../../api/category-api')
 
-const SingleListItem = ({categoryTitle, id}) => {
+const DashboardCategory = ({categoryTitle, id}) => {
 
   const navigate = useNavigate()
 
@@ -63,7 +63,7 @@ const SingleListItem = ({categoryTitle, id}) => {
         </ListItemIcon>
         <ListItemText primary={categoryTitle} />
         </ListItemButton>
-        <ContextMenuCategorySideBar 
+        <ContextMenuCategory 
           contextMenu={contextMenu} 
           handleClose={handleClose} 
           categoryID={id} 
@@ -74,4 +74,4 @@ const SingleListItem = ({categoryTitle, id}) => {
   )
 }
 
-export default SingleListItem
+export default DashboardCategory

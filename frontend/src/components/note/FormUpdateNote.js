@@ -15,7 +15,7 @@ const categoryAPI = require('../../api/category-api')
 
 
 
-export default function UpdateNoteForm() {
+export default function FormUpdateNote() {
 
   const [error, setError] = useState()
 
@@ -27,7 +27,6 @@ export default function UpdateNoteForm() {
   const [value, setValue] = useState('')
 
   const titleRef = useRef()
-  const noteRef = useRef()
   const categoryRef = useRef()
 
   
@@ -40,7 +39,6 @@ export default function UpdateNoteForm() {
 
     if(apiRequest){
       titleRef.current.value = apiRequest.note.noteTitle
-      // noteRef.current.value = apiRequest.note.noteInput
       setValue(apiRequest.note.noteInput)
     } else {
       setError(apiRequest.error)
@@ -53,7 +51,6 @@ export default function UpdateNoteForm() {
 
       const title = titleRef.current.value
       const categoryID = categoryRef.current.value
-      // const note = noteRef.current.value
       console.log(categoryID)
 
       const note = value
@@ -95,7 +92,6 @@ export default function UpdateNoteForm() {
       <h2 className='mt-3'>Update a Note</h2>
       <Form onSubmit={handleSubmit}>
         <Form.Group className='mt-3 mb-3' controlId="form.Name">
-            {/* <Form.Label>Title</Form.Label> */}
             <Form.Control ref={titleRef} type="text" placeholder="Enter title" />
         </Form.Group>
         <Form.Group className='mb-3' controlId="form.Category">
@@ -111,7 +107,6 @@ export default function UpdateNoteForm() {
             </select>
         </Form.Group>
         <Form.Group className='mb-3' controlId="form.Textarea">
-            {/* <Form.Label>Note</Form.Label> */}
             <MDEditor 
               className='mt-3'
               value={value} 

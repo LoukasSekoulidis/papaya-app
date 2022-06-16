@@ -1,16 +1,13 @@
 // React Functions
 import React from 'react'
-import { Typography, TextField, Box, CssBaseline, Container, Button } from '@mui/material';
+import { Typography, TextField, Box, CssBaseline, Grid, Container, Button } from '@mui/material';
 
 // CSS
-// import { Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 
-// import { Container, Form, Button } from 'react-bootstrap'
-
-export default function SignUpTemplate({handleSubmit, error}) {
+export default function TemplateLogin({handleSubmit, error}) {
 
 return (
-    <React.Fragment>
       <Container component="main" maxwidth="xs">
         <CssBaseline />
         <Box
@@ -22,17 +19,9 @@ return (
           }}
         >
           <Typography component="h1" variant="h5">
-            Sign up
+            Sign in
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-              style ={{width: '100%'}}
-              margin="normal"
-              required
-              id="username"
-              label="Username"
-              name="username"
-            />
             <TextField
               style ={{width: '100%'}}
               margin="normal"
@@ -41,6 +30,7 @@ return (
               label="Email Address"
               name="email"
               autoComplete="email"
+              autoFocus
             />
             <TextField
               style ={{width: '100%'}}
@@ -58,14 +48,18 @@ return (
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Sign In
             </Button>
             <div style={{color: "red"}}>
               {error}
             </div>
+            <Grid container>
+              <Grid item>
+                <Link to={'/signup'}>Sign Up</Link>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
       </Container>
-      </React.Fragment>
 )
         }

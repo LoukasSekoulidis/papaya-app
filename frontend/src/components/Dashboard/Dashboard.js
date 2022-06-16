@@ -16,10 +16,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import AllNotes from '../note/AllNotes'
-import SecondaryItemList from './SecondaryItemList'
-import PrimaryItemList from './PrimaryItemList'
-import CreateNoteForm from '../note/CreateNoteForm';
+import NoteContainer from '../note/NoteContainer'
+import DashboardCategories from './DashboardCategories'
+import DashboardGeneral from './DashboardGeneral'
+import FormCreateNote from '../note/FormCreateNote';
 
 
 const drawerWidth = 240;
@@ -142,9 +142,9 @@ function DashboardContent() {
           </Toolbar>
           <Divider />
           <List component="nav">
-            <PrimaryItemList />
+            <DashboardGeneral />
             <Divider sx={{ my: 1 }} />
-            <SecondaryItemList />
+            <DashboardCategories />
 
           </List>
         </Drawer>
@@ -169,10 +169,10 @@ function DashboardContent() {
           >
             <Grid container spacing={3} direction={largeScreen?"row":"column-reverse"}>
               <Grid item xs={12} md={6} lg={6}>
-                <AllNotes />
+                <NoteContainer />
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
-                <CreateNoteForm />
+                <FormCreateNote />
               </Grid>
               
               

@@ -17,7 +17,7 @@ import TextField from '@mui/material/TextField';
 const categoryAPI = require('../../api/category-api')
 
 
-export default function ContextMenuCategorySideBar({contextMenu, handleClose, categoryID, deleteCategory}) {
+export default function ContextMenuCategory({contextMenu, handleClose, categoryID, deleteCategory}) {
 
     const style = {
         position: 'absolute',

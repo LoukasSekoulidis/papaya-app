@@ -1,28 +1,16 @@
-// import LoginForm from './components/user/LoginForm'
-// import SignUpButton from './components/user/SignUpButton'
-
-
-// export default function App() {
-//   return (
-//     <div>
-//       <LoginForm />
-//       <SignUpButton />
-//     </div>
-//   )
-// }
 import React from 'react'
 import { Navigate, Route, Routes } from "react-router-dom"
 
 
 // Routes
-import SignUp from './routes/signup'
-import Home from './routes/home'
-import UpdateNote from './routes/updateNote'
-import { NotFound } from './routes/notFound'
-import ProtectedRoute from './routes/ProtectedRoute'
-import { Verify } from './routes/verify'
-import Landing from './routes/landing'
+import SignUpPage from './routes/SignUpPage'
+import UpdateNotePage from './routes/UpdateNotePage'
+import NotFoundPage from './routes/NotFoundPage'
+import VerifyPage from './routes/VerifyPage'
+import LandingPage from './routes/LandingPage'
 import Dashboard from './components/Dashboard/Dashboard'
+
+// import ProtectedRoute from './routes/ProtectedRoute'
 
 // check for logged in user
 const LOCAL_STORAGE_KEY = 'papaya.token'
@@ -33,10 +21,10 @@ export default function App() {
 
   return (
     <Routes>
-      <Route path='*' element={<NotFound />} />
+      <Route path='*' element={<NotFoundPage />} />
       <Route path='/' element={<Navigate to={user ? "/dashboard" : "/landing"} />} />
-      <Route path='/signup' element={<SignUp />} />
-      <Route path='/landing' element={<Landing />} />
+      <Route path='/signup' element={<SignUpPage />} />
+      <Route path='/landing' element={<LandingPage />} />
       {/* <Route
         path='/dashboard'
         element={
@@ -44,8 +32,8 @@ export default function App() {
             <Home />
           </ProtectedRoute>
         } /> */}
-      <Route path='/dashboard/note/:id' element={<UpdateNote />} />
-      <Route path='/verify/:id' element={<Verify />} />
+      <Route path='/dashboard/note/:id' element={<UpdateNotePage />} />
+      <Route path='/verify/:id' element={<VerifyPage />} />
       <Route path='/dashboard' element={<Dashboard />}/>
       <Route path='/dashboard/:id' element={<Dashboard />}/>
     </Routes>

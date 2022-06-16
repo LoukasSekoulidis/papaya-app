@@ -13,7 +13,7 @@ const noteAPI = require('../../api/note-api')
 const categoryAPI = require('../../api/category-api')
 
 
-export default function CreateNoteForm() {
+export default function FormCreateNote() {
 
   // for markdown
   const [value, setValue] = useState('')

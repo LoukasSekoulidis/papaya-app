@@ -3,11 +3,10 @@ import Paper from '@mui/material/Paper';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function ContextMenuStyle({contextMenu, handleClose, id, deleteNote}) {
+export default function ContextMenuNote({contextMenu, handleClose, id, deleteNote}) {
 
   return (
       <Menu

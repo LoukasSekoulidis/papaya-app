@@ -7,12 +7,12 @@ import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 
 
-const PrimaryItemList = () => {
+const DashboardGeneral = () => {
 
     const navigate = useNavigate()
 
     const handleOnClick = () => {
-        navigate(`/dashboard`)
+        navigate('/dashboard')
         window.location.reload(false)
         return
     }
@@ -29,4 +29,4 @@ const PrimaryItemList = () => {
     )
 }
 
-export default PrimaryItemList
+export default DashboardGeneral
