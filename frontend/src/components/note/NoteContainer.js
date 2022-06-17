@@ -2,6 +2,10 @@
 import React, { useEffect, useState } from 'react'
 import  { useNavigate, useParams } from 'react-router-dom'
 
+import { v4 as uuidv4 } from 'uuid'
+
+import { useDispatch, useSelector } from 'react-redux'
+import { readAllNotesAsync, selectNotes } from '../../redux/notes/notesSlice'
 
 // Components
 import Note from './Note'
@@ -17,6 +21,10 @@ export default function NoteContainer() {
   const [selectedCategory, setSelectedCategory] = useState()
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  
+  console.log('selector')
+  const notesArray = useSelector(selectNotes)
 
   const params = useParams()
   const categoryID = params.id
@@ -37,9 +45,11 @@ export default function NoteContainer() {
   }
 
   const readAllNotes = async () => {
-      const apiRequest = await noteAPI.read()
-      const notesFromResponse = apiRequest.notes
-      setNotes(notesFromResponse)
+      // const apiRequest = await noteAPI.read()
+      // const notesFromResponse = apiRequest.notes
+      // setNotes(notesFromResponse)
+      // dispatch(readAllNotesAsync())
+      
   }
 
   const readNotesByCategory = async () => {
@@ -48,20 +58,26 @@ export default function NoteContainer() {
     setNotes(notesFromResponse)
   }
 
+  // useEffect(() => {
+  //   if(categoryID === undefined) {
+  //     readAllNotes()
+  //   } else {
+  //     readNotesByCategory(categoryID)
+  //     // setSelectedCategory(categoryID)
+  //   }
+  //   // eslint-disable-next-line
+  // }, [])
+
   useEffect(() => {
-    if(categoryID === undefined) {
-      readAllNotes()
-    } else {
-      readNotesByCategory(categoryID)
-      // setSelectedCategory(categoryID)
-    }
+    console.log('useeffect')
+    dispatch(readAllNotesAsync())
+    setNotes(notesArray)
     // eslint-disable-next-line
   }, [])
 
   return (
     <React.Fragment>
-      {/* <Container> */}
-          {notes.map(note => (
+          {notes !== null && notes.map(note => (
             <Note 
               note={note} 
               id={note._id} 
@@ -70,10 +86,9 @@ export default function NoteContainer() {
               updateNote={updateNote} 
               deleteNote={deleteNote} 
               error={error} 
-              key={note._id}
+              key={uuidv4()}
             />
           ))}
-      {/* </Container> */}
     </React.Fragment>
   )
 }
