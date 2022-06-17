@@ -15,7 +15,6 @@ export const readAllCategoriesAsync = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     const response = await categoryAPI.read()
     if (response.response) {
-      console.log(response.categories)
       return response.categories
     } else {
       return rejectWithValue(response.error)
@@ -23,42 +22,40 @@ export const readAllCategoriesAsync = createAsyncThunk(
   }
 )
 
-// export const readNotesByCategoryAsync = createAsyncThunk(
-//   'notes/readNotesByCategoryAsync',
-//   async (categoryId, { rejectWithValue }) => {
-//     const response = await noteAPI.getNotesByCategory(categoryId)
-//     if (response.response) {
-//       return response.notes
-//     } else {
-//       return rejectWithValue(response.error)
-//     }
-//   }
-// )
+export const createCategoryAsync = createAsyncThunk(
+  'categories/createCategoryAsync',
+  async (title, { rejectWithValue }) => {
+      const response = await categoryAPI.create(title)
+      if (response.error) {
+         return rejectWithValue(response.error)
+      }
+      return
+  }
+)
 
+export const updateCategoryAsync = createAsyncThunk(
+  'categories/updateCategoryAsync',
+  async (update, { rejectWithValue }) => {
+    const response = await categoryAPI.update(update.id, update.title, update.color)
+    if (response.response) {
+      return response.updated
+    } else {
+      return rejectWithValue(response.error)
+    }
+  }
+)
 
-// export const createNoteAsync = createAsyncThunk(
-//   'notes/createNoteAsync',
-//   async ({ title, note, categoryID }, { rejectWithValue }) => {
-//     const response = await noteAPI.create(title, note, categoryID)
-//     if (response.response) {
-//       return response.note
-//     } else {
-//       return rejectWithValue(response.error)
-//     }
-//   }
-// )
-
-// export const deleteNoteAsync = createAsyncThunk(
-//   'notes/deleteNoteAsync',
-//   async (id, { rejectWithValue }) => {
-//     const response = await noteAPI.remove(id)
-//     if (response.response) {
-//       return response
-//     } else {
-//       return rejectWithValue(response.error)
-//     }
-//   }
-// )
+export const deleteCategoryAsync = createAsyncThunk(
+  'categories/deleteCategoryAsync',
+  async (id, { rejectWithValue }) => {
+    const response = await categoryAPI.remove(id)
+    if (response.response) {
+      return response
+    } else {
+      return rejectWithValue(response.error)
+    }
+  }
+)
 
 export const categoriesSlice = createSlice({
   name: 'categories',
@@ -69,65 +66,86 @@ export const categoriesSlice = createSlice({
     },
     closeCreateModal: (state) => {
       state.openCreateModal = false
+    },
+    setCurrentCategory: (state, payload) => {
+      state.current = payload.payload
     }
   },
   extraReducers: (builder) => {
     builder
-      // readAllNotesAsync
+      // readAllCategoriesAsync
       .addCase(readAllCategoriesAsync.pending, (state) => {
         // console.log('pending')
         state.status = 'loading'
       })
       .addCase(readAllCategoriesAsync.fulfilled, (state, { payload }) => {
-        console.log(`fulfilled`)
+        // console.log(`fulfilled`)
         state.status = 'succeeded'
         state.categories = payload
-        console.log(state.categories)
         state.error = null
       })
       .addCase(readAllCategoriesAsync.rejected, (state, error) => {
-        console.log('rejected')
+        // console.log('rejected')
         state.status = 'failed'
         state.error = error.error.message
       })
-    // // createNoteAsync
-    // .addCase(createNoteAsync.pending, (state) => {
-    //   state.status = 'loading'
-    // })
-    // .addCase(createNoteAsync.fulfilled, (state, { payload }) => {
-    //   state.notes = [...state.notes, payload]
-    //   state.status = 'succeeded'
-    //   state.error = null
-    // })
-    // .addCase(createNoteAsync.rejected, (state, error) => {
-    //   // console.log('rejected')
-    //   state.status = 'failed'
-    //   state.error = error.error.message
-    // })
-    // // deleteNoteAsync
-    // .addCase(deleteNoteAsync.pending, (state) => {
-    //   // console.log('pending')
-    //   state.status = 'loading'
-    // })
-    // .addCase(deleteNoteAsync.fulfilled, (state, { payload }) => {
-    //   // console.log('fulfilled')
-    //   state.notes = [...state.notes]
-    //   state.status = 'succeeded'
-    //   state.error = null
-    // })
-    // .addCase(deleteNoteAsync.rejected, (state, error) => {
-    //   // console.log('rejected')
-    //   state.status = 'failed'
-    //   state.error = error.error.message
-    // })
+
+      // createNoteAsync
+      .addCase(createCategoryAsync.pending, (state) => {
+        // console.log('pending')
+        state.status = 'loading'
+      })
+      .addCase(createCategoryAsync.fulfilled, (state, { payload }) => {
+        // console.log('succeeded')
+          state.status = 'succeeded'
+          state.error = null
+      })
+      .addCase(createCategoryAsync.rejected, (state, error) => {
+          // console.log('rejected')
+          state.status = 'failed'
+          state.error = error.error.message
+      })
+
+      // updateCategoryAsync
+      .addCase(updateCategoryAsync.pending, (state) => {
+        // console.log('pending')
+        state.status = 'loading'
+      })
+      .addCase(updateCategoryAsync.fulfilled, (state, { payload }) => {
+        // console.log('succeded')
+        state.status = 'succeeded'
+        state.error = null
+      })
+      .addCase(updateCategoryAsync.rejected, (state, error) => {
+        // console.log('rejected')
+        state.status = 'failed'
+        state.error = error.error.message
+      })
+
+      // deleteCategoryAsync
+      .addCase(deleteCategoryAsync.pending, (state) => {
+        // console.log('pending')
+        state.status = 'loading'
+      })
+      .addCase(deleteCategoryAsync.fulfilled, (state, { payload }) => {
+        // console.log('fulfilled')
+        state.status = 'succeeded'
+        state.error = null
+      })
+      .addCase(deleteCategoryAsync.rejected, (state, error) => {
+        // console.log('rejected')
+        state.status = 'failed'
+        state.error = error.error.message
+      })
   },
 })
 
-export const { showCreateModal, closeCreateModal } = categoriesSlice.actions;
+export const { showCreateModal, closeCreateModal, setCurrentCategory } = categoriesSlice.actions;
 
 export const selectCategories = (state) => state.categories.categories
 export const selectCategoriesStatus = (state) => state.categories.status
 export const selectOpenCreateModal = (state) => state.categories.openCreateModal
+export const selectCurrentCategory = (state) => state.categories.current
 
 export default categoriesSlice.reducer
 

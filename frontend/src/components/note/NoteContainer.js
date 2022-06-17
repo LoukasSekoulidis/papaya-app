@@ -7,6 +7,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { useDispatch, useSelector } from 'react-redux'
 import { readNotesByCategoryAsync, readAllNotesAsync, selectNotes, selectNoteStatus, deleteNoteAsync } from '../../redux/notes/notesSlice'
 
+import { CircularProgress } from '@mui/material'
+
 // Components
 import Note from './Note'
 
@@ -77,9 +79,9 @@ export default function NoteContainer() {
   } else if (notesStatus === 'loading') {
     // TBD
     return (
-      <>
-        <h1> Loading... </h1>
-      </>
+      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}} >
+        <CircularProgress color='dark' />
+      </div>
     )
   }
 }

@@ -65,6 +65,7 @@ export const create = async (title) => {
 }
 
 export const update = async (id, title, color) => {
+
     const url = `${API_URL}/update/${id}`
     const response = await fetch(url, {
         method: 'PUT',

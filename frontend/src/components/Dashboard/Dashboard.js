@@ -78,6 +78,9 @@ const mdTheme = createTheme({
     neutral: {
       main: '#fff',
       contrastText: '#000'
+    },
+    dark: {
+      main: '#000'
     }
   }
 })

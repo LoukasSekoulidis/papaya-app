@@ -12,6 +12,7 @@ import ContextMenuCategory from '../misc/ContextMenuCategory'
 
 import { useDispatch } from 'react-redux'
 import { readNotesByCategoryAsync } from '../../redux/notes/notesSlice'
+import { readAllCategoriesAsync, deleteCategoryAsync, setCurrentCategory } from '../../redux/categories/categoriesSlice';
 
 
 const categoryAPI = require('../../api/category-api')
@@ -23,6 +24,7 @@ const DashboardCategory = ({ categoryTitle, id }) => {
 
   const handleOnClick = () => {
     dispatch(readNotesByCategoryAsync(id))
+    dispatch(setCurrentCategory(id))
     return
   }
 
@@ -47,16 +49,9 @@ const DashboardCategory = ({ categoryTitle, id }) => {
     setContextMenu(null);
   };
 
-  const deleteCategory = async () => {
-    const apiRequest = await categoryAPI.remove(id)
-
-    if (apiRequest.response) {
-      console.log(apiRequest.response)
-      window.location.reload(false);
-    } else {
-      console.log(apiRequest.error)
-      // setError(apiRequest.error)
-    }
+  const deleteCategory = () => {
+    dispatch(deleteCategoryAsync(id))
+    dispatch(readAllCategoriesAsync())
   };
 
   return (

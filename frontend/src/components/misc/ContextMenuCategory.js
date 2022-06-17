@@ -14,7 +14,8 @@ import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal'
 import TextField from '@mui/material/TextField';
 
-const categoryAPI = require('../../api/category-api')
+import { useDispatch } from 'react-redux'
+import { readAllCategoriesAsync, updateCategoryAsync } from '../../redux/categories/categoriesSlice';
 
 
 export default function ContextMenuCategory({contextMenu, handleClose, categoryID, deleteCategory}) {
@@ -33,6 +34,8 @@ export default function ContextMenuCategory({contextMenu, handleClose, categoryI
     const [open, setOpen] = useState(false)
     const [category, setCategory] = useState('')
 
+    const dispatch = useDispatch()
+
     // handleOpen for modal
     const handleOpen = () => {
         handleClose()
@@ -46,17 +49,18 @@ export default function ContextMenuCategory({contextMenu, handleClose, categoryI
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const updatedTitle = category
 
-        const apiRequest = await categoryAPI.update(categoryID, updatedTitle)
-    
-        if(apiRequest.response) {
-            console.log(apiRequest.response)
-            window.location.reload(false);
-        } else {
-            console.log(apiRequest.error)
-            // setError(apiRequest.error)
+        const update = {
+            id: categoryID,
+            title: category,
+            color: ''
         }
+
+        
+        dispatch(updateCategoryAsync(update))
+        dispatch(readAllCategoriesAsync())
+
+        setCategory('')
     }
 
     return (

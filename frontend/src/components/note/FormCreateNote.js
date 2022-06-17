@@ -9,8 +9,9 @@ import { Button } from 'react-bootstrap'
 import Form from 'react-bootstrap/Form'
 
 // Redux
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { createNoteAsync } from '../../redux/notes/notesSlice'
+import { readAllCategoriesAsync, selectCategories, selectCategoriesStatus, selectCurrentCategory } from '../../redux/categories/categoriesSlice'
 
 // API
 const categoryAPI = require('../../api/category-api')
@@ -18,6 +19,12 @@ const categoryAPI = require('../../api/category-api')
 
 export default function FormCreateNote() {
   const dispatch = useDispatch()
+
+  const categoryArray = useSelector(selectCategories)
+  const categoriesStatus = useSelector(selectCategoriesStatus)
+
+  // const currentSelectedCategory = useSelector(selectCurrentCategory)
+
 
   // for markdown
   const [value, setValue] = useState('')
@@ -30,17 +37,7 @@ export default function FormCreateNote() {
 
 
   const getCategories = async () => {
-    const apiRequest = await categoryAPI.read()
-
-    if (apiRequest.response) {
-      const categoriesFromResponse = apiRequest.categories
-      for (let index = 0; index < categoriesFromResponse.length; index++) {
-        let category = categoriesFromResponse[index]
-        setCategories(prevArray => [...prevArray, category])
-      }
-    } else {
-      // return apiRequest.error
-    }
+    dispatch(readAllCategoriesAsync())
   }
 
   useEffect(() => {
@@ -48,24 +45,6 @@ export default function FormCreateNote() {
   }, [])
 
   const titleRef = useRef()
-  // const categoryRef = useRef()
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault()
-
-  //   const title = titleRef.current.value
-  //   const categoryID = selectedCategory
-
-  //   const note = value
-
-  //   const apiRequest = await noteAPI.create(title, note, categoryID)
-
-  //   if (apiRequest.response) {
-  //     window.location.reload(false);
-  //   } else {
-  //     setError(apiRequest.error)
-  //   }
-  // }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -83,6 +62,7 @@ export default function FormCreateNote() {
     console.log(e.target.value);
   }
 
+if(categoriesStatus === 'succeeded') {
   return (
     <div>
       <Form onSubmit={handleSubmit} data-color-mode="light">
@@ -96,7 +76,7 @@ export default function FormCreateNote() {
             onChange={handleChange}
           >
             <option value={''}>Select Category</option>
-            {categories.map(category => (
+            {categoryArray.map(category => (
               <option
                 key={category._id}
                 value={category._id}
@@ -124,4 +104,5 @@ export default function FormCreateNote() {
       </Form>
     </div>
   )
+}
 }

@@ -13,7 +13,7 @@ import DashboardCategory from './DashboardCategory'
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux'
-import { readAllCategoriesAsync, selectCategories, selectCategoriesStatus, showCreateModal, closeCreateModal, selectOpenCreateModal } from '../../redux/categories/categoriesSlice'
+import { readAllCategoriesAsync, selectCategories, selectCategoriesStatus, showCreateModal, closeCreateModal, selectOpenCreateModal, createCategoryAsync } from '../../redux/categories/categoriesSlice'
 
 
 const categoryAPI = require('../../api/category-api')
@@ -46,18 +46,12 @@ const DashboardCategories = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // console.log(`with form state: ${category}`)
+        dispatch(createCategoryAsync(category))
+        dispatch(readAllCategoriesAsync())
 
-        const apiRequest = await categoryAPI.create(category)
+        handleClose()
 
-        if (apiRequest.response) {
-            handleClose()
-            dispatch(readAllCategoriesAsync())
-            // window.location.reload(false);
-        } else {
-            setError(apiRequest.error)
-        }
-
+        setCategory('')
     }
 
     const handleOpen = () => {
@@ -70,7 +64,6 @@ const DashboardCategories = () => {
 
     useEffect(() => {
         dispatch(readAllCategoriesAsync())
-        console.log('use Effect')
     }, [])
 
     const categorieArray = useSelector(selectCategories)
