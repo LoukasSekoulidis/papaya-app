@@ -16,7 +16,7 @@ import Dashboard from './components/Dashboard/Dashboard'
 const LOCAL_STORAGE_KEY = 'papaya.token'
 
 export default function App() {
-  
+
   const user = localStorage.getItem(LOCAL_STORAGE_KEY)
 
   return (
@@ -34,8 +34,8 @@ export default function App() {
         } /> */}
       <Route path='/dashboard/note/:id' element={<UpdateNotePage />} />
       <Route path='/verify/:id' element={<VerifyPage />} />
-      <Route path='/dashboard' element={<Dashboard />}/>
-      <Route path='/dashboard/:id' element={<Dashboard />}/>
+      <Route path='/dashboard' element={<Dashboard />} />
+      <Route path='/dashboard/:id' element={<Dashboard />} />
     </Routes>
   )
 }

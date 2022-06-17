@@ -11,66 +11,71 @@ import TextField from '@mui/material/TextField';
 
 import DashboardCategory from './DashboardCategory'
 
+//Redux
+import { useDispatch, useSelector } from 'react-redux'
+import { readAllCategoriesAsync, selectCategories, selectCategoriesStatus, showCreateModal, closeCreateModal, selectOpenCreateModal } from '../../redux/categories/categoriesSlice'
+
 
 const categoryAPI = require('../../api/category-api')
 
-
-
-
 const DashboardCategories = () => {
 
-    const [categories, setCategories] = useState([])
-    const [open, setOpen] = useState(false)
+    // const [categories, setCategories] = useState([])
     const [error, setError] = useState()
-    
+    const open = useSelector(selectOpenCreateModal)
+
     const [category, setCategory] = useState('')
 
+    const dispatch = useDispatch()
 
+    // const getCategories = async () => {
+    //     const apiRequest = await categoryAPI.read()
 
-
-    const getCategories = async () => {
-        const apiRequest = await categoryAPI.read()
-
-        if(apiRequest.response) {
-            const categoriesFromResponse = apiRequest.categories
-            for (let index = 0; index < categoriesFromResponse.length; index++) {
-                let category = categoriesFromResponse[index]
-                setCategories(prevArray => [...prevArray, category])
-            }
-            // return categoriesFromResponse
-        } else {
-            // return apiRequest.error
-        }
-    }
+    //     if (apiRequest.response) {
+    //         const categoriesFromResponse = apiRequest.categories
+    //         for (let index = 0; index < categoriesFromResponse.length; index++) {
+    //             let category = categoriesFromResponse[index]
+    //             setCategories(prevArray => [...prevArray, category])
+    //         }
+    //         // return categoriesFromResponse
+    //     } else {
+    //         // return apiRequest.error
+    //     }
+    // }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         // console.log(`with form state: ${category}`)
-        
+
         const apiRequest = await categoryAPI.create(category)
 
-        if(apiRequest.response) {
-            console.log(apiRequest.response)
-            window.location.reload(false);
+        if (apiRequest.response) {
+            handleClose()
+            dispatch(readAllCategoriesAsync())
+            // window.location.reload(false);
         } else {
-            console.log(apiRequest.error)
             setError(apiRequest.error)
         }
- 
+
     }
 
     const handleOpen = () => {
-        setOpen(true)
+        dispatch(showCreateModal())
     }
 
     const handleClose = () => {
-        setOpen(false)
+        dispatch(closeCreateModal())
     }
-    
+
     useEffect(() => {
-        getCategories()
+        dispatch(readAllCategoriesAsync())
+        console.log('use Effect')
     }, [])
+
+    const categorieArray = useSelector(selectCategories)
+    const categorieStatus = useSelector(selectCategoriesStatus)
+
 
     const style = {
         position: 'absolute',
@@ -81,53 +86,54 @@ const DashboardCategories = () => {
         bgcolor: 'background.paper',
         boxShadow: 24,
         p: 4,
-      };
-    
+    };
 
-    return (
-        <>
-            <ListSubheader style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}} component="div" inset>
-                Categories
+    if (categorieStatus === 'succeeded') {
+        return (
+            <>
+                <ListSubheader style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} component="div" inset>
+                    Categories
                 <AddIcon onClick={handleOpen} />
-            </ListSubheader>
-            {error && <p>{error}</p>}
-            {categories.map(category => (
-                <DashboardCategory 
-                    categoryTitle={category.categoryTitle}
-                    key={uuidv4()} 
-                    id={category._id}
-                    
-                />
+                </ListSubheader>
+                {error && <p>{error}</p>}
+                {categorieArray.map(category => (
+                    <DashboardCategory
+                        categoryTitle={category.categoryTitle}
+                        key={uuidv4()}
+                        id={category._id}
+
+                    />
                 ))}
 
-            <Modal
-                open={open}
-                onClose={handleClose}
-            >
-                <Box component="form" onSubmit={handleSubmit} sx={style}>
-                    <TextField
-                        style ={{width: '100%'}}
-                        margin="normal"
-                        required
-                        name="name"
-                        label="Category Name"
-                        type="text"
-                        id="categoryTitle"
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                    />
-                    <Button
-                        style ={{width: '100%'}}
-                        type="submit"
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                    >
-                    Create
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                >
+                    <Box component="form" onSubmit={handleSubmit} sx={style}>
+                        <TextField
+                            style={{ width: '100%' }}
+                            margin="normal"
+                            required
+                            name="name"
+                            label="Category Name"
+                            type="text"
+                            id="categoryTitle"
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                        />
+                        <Button
+                            style={{ width: '100%' }}
+                            type="submit"
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                        >
+                            Create
                     </Button>
-                </Box>
-            </Modal>
-        </>
-    )
+                    </Box>
+                </Modal>
+            </>
+        )
+    }
 }
 
 export default DashboardCategories

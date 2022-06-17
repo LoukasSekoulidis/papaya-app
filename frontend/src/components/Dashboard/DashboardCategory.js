@@ -1,6 +1,6 @@
 import React from 'react'
 
-import  { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 
 import ListItemButton from '@mui/material/ListItemButton';
@@ -10,15 +10,19 @@ import NoiseControlOffIcon from '@mui/icons-material/NoiseControlOff';
 
 import ContextMenuCategory from '../misc/ContextMenuCategory'
 
+import { useDispatch } from 'react-redux'
+import { readNotesByCategoryAsync } from '../../redux/notes/notesSlice'
+
+
 const categoryAPI = require('../../api/category-api')
 
-const DashboardCategory = ({categoryTitle, id}) => {
+const DashboardCategory = ({ categoryTitle, id }) => {
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleOnClick = () => {
-    navigate(`/dashboard/${id}`)
-    window.location.reload(false)
+    dispatch(readNotesByCategoryAsync(id))
     return
   }
 
@@ -29,13 +33,13 @@ const DashboardCategory = ({categoryTitle, id}) => {
     setContextMenu(
       contextMenu === null
         ? {
-            mouseX: event.clientX + 2,
-            mouseY: event.clientY - 6,
-          }
+          mouseX: event.clientX + 2,
+          mouseY: event.clientY - 6,
+        }
         : // repeated contextmenu when it is already open closes it with Chrome 84 on Ubuntu
-          // Other native context menus might behave different.
-          // With this behavior we prevent contextmenu from the backdrop to re-locale existing context menus.
-          null,
+        // Other native context menus might behave different.
+        // With this behavior we prevent contextmenu from the backdrop to re-locale existing context menus.
+        null,
     );
   };
 
@@ -44,32 +48,32 @@ const DashboardCategory = ({categoryTitle, id}) => {
   };
 
   const deleteCategory = async () => {
-      const apiRequest = await categoryAPI.remove(id)
+    const apiRequest = await categoryAPI.remove(id)
 
-      if(apiRequest.response) {
-          console.log(apiRequest.response)
-          window.location.reload(false);
-      } else {
-          console.log(apiRequest.error)
-          // setError(apiRequest.error)
-      }
+    if (apiRequest.response) {
+      console.log(apiRequest.response)
+      window.location.reload(false);
+    } else {
+      console.log(apiRequest.error)
+      // setError(apiRequest.error)
+    }
   };
-  
+
   return (
-      <div onContextMenu={handleContextMenu}>
-        <ListItemButton onClick={handleOnClick}>
+    <div onContextMenu={handleContextMenu}>
+      <ListItemButton onClick={handleOnClick}>
         <ListItemIcon>
-            <NoiseControlOffIcon/>
+          <NoiseControlOffIcon />
         </ListItemIcon>
         <ListItemText primary={categoryTitle} />
-        </ListItemButton>
-        <ContextMenuCategory 
-          contextMenu={contextMenu} 
-          handleClose={handleClose} 
-          categoryID={id} 
-          deleteCategory={deleteCategory}
-          // updateCategory={() => {updateCategory()}}
-        />
+      </ListItemButton>
+      <ContextMenuCategory
+        contextMenu={contextMenu}
+        handleClose={handleClose}
+        categoryID={id}
+        deleteCategory={deleteCategory}
+      // updateCategory={() => {updateCategory()}}
+      />
     </div>
   )
 }

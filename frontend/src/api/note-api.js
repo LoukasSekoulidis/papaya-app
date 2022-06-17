@@ -22,14 +22,14 @@ export const create = async (title, note, categoryID) => {
     })
 
     const responseJSON = await response.json()
-
-    if (response.ok){
+    if (response.ok) {
         return ({
             response: true,
-            error: null
+            error: null,
+            note: responseJSON
         })
     } else {
-        return({
+        return ({
             response: false,
             error: responseJSON.Error
         })
@@ -40,7 +40,7 @@ export const read = async () => {
 
     const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
 
-    if(!asyncToken){
+    if (!asyncToken) {
         console.log('no token')
     }
     const url = `${API_URL}/myNotes`
@@ -53,14 +53,14 @@ export const read = async () => {
     })
     const responseJSON = await response.json()
 
-    if (response.ok){
+    if (response.ok) {
         return ({
             response: true,
             error: null,
             notes: responseJSON
         })
     } else {
-        return({
+        return ({
             response: false,
             error: responseJSON.Error
         })
@@ -77,12 +77,12 @@ export const remove = async (id) => {
         },
     })
 
-    if (response.ok){
+    if (response.ok) {
         return ({
             response: true,
         })
     } else {
-        return({
+        return ({
             response: false,
             error: `${response.status}: ${response.statusText}`
         })
@@ -106,13 +106,13 @@ export const update = async (id, noteTitle, noteInput, categoryTitle) => {
     })
     const responseJSON = await response.json()
 
-    if (response.ok){
+    if (response.ok) {
         return ({
             response: true,
             updated: responseJSON
         })
     } else {
-        return({
+        return ({
             response: false,
             error: responseJSON.Error
         })
@@ -133,13 +133,13 @@ export const getNote = async (id) => {
     })
     const responseJSON = await response.json()
 
-    if (response.ok){
+    if (response.ok) {
         return ({
             response: true,
             note: responseJSON
         })
     } else {
-        return({
+        return ({
             response: false,
             error: responseJSON.Error
         })
@@ -151,7 +151,7 @@ export const getNotesByCategory = async (categoryID) => {
     const api = 'http://localhost:8080/api/v1/category/getAll/'
     const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
 
-    if(!asyncToken){
+    if (!asyncToken) {
         console.log('no token')
     }
     const url = `${api}${categoryID}`
@@ -164,14 +164,14 @@ export const getNotesByCategory = async (categoryID) => {
     })
     const responseJSON = await response.json()
 
-    if (response.ok){
+    if (response.ok) {
         return ({
             response: true,
             error: null,
             notes: responseJSON
         })
     } else {
-        return({
+        return ({
             response: false,
             error: responseJSON.Error
         })

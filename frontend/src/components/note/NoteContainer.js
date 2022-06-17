@@ -1,11 +1,11 @@
 // React Functions
 import React, { useEffect, useState } from 'react'
-import  { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { v4 as uuidv4 } from 'uuid'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { readAllNotesAsync, selectNotes } from '../../redux/notes/notesSlice'
+import { readNotesByCategoryAsync, readAllNotesAsync, selectNotes, selectNoteStatus, deleteNoteAsync } from '../../redux/notes/notesSlice'
 
 // Components
 import Note from './Note'
@@ -22,73 +22,64 @@ export default function NoteContainer() {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  
-  console.log('selector')
-  const notesArray = useSelector(selectNotes)
 
   const params = useParams()
   const categoryID = params.id
 
-  const deleteNote = async (id) => {
-    const apiRequest = await noteAPI.remove(id)
-
-    if(apiRequest.response) {
-      window.location.reload(false);    
+  const deleteNote = (id) => {
+    dispatch(deleteNoteAsync(id))
+    if (id === undefined) {
+      dispatch(readAllNotesAsync())
     } else {
-      setError(apiRequest.error)
+      dispatch(readNotesByCategoryAsync(id))
     }
   }
 
   const updateNote = (id) => {
     return navigate(`/dashboard/note/${id}`)
-
   }
 
-  const readAllNotes = async () => {
-      // const apiRequest = await noteAPI.read()
-      // const notesFromResponse = apiRequest.notes
-      // setNotes(notesFromResponse)
-      // dispatch(readAllNotesAsync())
-      
-  }
+  // const readNotesByCategory = async () => {
+  //   const apiRequest = await noteAPI.getNotesByCategory(categoryID)
+  //   const notesFromResponse = apiRequest.notes
+  //   setNotes(notesFromResponse)
+  // }
 
-  const readNotesByCategory = async () => {
-    const apiRequest = await noteAPI.getNotesByCategory(categoryID)
-    const notesFromResponse = apiRequest.notes
-    setNotes(notesFromResponse)
-  }
-
-  // useEffect(() => {
-  //   if(categoryID === undefined) {
-  //     readAllNotes()
-  //   } else {
-  //     readNotesByCategory(categoryID)
-  //     // setSelectedCategory(categoryID)
-  //   }
-  //   // eslint-disable-next-line
-  // }, [])
+  const notesStatus = useSelector(selectNoteStatus)
+  const notesArray = useSelector(selectNotes)
 
   useEffect(() => {
-    console.log('useeffect')
-    dispatch(readAllNotesAsync())
-    setNotes(notesArray)
+    if (categoryID === undefined) {
+      dispatch(readAllNotesAsync())
+    } else {
+      dispatch(readNotesByCategoryAsync(categoryID))
+    }
     // eslint-disable-next-line
   }, [])
 
-  return (
-    <React.Fragment>
-          {notes !== null && notes.map(note => (
-            <Note 
-              note={note} 
-              id={note._id} 
-              title={note.noteTitle} 
-              input={note.noteInput} 
-              updateNote={updateNote} 
-              deleteNote={deleteNote} 
-              error={error} 
-              key={uuidv4()}
-            />
-          ))}
-    </React.Fragment>
-  )
+  if (notesStatus === 'succeeded') {
+    return (
+      <React.Fragment>
+        {notesArray.map(note => (
+          <Note
+            note={note}
+            id={note._id}
+            title={note.noteTitle}
+            input={note.noteInput}
+            updateNote={updateNote}
+            deleteNote={deleteNote}
+            error={error}
+            key={uuidv4()}
+          />
+        ))}
+      </React.Fragment>
+    )
+  } else if (notesStatus === 'loading') {
+    // TBD
+    return (
+      <>
+        <h1> Loading... </h1>
+      </>
+    )
+  }
 }
