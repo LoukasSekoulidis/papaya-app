@@ -101,7 +101,7 @@ export const update = async (id, noteTitle, noteInput, categoryTitle) => {
         body: JSON.stringify({
             noteTitle: noteTitle,
             noteInput: noteInput,
-            categoryTitle: categoryTitle
+            categoryID: categoryTitle
         })
     })
     const responseJSON = await response.json()

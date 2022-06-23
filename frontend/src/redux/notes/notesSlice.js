@@ -57,6 +57,20 @@ export const deleteNoteAsync = createAsyncThunk(
     }
 )
 
+export const updateNoteAsync = createAsyncThunk(
+    'notes/updateNoteAsync',
+    async ({ id, noteTitle, noteInput, categoryTitle }, { rejectWithValue }) => {
+        const response = await noteAPI.update(id, noteTitle, noteInput, categoryTitle)
+        console.log(response)
+        if (response.response) {
+            return response
+        } else {
+            return rejectWithValue(response.error)
+        }
+    }
+)
+
+
 export const notesSlice = createSlice({
     name: 'notes',
     initialState,
@@ -121,6 +135,21 @@ export const notesSlice = createSlice({
             })
             .addCase(readNotesByCategoryAsync.rejected, (state, error) => {
                 // console.log('rejected')
+                state.status = 'failed'
+                state.error = error.error.message
+            })
+            // updateNoteAsync
+            .addCase(updateNoteAsync.pending, (state) => {
+                console.log('pending')
+                state.status = 'loading'
+            })
+            .addCase(updateNoteAsync.fulfilled, (state, { payload }) => {
+                console.log('fulfilled')
+                state.status = 'succeeded'
+                state.error = null
+            })
+            .addCase(updateNoteAsync.rejected, (state, error) => {
+                console.log('rejected')
                 state.status = 'failed'
                 state.error = error.error.message
             })
