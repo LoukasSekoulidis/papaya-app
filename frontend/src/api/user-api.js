@@ -47,9 +47,6 @@ export const createUser = async (mail, userName, password) => {
 }
 
 export const login = async (mail, password) => {
-    console.log(mail)
-    console.log(password)
-    
     const encodedData = encodeLoginData(mail, password)
     const authString = `Basic ${encodedData}`
 
@@ -61,13 +58,15 @@ export const login = async (mail, password) => {
         },
     })
 
-    saveToken(response)
-    
+    // saveToken(response)
+
     const responseJSON = await response.json()
 
     if (response.ok){
         return ({
-            response: true,
+            ok: true,
+            token: response.headers.get('Authorization'),
+            userName: responseJSON.userName,
             error: null
         })
     } else {

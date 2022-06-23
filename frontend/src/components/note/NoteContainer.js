@@ -28,12 +28,15 @@ export default function NoteContainer() {
   const params = useParams()
   const categoryID = params.id
 
+
+
   const deleteNote = (id) => {
     dispatch(deleteNoteAsync(id))
-    if (id === undefined) {
+    
+    if (categoryID === undefined) {
       dispatch(readAllNotesAsync())
     } else {
-      dispatch(readNotesByCategoryAsync(id))
+      dispatch(readNotesByCategoryAsync(categoryID))
     }
   }
 

@@ -111,6 +111,7 @@ export default function ContextMenuCategory({contextMenu, handleClose, categoryI
             />
             <Button
                 style ={{width: '100%'}}
+                color = "dark"
                 type="submit"
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}

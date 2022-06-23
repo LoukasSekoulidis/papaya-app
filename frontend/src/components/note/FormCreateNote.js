@@ -55,6 +55,10 @@ export default function FormCreateNote() {
     const note = value
 
     dispatch(createNoteAsync({ title: title, note: note, categoryID: categoryID }))
+
+    titleRef.current.value = ''
+    setValue('')
+    setSelectedCategory('')
   }
 
   const handleChange = (e) => {
@@ -97,8 +101,8 @@ if(categoriesStatus === 'succeeded') {
             onChange={setValue}
           />
         </Form.Group>
-        <Button className='mb-3' variant="primary" type="submit">
-          Create
+        <Button className='mb-3' variant="dark" type="submit">
+          CREATE
       </Button>
         {error && <p>{error}</p>}
       </Form>

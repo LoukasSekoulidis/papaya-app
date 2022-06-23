@@ -12,7 +12,7 @@ router.get('/', confirmationService.isVerified, (req, res, next) => {
         res.header("Authorization", "Bearer " + token);
 
         if (user) {
-          res.status(200).json({ Success: 'Token created successfully' });
+          res.status(200).json({userName: user.userName});
         }
         else {
           res.status(400).json({ Error: 'Something went wrong:' + err });

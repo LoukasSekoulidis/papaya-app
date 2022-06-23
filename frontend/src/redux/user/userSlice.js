@@ -4,20 +4,27 @@ const userAPI = require('../../api/user-api')
 
 const initialState = {
     user: null,
-    loginPending: false,
-    showLoginDialog: false,
     error: null,
 }
 
 export const loginAsync = createAsyncThunk(
     'user/login',
     async (userData, { rejectWithValue }) => {
-        const response = await userAPI.login(userData.userName, userData.password)
-        if(response.Error) {
-            return rejectWithValue(response.Error)
+        const response = await userAPI.login(userData.mail, userData.password)
+
+        if(response.ok) {
+            const token = response.token
+            const userName = response.userName
+    
+            console.log(token)
+            console.log(userName)
+
+            localStorage.setItem('papaya.token', token)
+    
+            return { token, userName }
         } else {
-            const token = response.headers.get('Authorization')
-            return { token, userData }
+            console.log('error')
+            return rejectWithValue(response.error)
         }
     }
 )
@@ -26,32 +33,28 @@ export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        setShowLoginDialog: (state) => {
-            state.showLoginDialog = true
-        },
-        setHideLoginDialog: (state) => {
-            state.showLoginDialog = false
-        },
         logout: (state) => {
-            state.accessToken = null
+            state.token = null
         }
     },
     extraReducers: (builder) => {
         builder
           .addCase(loginAsync.pending, (state) => {
-            // console.log('pending')
+            console.log('pending')
             state.status = 'loading'
           })
           .addCase(loginAsync.fulfilled, (state, { payload }) => {
-            // console.log(`fulfilled`)
+            console.log(`fulfilled`)
             state.status = 'succeeded'
-            state.accessToken = payload.token
+            state.token = payload.token
             state.showLoginDialog = false
-            state.user = payload.userData.userName
+            state.user = payload.userName
             state.error = null
+
+            console.log(state.user)
           })
           .addCase(loginAsync.rejected, (state, error) => {
-            // console.log('rejected')
+            console.log('rejected')
             state.status = 'failed'
             state.error = error.payload
             console.log(state.error)
@@ -60,14 +63,10 @@ export const userSlice = createSlice({
 })
 
 export const { 
-    setShowLoginDialog, 
-    setHideLoginDialog, 
-    loginUser,
     logout 
 } = userSlice.actions
 
-export const selectShowLoginDialog = (state) => state.user.showLoginDialog
-export const selectAccessToken = (state) => state.user.accessToken
+export const selectToken = (state) => state.user.token
 export const selectError = (state) => state.user.error
 
 export default userSlice.reducer;

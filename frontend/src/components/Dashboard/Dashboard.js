@@ -20,6 +20,7 @@ import NoteContainer from '../note/NoteContainer'
 import DashboardCategories from './DashboardCategories'
 import DashboardGeneral from './DashboardGeneral'
 import FormCreateNote from '../note/FormCreateNote';
+import UserWidget from '../user/UserWidget';
 
 
 const drawerWidth = 240;
@@ -127,6 +128,7 @@ function DashboardContent() {
             >
               Home
             </Typography>
+            <UserWidget />
           </Toolbar>
         </AppBar>
         {/* Left sidebar  */}
