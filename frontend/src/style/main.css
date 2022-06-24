@@ -6,3 +6,16 @@
     align-items: center;
     margin-top: 45vh;
 }
+
+.card-body {
+    transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+
+}
+
+.card-body:hover {
+    background-color: rgb(240, 240, 240)
+}
+
+p{
+    background-color: transparent;
+}
