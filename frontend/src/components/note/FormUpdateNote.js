@@ -51,7 +51,6 @@ export default function FormUpdateNote() {
 
       const title = titleRef.current.value
       const categoryID = categoryRef.current.value
-      console.log(categoryID)
 
       const note = value
 

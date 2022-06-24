@@ -16,7 +16,7 @@ export const loginAsync = createAsyncThunk(
             const token = response.token
             const userName = response.userName
     
-            localStorage.setItem('papaya.token', token)
+            // localStorage.setItem('papaya.token', token)
     
             return { token, userName }
         } else {

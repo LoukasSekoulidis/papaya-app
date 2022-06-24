@@ -58,7 +58,7 @@ export const login = async (mail, password) => {
         },
     })
 
-    // saveToken(response)
+    saveToken(response)
 
     const responseJSON = await response.json()
 

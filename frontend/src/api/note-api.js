@@ -99,7 +99,8 @@ export const update = async (id, noteTitle, noteInput, categoryID) => {
         method: 'PUT',
         withCredentials: true,
         headers: {
-            'Authorization': asyncToken,
+            // 'Authorization': asyncToken,
+            'Authorization': token,
             'content-type': 'application/json',
         },
         body: JSON.stringify({
@@ -116,7 +117,6 @@ export const update = async (id, noteTitle, noteInput, categoryID) => {
             updated: responseJSON
         })
     } else {
-        console.log(responseJSON)
         return ({
             response: false,
             error: responseJSON.Error

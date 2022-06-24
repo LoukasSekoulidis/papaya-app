@@ -19,7 +19,6 @@ const DashboardGeneral = () => {
 
     const handleOnClick = () => {
         dispatch(readAllNotesAsync())
-        console.log('Button: ', categories)
         return
     }
 
