@@ -13,10 +13,11 @@ export const DragNDrop = {
         target = categoryID;
     },
     handleDrop: async function (e, noteTitle, noteInput) {
-        console.log('Note Dropped: ' + target + ' --- ' + dragged)
         e.preventDefault();
-        console.log('ID: ' + dragged + '\n title: ' + noteTitle + '\ninput: ' + noteInput + '\ncategoryTitle: ' + target)
-        const apiRequest = await noteAPI.update(dragged, noteTitle, noteInput, target)
-        console.log(apiRequest)
+        if (target !== '' && dragged !== '') {
+            const apiRequest = await noteAPI.update(dragged, noteTitle, noteInput, target)
+        }
+        target = ''
+        dragged = ''
     }
 }
