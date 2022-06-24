@@ -8,8 +8,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 
 import { useDispatch, useSelector } from 'react-redux'
 import { readAllNotesAsync } from '../../redux/notes/notesSlice'
-import { selectCategories } from '../../redux/categories/categoriesSlice'
-
+import { selectCategories, setCurrentCategoryID, setCurrentCategoryName } from '../../redux/categories/categoriesSlice'
 
 
 const DashboardGeneral = () => {
@@ -19,6 +18,8 @@ const DashboardGeneral = () => {
 
     const handleOnClick = () => {
         dispatch(readAllNotesAsync())
+        dispatch(setCurrentCategoryID(''))
+        dispatch(setCurrentCategoryName('Home'))
         return
     }
 

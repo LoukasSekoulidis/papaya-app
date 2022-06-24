@@ -4,7 +4,8 @@ const categoryAPI = require('../../api/category-api')
 
 const initialState = {
     categories: null,
-    current: null,
+    currentID: null,
+    currentName: null,
     status: null,
     error: null,
     openCreateModal: false
@@ -67,8 +68,11 @@ export const categoriesSlice = createSlice({
         closeCreateModal: (state) => {
             state.openCreateModal = false
         },
-        setCurrentCategory: (state, payload) => {
-            state.current = payload.payload
+        setCurrentCategoryID: (state, payload) => {
+            state.currentID = payload.payload
+        },
+        setCurrentCategoryName: (state, payload) => {
+            state.currentName = payload.payload
         }
     },
     extraReducers: (builder) => {
@@ -140,12 +144,13 @@ export const categoriesSlice = createSlice({
     },
 })
 
-export const { showCreateModal, closeCreateModal, setCurrentCategory } = categoriesSlice.actions;
+export const { showCreateModal, closeCreateModal, setCurrentCategoryID, setCurrentCategoryName } = categoriesSlice.actions;
 
 export const selectCategories = (state) => state.categories.categories
 export const selectCategoriesStatus = (state) => state.categories.status
 export const selectOpenCreateModal = (state) => state.categories.openCreateModal
-export const selectCurrentCategory = (state) => state.categories.current
+export const selectCurrentCategoryID = (state) => state.categories.currentID
+export const selectCurrentCategoryName = (state) => state.categories.currentName
 
 export default categoriesSlice.reducer
 

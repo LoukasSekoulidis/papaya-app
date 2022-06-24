@@ -22,6 +22,9 @@ import DashboardGeneral from './DashboardGeneral'
 import FormCreateNote from '../note/FormCreateNote';
 import UserWidget from '../user/UserWidget';
 
+import { selectCurrentCategoryName } from '../../redux/categories/categoriesSlice';
+import { useSelector } from 'react-redux';
+
 
 const drawerWidth = 240;
 
@@ -89,12 +92,12 @@ const mdTheme = createTheme({
 function DashboardContent() {
   const [open, setOpen] = useState(true);
   const largeScreen = useMediaQuery(mdTheme.breakpoints.up('md'));
-  
+
+  const currentCategory = useSelector(selectCurrentCategoryName)
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
-
-
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -126,7 +129,8 @@ function DashboardContent() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Home
+              { currentCategory }
+              {/* Home */}
             </Typography>
             <UserWidget />
           </Toolbar>
