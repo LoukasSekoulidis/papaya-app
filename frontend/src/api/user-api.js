@@ -47,7 +47,9 @@ export const createUser = async (mail, userName, password) => {
 }
 
 export const login = async (mail, password) => {
-
+    console.log(mail)
+    console.log(password)
+    
     const encodedData = encodeLoginData(mail, password)
     const authString = `Basic ${encodedData}`
 

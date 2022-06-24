@@ -10,7 +10,7 @@ import "../style/main.css"
 const userAPI = require('../api/user-api')
 
 
-export const Verify = () => {
+const VerifyPage = () => {
 
   const params = useParams()
   const [response, setResponse] = useState('')
@@ -33,11 +33,11 @@ export const Verify = () => {
   }, [])
   
   return (
-    <React.Fragment>
       <div className='info_container'>
         <h1>{response}</h1>
         <h3>Thanks for using our service!</h3>
       </div>
-    </React.Fragment>
   )
 }
+
+export default VerifyPage

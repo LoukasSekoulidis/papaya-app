@@ -58,6 +58,7 @@ function isAuthenticated(req, res, next) {
         res.status(401).json({ error: "Not Authorized!" });
         return;
       }
+      req.userMail = user.userMail
       return next();
     });
   } else {

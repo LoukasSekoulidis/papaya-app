@@ -15,7 +15,9 @@ function createNote(props, callback) {
 
     if (body.categoryID != undefined) {
         console.log("in Test")
-        Category.findOne({ categoryTitle: body.categoryID }, function (err, result) {
+
+        // please check if the user who wants to add note to category owns the category
+        Category.findOne({ _id: body.categoryID }, function (err, result) {
             console.log(result)
             if (result == null) {
                 return callback(null);
@@ -101,6 +103,7 @@ function getByNoteID(noteID, callback) {
 }
 
 function updateNote(noteID, props, callback) {
+    console.log('updateNote')
     Note.findById(noteID, function (err, note) {
         if (err) {
             return callback(err)
@@ -110,7 +113,8 @@ function updateNote(noteID, props, callback) {
         }
         else {
             if (props.categoryID != undefined) {
-                Category.findOne({ categoryTitle: props.categoryID }, function (err, result) {
+                Category.findOne({ _id: props.categoryID }, function (err, result) {
+                    console.log(props)
                     if (!result) {
                         return callback("Category does not exist")
                     } else {
