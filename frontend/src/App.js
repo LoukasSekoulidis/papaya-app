@@ -1,5 +1,4 @@
-import React from 'react'
-import { Navigate, Route, Routes } from "react-router-dom"
+import { Route, Routes } from "react-router-dom"
 
 // Routes
 import SignUpPage from './routes/SignUpPage'
@@ -15,12 +14,15 @@ import { selectToken  } from './redux/user/userSlice'
 
 // import ProtectedRoute from './routes/ProtectedRoute'
 
-export default function App() {
+const LOCAL_STORAGE_KEY = 'papaya.token'
 
-  // const token = useSelector(selectToken)
-  const token = localStorage.getItem('papaya.token')
-  
-  if(token) {
+
+const App = () => {
+
+  const tokenStore = useSelector(selectToken)
+  const tokenLocalStorage = localStorage.getItem(LOCAL_STORAGE_KEY)
+
+  if(tokenStore || tokenLocalStorage) {
     return (
       <Routes>
         <Route path='*' element={<NotFoundPage />} />
@@ -50,3 +52,4 @@ export default function App() {
 }
 
 
+export default App

@@ -1,6 +1,8 @@
 // import { useSelector } from 'react-redux'
 // import { selectToken  } from './redux/user/userSlice'
 
+import { asyncLocalStorage } from "../components/misc/asyncLocalStorage"
+
 const API_URL = 'http://localhost:8080/api/v1/category'
 
 const LOCAL_STORAGE_KEY = 'papaya.token'
@@ -8,8 +10,9 @@ const LOCAL_STORAGE_KEY = 'papaya.token'
 const token = localStorage.getItem(LOCAL_STORAGE_KEY)
 
 export const read = async () => {
+    const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
     
-    if(!token){
+    if(!asyncToken){
         console.log('no token')
     }
     const url = `${API_URL}`
@@ -17,7 +20,7 @@ export const read = async () => {
         method: 'GET',
         withCredentials: true,
         headers: {
-            'Authorization': token
+            'Authorization': asyncToken
         },
     })
     const responseJSON = await response.json()

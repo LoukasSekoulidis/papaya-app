@@ -31,6 +31,9 @@ export default function FormLogin() {
 
         dispatch(loginAsync({ mail, password }))
 
+        // window.location.reload(false)
+
+
         // const apiRequest = await userAPI.login(mail, password)
         
         // if (apiRequest.response) {

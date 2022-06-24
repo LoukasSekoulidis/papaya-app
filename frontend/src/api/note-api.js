@@ -89,19 +89,23 @@ export const remove = async (id) => {
     }
 }
 
-export const update = async (id, noteTitle, noteInput, categoryTitle) => {
+export const update = async (id, noteTitle, noteInput, categoryID) => {
     const url = `${API_URL}/update/${id}`
+
+    const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
+    
+
     const response = await fetch(url, {
         method: 'PUT',
         withCredentials: true,
         headers: {
-            'Authorization': token,
+            'Authorization': asyncToken,
             'content-type': 'application/json',
         },
         body: JSON.stringify({
             noteTitle: noteTitle,
             noteInput: noteInput,
-            categoryTitle: categoryTitle
+            categoryID: categoryID
         })
     })
     const responseJSON = await response.json()
@@ -112,6 +116,7 @@ export const update = async (id, noteTitle, noteInput, categoryTitle) => {
             updated: responseJSON
         })
     } else {
+        console.log(responseJSON)
         return ({
             response: false,
             error: responseJSON.Error

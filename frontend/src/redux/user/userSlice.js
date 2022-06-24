@@ -16,9 +16,6 @@ export const loginAsync = createAsyncThunk(
             const token = response.token
             const userName = response.userName
     
-            console.log(token)
-            console.log(userName)
-
             localStorage.setItem('papaya.token', token)
     
             return { token, userName }
@@ -40,21 +37,20 @@ export const userSlice = createSlice({
     extraReducers: (builder) => {
         builder
           .addCase(loginAsync.pending, (state) => {
-            console.log('pending')
+            // console.log('pending')
             state.status = 'loading'
           })
           .addCase(loginAsync.fulfilled, (state, { payload }) => {
-            console.log(`fulfilled`)
+            // console.log(`fulfilled`)
             state.status = 'succeeded'
             state.token = payload.token
             state.showLoginDialog = false
             state.user = payload.userName
             state.error = null
-
-            console.log(state.user)
+            console.log(state.token)
           })
           .addCase(loginAsync.rejected, (state, error) => {
-            console.log('rejected')
+            // console.log('rejected')
             state.status = 'failed'
             state.error = error.payload
             console.log(state.error)
