@@ -4,6 +4,10 @@ import {Container } from 'react-bootstrap'
 import Form from 'react-bootstrap/Form'
 import { useNavigate } from 'react-router-dom';
 
+import { selectApperance } from '../../redux/user/userSlice';
+import { useSelector } from 'react-redux';
+
+
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 
@@ -15,6 +19,7 @@ const UserPreferences = () => {
   const userNameRef = useRef()
   let error
 
+  const apperance = useSelector(selectApperance)
   const navigate = useNavigate()
 
   const navToDashobard = () =>
@@ -53,9 +58,36 @@ const UserPreferences = () => {
     }
   })
 
+  const getDesignTokens = (mode) => ({
+    palette: {
+      mode,
+      ...(mode === 'light'
+        ? {
+          neutral: {
+            main: '#fff',
+            contrastText: '#000'
+          },
+          dark: {
+            main: '#000'
+          },
+          }
+        : {
+          neutral: {
+            main: '#000',
+            contrastText: '#fff'
+          },
+          dark: {
+            main: '#fff'
+          },
+          }),
+    },
+  });
+
+  const darkModeTheme = createTheme(getDesignTokens(apperance))
+
   return (
     <div>
-        <ThemeProvider theme={mdTheme}>
+        <ThemeProvider theme={darkModeTheme}>
         <Container style={{width:"50%"}}>
         <h2>User Preferences</h2>
         <h5 className='mt-3'>Update your User Name</h5>

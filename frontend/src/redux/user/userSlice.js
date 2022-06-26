@@ -5,6 +5,7 @@ const userAPI = require('../../api/user-api')
 const initialState = {
     user: null,
     error: null,
+    apperance: 'light'
 }
 
 export const loginAsync = createAsyncThunk(
@@ -32,6 +33,9 @@ export const userSlice = createSlice({
     reducers: {
         logout: (state) => {
             state.token = null
+        },
+        setApperance: (state, payload) => {
+            state.apperance = payload.payload
         }
     },
     extraReducers: (builder) => {
@@ -59,10 +63,12 @@ export const userSlice = createSlice({
 })
 
 export const { 
-    logout 
+    logout,
+    setApperance 
 } = userSlice.actions
 
 export const selectToken = (state) => state.user.token
 export const selectError = (state) => state.user.error
+export const selectApperance = (state) => state.user.apperance
 
 export default userSlice.reducer;

@@ -11,6 +11,7 @@ import { CircularProgress } from '@mui/material'
 
 // Components
 import Note from './Note'
+import NoteMUI from './NoteMUI'
 
 const noteAPI = require('../../api/note-api')
 
@@ -66,7 +67,7 @@ export default function NoteContainer() {
     return (
       <React.Fragment>
         {notesArray.map(note => (
-          <Note
+          <NoteMUI
             note={note}
             id={note._id}
             title={note.noteTitle}

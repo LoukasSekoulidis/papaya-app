@@ -19,7 +19,7 @@ const DashboardGeneral = () => {
     const handleOnClick = () => {
         dispatch(readAllNotesAsync())
         dispatch(setCurrentCategoryID(''))
-        dispatch(setCurrentCategoryName('Home'))
+        dispatch(setCurrentCategoryName(''))
         return
     }
 
