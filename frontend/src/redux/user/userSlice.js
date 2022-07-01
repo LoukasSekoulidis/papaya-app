@@ -51,7 +51,6 @@ export const userSlice = createSlice({
             state.showLoginDialog = false
             state.user = payload.userName
             state.error = null
-            console.log(state.token)
           })
           .addCase(loginAsync.rejected, (state, error) => {
             // console.log('rejected')
@@ -70,5 +69,6 @@ export const {
 export const selectToken = (state) => state.user.token
 export const selectError = (state) => state.user.error
 export const selectApperance = (state) => state.user.apperance
+export const selectUserName = (state) => state.user.user
 
 export default userSlice.reducer;
