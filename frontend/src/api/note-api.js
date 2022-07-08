@@ -8,6 +8,13 @@ const token = localStorage.getItem(LOCAL_STORAGE_KEY)
 
 export const create = async (title, note, categoryID) => {
     const url = `${API_URL}/create`
+    // console.log(token)
+    // console.log('create in api')
+
+    if(categoryID === '') {
+        categoryID = null
+    }
+    
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -94,6 +101,9 @@ export const update = async (id, noteTitle, noteInput, categoryID) => {
 
     const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
     
+    if(categoryID === '') {
+        categoryID = null
+    }
 
     const response = await fetch(url, {
         method: 'PUT',

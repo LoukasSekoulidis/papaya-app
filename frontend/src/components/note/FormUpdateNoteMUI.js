@@ -5,21 +5,17 @@ import { React, useRef, useState, useEffect } from 'react'
 import MDEditor from '@uiw/react-md-editor'
 
 // CSS
-import Form from 'react-bootstrap/Form'
-
 import { Box, TextField, FormControl, FormGroup, Select, Button, InputLabel, Input, FormHelperText, MenuItem } from '@mui/material'
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
-import { createNoteAsync } from '../../redux/notes/notesSlice'
+import { selectApperance } from '../../redux/user/userSlice';
+import { createNoteAsync, selectCurrentNoteID, updateNoteAsync } from '../../redux/notes/notesSlice'
 import { readAllCategoriesAsync, selectCategories, selectCategoriesStatus, selectCurrentCategory } from '../../redux/categories/categoriesSlice'
 
-import { selectApperance } from '../../redux/user/userSlice';
-
-
 // API
+const noteAPI = require('../../api/note-api')
 const categoryAPI = require('../../api/category-api')
-
 
 export default function FormCreateNote() {
   const dispatch = useDispatch()
@@ -41,14 +37,30 @@ export default function FormCreateNote() {
 
   const apperance = useSelector(selectApperance)
 
+  const currentNoteID = useSelector(selectCurrentNoteID)
 
   const getCategories = async () => {
     dispatch(readAllCategoriesAsync())
   }
 
+  const getNote = async () => {
+    // console.log('get note')
+    // console.log(currentNoteID)
+    const id = currentNoteID
+    const apiRequest = await noteAPI.getNote(id)
+
+    if(apiRequest){
+      titleRef.current.value = apiRequest.note.noteTitle
+      setValue(apiRequest.note.noteInput)
+    } else {
+      setError(apiRequest.error)
+    //   setShow(true)
+    }
+  }
+
   useEffect(() => {
     getCategories()
-    
+    getNote()
   }, [])
 
   const titleRef = useRef()
@@ -65,7 +77,7 @@ export default function FormCreateNote() {
     // console.log(categoryID)
     // console.log(note)
 
-    dispatch(createNoteAsync({ title: title, note: note, categoryID: categoryID }))
+    dispatch(updateNoteAsync({ id: currentNoteID,  title: title, note: note, categoryID: categoryID }))
 
     titleRef.current.value = ''
     setValue('')
@@ -122,7 +134,7 @@ if(categoriesStatus === 'succeeded') {
           color='neutral' 
           type="submit"
         >
-          Create
+          Update
         </Button>
         {error && <p>{error}</p>}
       </Box>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -24,12 +24,14 @@ import DashboardCategories from './DashboardCategories'
 import DashboardGeneral from './DashboardGeneral'
 import FormCreateNote from '../note/FormCreateNote';
 import FormCreateNoteMUI from '../note/FormCreateNoteMUI'
-import UserWidget from '../user/UserWidget';
+import FormUpdateNoteMUI from '../note/FormUpdateNoteMUI'
+import UserWidget from '../user/UserWidget'
 
 
-import { selectCurrentCategoryName } from '../../redux/categories/categoriesSlice';
-import { selectApperance } from '../../redux/user/userSlice';
-import { useSelector } from 'react-redux';
+import { selectCurrentCategoryName } from '../../redux/categories/categoriesSlice'
+import { selectApperance } from '../../redux/user/userSlice'
+import { selectNoteAction } from '../../redux/notes/notesSlice'
+import { useSelector } from 'react-redux'
 
 
 const drawerWidth = 240;
@@ -129,6 +131,22 @@ function DashboardContent() {
   const currentCategory = useSelector(selectCurrentCategoryName)
   const apperance = useSelector(selectApperance)
 
+  const noteAction = useSelector(selectNoteAction)
+
+  const [currentShownWindow, setCurrentShownWindow] = useState()
+  const createWindow = <FormCreateNoteMUI />
+  const updateWindow = <FormUpdateNoteMUI />
+
+  useEffect(() => {
+    if (noteAction === 'create') {
+      setCurrentShownWindow(createWindow)
+    } else if(noteAction === 'update') {
+      setCurrentShownWindow(updateWindow)
+    } else {
+      setCurrentShownWindow(null)
+    }
+  }, [noteAction])
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -218,7 +236,7 @@ function DashboardContent() {
                 <NoteContainer />
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
-                <FormCreateNoteMUI />
+                {currentShownWindow}
               </Grid>
               
               

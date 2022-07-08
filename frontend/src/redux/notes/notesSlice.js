@@ -6,6 +6,8 @@ const initialState = {
     notes: null,
     status: null,
     error: null,
+    currentNoteID: null,
+    action: ''
 }
 
 export const readAllNotesAsync = createAsyncThunk(
@@ -36,7 +38,9 @@ export const readNotesByCategoryAsync = createAsyncThunk(
 export const createNoteAsync = createAsyncThunk(
     'notes/createNoteAsync',
     async ({ title, note, categoryID }, { rejectWithValue }) => {
+        // console.log('create note async')
         const response = await noteAPI.create(title, note, categoryID)
+        // console.log(response)
         if (response.response) {
             return response.note
         } else {
@@ -61,7 +65,7 @@ export const updateNoteAsync = createAsyncThunk(
     'notes/updateNoteAsync',
     async ({ id, noteTitle, noteInput, categoryTitle }, { rejectWithValue }) => {
         const response = await noteAPI.update(id, noteTitle, noteInput, categoryTitle)
-        console.log(response)
+        // console.log(response)
         if (response.response) {
             return response
         } else {
@@ -76,8 +80,12 @@ export const notesSlice = createSlice({
     initialState,
     reducers: {
         setCreateOrUpdate: (state, payload) => {
-            console.log(payload.payload)
+            // console.log(payload.payload)
             state.action = payload.payload
+        },
+        setCurrentNoteID: (state, payload) => {
+            // console.log(payload.payload)
+            state.currentNoteID = payload.payload
         }
     },
     extraReducers: (builder) => {
@@ -100,9 +108,11 @@ export const notesSlice = createSlice({
             })
             // createNoteAsync
             .addCase(createNoteAsync.pending, (state) => {
+                // console.log('pending create')
                 state.status = 'loading'
             })
             .addCase(createNoteAsync.fulfilled, (state, { payload }) => {
+                // console.log('success create')
                 state.notes = [...state.notes, payload]
                 state.status = 'succeeded'
                 state.error = null
@@ -163,12 +173,14 @@ export const notesSlice = createSlice({
 })
 
 export const {
-    setCreateOrUpdate
+    setCreateOrUpdate,
+    setCurrentNoteID
 } = notesSlice.actions
 
 export const selectNotes = (state) => state.notes.notes
 export const selectNoteStatus = (state) => state.notes.status
 export const selectNoteAction = (state) => state.notes.action
+export const selectCurrentNoteID = (state) => state.notes.currentNoteID
 
 export default notesSlice.reducer
 

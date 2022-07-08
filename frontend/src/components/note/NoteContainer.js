@@ -5,9 +5,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { readNotesByCategoryAsync, readAllNotesAsync, selectNotes, selectNoteStatus, deleteNoteAsync } from '../../redux/notes/notesSlice'
+import { readNotesByCategoryAsync, readAllNotesAsync, selectNotes, selectNoteStatus, deleteNoteAsync, setCreateOrUpdate } from '../../redux/notes/notesSlice'
 
-import { CircularProgress } from '@mui/material'
+import { CircularProgress, Button } from '@mui/material'
+
 
 // Components
 import Note from './Note'
@@ -45,6 +46,10 @@ export default function NoteContainer() {
     return navigate(`/dashboard/note/${id}`)
   }
 
+  const showCreateNoteWindow = () => {
+    dispatch(setCreateOrUpdate('create'))
+  }
+
   // const readNotesByCategory = async () => {
   //   const apiRequest = await noteAPI.getNotesByCategory(categoryID)
   //   const notesFromResponse = apiRequest.notes
@@ -66,6 +71,13 @@ export default function NoteContainer() {
   if (notesStatus === 'succeeded') {
     return (
       <React.Fragment>
+        <Button 
+          style={{width: '100%', marginBottom: '20px'}}
+          variant='contained' 
+          color='neutral' 
+          onClick={showCreateNoteWindow}
+        >Create Note</Button>
+
         {notesArray.map(note => (
           <NoteMUI
             note={note}
