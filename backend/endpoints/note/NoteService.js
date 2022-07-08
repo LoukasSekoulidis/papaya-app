@@ -10,12 +10,10 @@ function createNote(props, callback) {
         tokenInfos = jwt.decode(token);
     }
     else {
-        return callback('No token received, need ownerID', null);
+        return callback('301', null);
     }
 
     if (body.categoryID != undefined) {
-        console.log("in Test")
-
         // please check if the user who wants to add note to category owns the category
         Category.findOne({ _id: body.categoryID }, function (err, result) {
             console.log(result)
@@ -31,7 +29,7 @@ function createNote(props, callback) {
                 });
                 newNote.save(function (err, note) {
                     if (err) {
-                        callback(err, null)
+                        callback('302', null)
                     } else {
                         console.log('New note created!')
                         callback(null, note)
@@ -47,7 +45,7 @@ function createNote(props, callback) {
         });
         newNote.save(function (err, note) {
             if (err) {
-                callback(err, null)
+                callback('302', null)
             } else {
                 console.log('New note created!')
                 callback(null, note)
@@ -60,7 +58,7 @@ function getNote(callback) {
     Note.find(function (err, notes) {
         if (err) {
             console.log('Fehler bei Suche nach Notiz.' + err)
-            return callback(err, null)
+            return callback('303', null)
         }
         else {
             console.log('Notiz gefunden.')
@@ -75,11 +73,11 @@ function getByOwnerID(header, callback) {
         tokenInfos = jwt.decode(token);
     }
     else {
-        return callback('No token received, need ownerID', null);
+        return callback('301', null);
     }
     Note.find({ ownerID: tokenInfos.userMail }, function (err, note) {
         if (err) {
-            console.log('Notiz mit OwnerID nicht gefunden.' + err)
+            console.log('304' + err)
             return callback(err, null)
         }
         else {
@@ -92,7 +90,7 @@ function getByOwnerID(header, callback) {
 function getByNoteID(noteID, callback) {
     Note.findById(noteID, function (err, note) {
         if (err || note === null) {
-            console.log('Notiz mit NotizID nicht gefunden.' + err)
+            console.log('305' + err)
             return callback(err, null)
         }
         else {
@@ -106,22 +104,22 @@ function updateNote(noteID, props, callback) {
     console.log('updateNote')
     Note.findById(noteID, function (err, note) {
         if (err) {
-            return callback(err)
+            return callback('305')
         }
         else if (!note) {
-            return callback(`Note with noteID: ${noteID}, does not exist!`);
+            return callback('305');
         }
         else {
             if (props.categoryID != undefined) {
                 Category.findOne({ _id: props.categoryID }, function (err, result) {
                     console.log(props)
                     if (!result) {
-                        return callback("Category does not exist")
+                        return callback("306")
                     } else {
                         Object.assign(note, props);
                         note.save((err) => {
                             if (err) {
-                                return callback(err, null);
+                                return callback('307', null);
                             }
                             else {
                                 return callback(null, note);
@@ -133,7 +131,7 @@ function updateNote(noteID, props, callback) {
                 Object.assign(note, props);
                 note.save((err) => {
                     if (err) {
-                        return callback(err, null);
+                        return callback('307', null);
                     }
                     else {
                         return callback(null, note);
@@ -148,7 +146,7 @@ function deleteNote(noteID, callback) {
     Note.findByIdAndDelete(noteID, function (err, note) {
         if (err) {
             console.log('Notiz nicht gelöscht.' + err)
-            return callback(err, null)
+            return callback('308', null)
         }
         else {
             console.log('Notiz gelöscht.')

@@ -9,7 +9,7 @@ router.post('/create', AuthenticationService.isAuthenticated, function (req, res
     // ownerID wird aus dem Token geholt
     NoteService.createNote(req, function (err, note) {
         if (err) {
-            return res.status(400).json(err);
+            return res.status(400).json({ Error: err });
         }
         else if (note) {
             return res.status(201).json(note);
@@ -22,7 +22,7 @@ router.delete('/delete/:noteID', AuthenticationService.isAuthenticated, function
     let urlID = req.url.split('/')[2];
     NoteService.deleteNote(urlID, function (err, note) {
         if (err) {
-            return res.status(400).json(err);
+            return res.status(400).json({ Error: err });
         }
         else if (note) {
             return res.status(204).send();
@@ -35,7 +35,7 @@ router.put('/update/:noteID', AuthenticationService.isAuthenticated, function (r
     let urlID = req.url.split('/')[2];
     NoteService.updateNote(urlID, req.body, function (err, note) {
         if (err) {
-            return res.status(400).json(err);
+            return res.status(400).json({ Error: err });
         }
         else if (note) {
             return res.status(201).json(note);
@@ -47,7 +47,7 @@ router.put('/update/:noteID', AuthenticationService.isAuthenticated, function (r
 router.get('/myNotes', AuthenticationService.isAuthenticated, function (req, res, next) {
     NoteService.getByOwnerID(req.headers, function (err, note) {
         if (err) {
-            return res.status(404).json(err);
+            return res.status(404).json({ Error: err });
         }
         else if (note) {
             const { ownerID, noteTitle, noteInput } = req.query;
@@ -71,7 +71,7 @@ router.get('/myNotes/:noteID', AuthenticationService.isAuthenticated, function (
     let urlID = req.url.split('/')[2];
     NoteService.getByNoteID(urlID, function (err, note) {
         if (err) {
-            return res.status(404).json(err);
+            return res.status(404).json({ Error: err });
         }
         else if (note) {
             return res.status(200).json(note);
