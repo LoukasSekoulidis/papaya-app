@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form'
 
 import { useNavigate } from 'react-router-dom';
 
-import { selectApperance, selectToken, selectUserName } from '../../redux/user/userSlice';
+import { selectApperance, selectToken, selectUserID } from '../../redux/user/userSlice';
 import { useSelector } from 'react-redux';
 
 
@@ -35,7 +35,7 @@ const UserPreferences = () => {
 
   // const token = useSelector(selectToken) 
   const token = localStorage.getItem(LOCAL_STORAGE_KEY)
-  const loggedInUserName = useSelector(selectUserName)
+  const userID = useSelector(selectUserID)
   const apperance = useSelector(selectApperance)
   const navigate = useNavigate()
 
@@ -52,7 +52,7 @@ const UserPreferences = () => {
       return
     }
 
-    const response = await userAPI.update(token, userName, userMail, userPassword)
+    const response = await userAPI.update(token, userID, userName, userMail, userPassword)
     if(response.ok) {
       setConfirm('You successfully updated your Profile.')
     }
@@ -60,7 +60,7 @@ const UserPreferences = () => {
   }
 
   const getUser = async () => {
-      const response = await userAPI.getUser(loggedInUserName, token)
+      const response = await userAPI.getUser(userID, token)
       if(response.ok) {
         setUserName(response.user.userName)
         setUserMail(response.user.userMail)
@@ -157,7 +157,6 @@ const UserPreferences = () => {
                     style={{ marginBottom: '10px' }}
                     id='userNameInput'
                     value={userName} 
-                    readOnly
                     onChange={(e) => {setUserName(e.target.value)}} 
                     type="text" 
                     placeholder="Enter User Name" 
