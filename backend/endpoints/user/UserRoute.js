@@ -16,6 +16,7 @@ router.get('/', authenticationService.isAuthenticated, (req, res, next) => {
 });
 
 router.get('/:userName', authenticationService.isAuthenticated, (req, res, next) => {
+  const userName = req.url.split('/')[1]
   userService.getUser(userName, (err, user) => {
     if (user) {
       res.status(200).json(user);
