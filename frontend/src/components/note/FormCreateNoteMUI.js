@@ -5,13 +5,17 @@ import { React, useRef, useState, useEffect } from 'react'
 import MDEditor from '@uiw/react-md-editor'
 
 // CSS
-import { Button } from 'react-bootstrap'
 import Form from 'react-bootstrap/Form'
+
+import { Box, TextField, FormControl, FormGroup, Select, Button, InputLabel, Input, FormHelperText, MenuItem } from '@mui/material'
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
 import { createNoteAsync } from '../../redux/notes/notesSlice'
 import { readAllCategoriesAsync, selectCategories, selectCategoriesStatus, selectCurrentCategory } from '../../redux/categories/categoriesSlice'
+
+import { selectApperance } from '../../redux/user/userSlice';
+
 
 // API
 const categoryAPI = require('../../api/category-api')
@@ -33,7 +37,9 @@ export default function FormCreateNote() {
 
   const [categories, setCategories] = useState([])
 
-  const [selectedCategory, setSelectedCategory] = useState()
+  const [selectedCategory, setSelectedCategory] = useState('')
+
+  const apperance = useSelector(selectApperance)
 
 
   const getCategories = async () => {
@@ -42,6 +48,7 @@ export default function FormCreateNote() {
 
   useEffect(() => {
     getCategories()
+    
   }, [])
 
   const titleRef = useRef()
@@ -54,6 +61,10 @@ export default function FormCreateNote() {
 
     const note = value
 
+    console.log(title)
+    console.log(categoryID)
+    console.log(note)
+
     dispatch(createNoteAsync({ title: title, note: note, categoryID: categoryID }))
 
     titleRef.current.value = ''
@@ -63,34 +74,42 @@ export default function FormCreateNote() {
 
   const handleChange = (e) => {
     setSelectedCategory(e.target.value);
-    console.log(e.target.value);
+    // console.log(e.target.value);
   }
 
 if(categoriesStatus === 'succeeded') {
   return (
     <div>
-      <Form onSubmit={handleSubmit} data-color-mode="light">
-        <Form.Group className='mb-3' controlId="form.Name">
-          <Form.Control ref={titleRef} type="text" placeholder="Title" />
-        </Form.Group>
-        <Form.Group className='mb-3' controlId="form.Category">
-          <select
-            className="form-select"
+      <Box component="form" onSubmit={handleSubmit} noValidate data-color-mode={apperance}>
+        <TextField
+              style ={{width: '100%'}}
+              margin="normal"
+              required
+              id="username"
+              name="username"
+              // placeholder='Title'
+              label='Titel'
+              inputRef={titleRef}
+            />
+        <FormGroup>
+          <Select
+          margin='dense'
             value={selectedCategory}
             onChange={handleChange}
+            label='Select Category'
+            placeholder='Select'
+            defaultValue='Foobar'
           >
-            <option value={''}>Select Category</option>
             {categoryArray.map(category => (
-              <option
+              <MenuItem
                 key={category._id}
                 value={category._id}
                 id={category.categoryTitle}
-
-              >{category.categoryTitle}</option>
+              >{category.categoryTitle}</MenuItem>
             ))}
-          </select>
-        </Form.Group>
-        <Form.Group className='mb-3' controlId="form.Textarea">
+          </Select>
+        </FormGroup>
+        <FormGroup className='mb-3'>
           <MDEditor
             commands={[]}
             textareaProps={{
@@ -100,13 +119,18 @@ if(categoriesStatus === 'succeeded') {
             value={value}
             onChange={setValue}
           />
-        </Form.Group>
-        <Button className='mb-3' variant="dark" type="submit">
-          CREATE
+        </FormGroup>
+        <Button 
+          variant='contained' 
+          color='neutral' 
+          type="submit"
+        >
+          Create
         </Button>
         {error && <p>{error}</p>}
-      </Form>
+      </Box>
     </div>
   )
+  
 }
 }

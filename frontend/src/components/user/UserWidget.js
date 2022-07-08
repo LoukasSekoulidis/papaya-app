@@ -10,8 +10,13 @@ import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import { Divider } from '@mui/material';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
 
 import  { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { setApperance } from '../../redux/user/userSlice';
 
 const userAPI = require('../../api/user-api')
 
@@ -22,6 +27,7 @@ const UserWidget = () => {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -93,19 +99,19 @@ const UserWidget = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        {/* <MenuItem>
-          <Avatar /> Profile
+        <MenuItem onClick={() => {dispatch(setApperance('light'))}} >
+          <ListItemIcon>
+            <Brightness7Icon fontSize='small' />
+          </ListItemIcon>
+          Light Mode
         </MenuItem>
-        <MenuItem>
-          <Avatar /> My account
+        <MenuItem onClick={() => {dispatch(setApperance('dark'))}} >
+          <ListItemIcon>
+            <Brightness4Icon fontSize='small' />
+          </ListItemIcon>
+          Dark Mode
         </MenuItem>
         <Divider />
-        <MenuItem>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem> */}
         <MenuItem onClick={navToUserPreferences}>
           <ListItemIcon>
             <Settings fontSize="small" />

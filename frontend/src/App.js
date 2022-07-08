@@ -8,6 +8,7 @@ import VerifyPage from './routes/VerifyPage'
 import LandingPage from './routes/LandingPage'
 import Dashboard from './components/Dashboard/Dashboard'
 import UserPreferences from './routes/UserPreferencesPage'
+import TestPage from "./routes/TestPage"
 
 import { useSelector } from 'react-redux'
 import { selectToken  } from './redux/user/userSlice'
@@ -27,6 +28,7 @@ const App = () => {
       <Routes>
         <Route path='*' element={<NotFoundPage />} />
         <Route path='/' element={<Dashboard />} />
+        <Route path='/test' element={<TestPage />} />
         <Route path='/signup' element={<SignUpPage />} />
         <Route path='/landing' element={<LandingPage />} />
         <Route path='/dashboard/note/:id' element={<UpdateNotePage />} />
@@ -41,10 +43,12 @@ const App = () => {
     return (
       <Routes>
         <Route path='*' element={<NotFoundPage />} />
+        <Route path='/test' element={<TestPage />} />
         <Route path='/' element={<LandingPage />} />
         <Route path='/signup' element={<SignUpPage />} />
         <Route path='/landing' element={<LandingPage />} />
         <Route path='/verify/:id' element={<VerifyPage />} />
+        <Route path='/dashboard' element={<LandingPage />} />
       </Routes>
     )
 

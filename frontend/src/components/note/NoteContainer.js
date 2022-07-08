@@ -5,25 +5,31 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { readNotesByCategoryAsync, readAllNotesAsync, selectNotes, selectNoteStatus, deleteNoteAsync, setCreateOrUpdate, selectNoteAction } from '../../redux/notes/notesSlice'
+import { readNotesByCategoryAsync, readAllNotesAsync, selectNotes, selectNoteStatus, deleteNoteAsync } from '../../redux/notes/notesSlice'
 
-import { CircularProgress, Button } from '@mui/material'
+import { CircularProgress } from '@mui/material'
 
 // Components
 import Note from './Note'
-import { margin } from '@mui/system'
+import NoteMUI from './NoteMUI'
 
+const noteAPI = require('../../api/note-api')
 
 
 export default function NoteContainer() {
 
+  const [notes, setNotes] = useState([])
   const [error, setError] = useState()
+  // use this to pre select category in selector
+  const [selectedCategory, setSelectedCategory] = useState()
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const params = useParams()
   const categoryID = params.id
+
+
 
   const deleteNote = (id) => {
     dispatch(deleteNoteAsync(id))
@@ -36,12 +42,7 @@ export default function NoteContainer() {
   }
 
   const updateNote = (id) => {
-    dispatch(setCreateOrUpdate('update'))
-    // return navigate(`/dashboard/note/${id}`)
-  }
-
-  const showCreateNote = () => {
-    dispatch(setCreateOrUpdate('create'))
+    return navigate(`/dashboard/note/${id}`)
   }
 
   // const readNotesByCategory = async () => {
@@ -65,17 +66,8 @@ export default function NoteContainer() {
   if (notesStatus === 'succeeded') {
     return (
       <React.Fragment>
-        <Button 
-          onClick={showCreateNote}
-          variant="contained" 
-          color="dark"
-          style={{
-            width: '100%',
-            margin: '0 0 20px 0'
-          }}
-        >Create Note</Button>
         {notesArray.map(note => (
-          <Note
+          <NoteMUI
             note={note}
             id={note._id}
             title={note.noteTitle}
