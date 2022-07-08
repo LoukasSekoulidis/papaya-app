@@ -42,6 +42,7 @@ function isVerified(req, res, next) {
                 return;
             }
             else {
+                console.log(user)
                 if (user.confirmed == true) {
                     return next();
                 }

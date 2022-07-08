@@ -45,7 +45,7 @@ Authorization: {{testToken}}
 
 // Rufe den User mit userMail test@gmx.de ab. 
 ###
-GET http://localhost:8080/api/v1/user/62c7f1864dd986a38ebc2d5c
+GET http://localhost:8080/api/v1/user/62c807edd72919bf9db50c3e
 Authorization: {{testToken}}
 
 // Lege zweiten User an
@@ -62,13 +62,13 @@ Authorization: {{testToken}}
 
 // Ändere beim zweiten User den User-Name. Zur Selektion des Users verwende die userID.
 ###
-PUT http://localhost:8080/api/v1/user/update/62c7fb614a43efbb3315dea5
+PUT http://localhost:8080/api/v1/user/update/62c807edd72919bf9db50c3e
 Content-Type: application/json
 Authorization: {{testToken}}
 
 {
     "userName": "Udo",
-    "userMail": "sekoulidis.lukas@icloud.com"
+    "userMail": ""
 }
 
 // Rufe alle User ab. Es sollten 2 User zurückgegeben werden.

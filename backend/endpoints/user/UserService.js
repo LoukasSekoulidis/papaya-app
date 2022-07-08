@@ -22,7 +22,7 @@ function getUser(userID, callback) {
             return callback(err, null);
         }
         else if (!user) {
-            return callback(`No User -- ${userName} -- in Database`, null);
+            return callback(`No User -- ${userID} -- in Database`, null);
         }
         else {
             return callback(null, user);
@@ -67,10 +67,11 @@ function updateUser(userID, props, callback) {
             return callback(err)
         }
         else if (!user) {
-            return callback(`Problem finding User: User with given userMail -- ${userName} -- does not exist!`);
+            return callback(`Problem finding User: User with given userMail -- ${userID} -- does not exist!`);
         }
         else {
-            if (props.userMail !== undefined) {
+            if (props.userMail !== user.userMail) {
+                console.log('userMail was changed')
                 const token = jwt.sign({ userMail: props.userMail }, config.get('session.tokenKey'));
                 props.confirmed = false;
                 props.confirmationCode = token;
