@@ -65,7 +65,7 @@ export const login = async (mail, password) => {
         return ({
             ok: true,
             token: response.headers.get('Authorization'),
-            userName: responseJSON.userName,
+            userID: responseJSON.userID,
             error: null
         })
     } else {
@@ -102,9 +102,9 @@ export const verify = async (id) => {
     }
 }
 
-export const getUser = async (userName, token) => {
+export const getUser = async (id, token) => {
 
-    const url = `http://localhost:8080/api/v1/user/${userName}`
+    const url = `http://localhost:8080/api/v1/user/${id}`
 
     const response = await fetch(url, {
         method: 'GET', 
@@ -128,8 +128,8 @@ export const getUser = async (userName, token) => {
     }
 }
 
-export const update = async (token, userName, userMail, userPassword) => {
-    const url = `http://localhost:8080/api/v1/user/update/${userName}`
+export const update = async (token, id, userName, userMail, userPassword) => {
+    const url = `http://localhost:8080/api/v1/user/update/${id}`
 
     const response = await fetch(url, {
         method: 'PUT',
