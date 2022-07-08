@@ -16,7 +16,7 @@ Authorization: {{testToken}}
 # eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTWFpbCI6InNla291bGlkaXMubHVrYXNAaWNsb3VkLmNvbSIsImlhdCI6MTY1MzY0Mjg3OX0.iUKF6cDoDGZIo5qaT2FgR2b3IWwhu0LdBCXNLMjeJm4
 
 ###
-GET http://localhost:8080/api/v1/confirmation/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTWFpbCI6InNla291bGlkaXMubHVrYXNAaWNsb3VkLmNvbSIsImlhdCI6MTY1NDE3NzkzMn0.3P1Fd3qDOxZLWpKKU1Wh6if7Y2I0ZUMphWOuBHZh1iY
+GET http://localhost:8080/api/v1/confirmation/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTWFpbCI6InNla291bGlkaXMubHVrYXNAaWNsb3VkLmNvbSIsImlhdCI6MTY1NzI3MzExOX0.64IkAVBSoZI1hu97dsbZTJRv9f8VTo9CQn4cagtp0Oo
 
 
 ###
@@ -45,7 +45,7 @@ Authorization: {{testToken}}
 
 // Rufe den User mit userMail test@gmx.de ab. 
 ###
-GET http://localhost:8080/api/v1/user/Stephan
+GET http://localhost:8080/api/v1/user/62c7f1864dd986a38ebc2d5c
 Authorization: {{testToken}}
 
 // Lege zweiten User an
@@ -62,12 +62,13 @@ Authorization: {{testToken}}
 
 // Ändere beim zweiten User den User-Name. Zur Selektion des Users verwende die userID.
 ###
-PUT http://localhost:8080/api/v1/user/update/Manfred
+PUT http://localhost:8080/api/v1/user/update/62c7fb614a43efbb3315dea5
 Content-Type: application/json
 Authorization: {{testToken}}
 
 {
-    "userName": "Udo"
+    "userName": "Udo",
+    "userMail": "sekoulidis.lukas@icloud.com"
 }
 
 // Rufe alle User ab. Es sollten 2 User zurückgegeben werden.
