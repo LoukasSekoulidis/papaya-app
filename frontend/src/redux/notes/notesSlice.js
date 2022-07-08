@@ -74,6 +74,12 @@ export const updateNoteAsync = createAsyncThunk(
 export const notesSlice = createSlice({
     name: 'notes',
     initialState,
+    reducers: {
+        setCreateOrUpdate: (state, payload) => {
+            console.log(payload.payload)
+            state.action = payload.payload
+        }
+    },
     extraReducers: (builder) => {
         builder
             // readAllNotesAsync
@@ -156,11 +162,13 @@ export const notesSlice = createSlice({
     },
 })
 
-// export const {
-// } = notesSlice.actions
+export const {
+    setCreateOrUpdate
+} = notesSlice.actions
 
 export const selectNotes = (state) => state.notes.notes
 export const selectNoteStatus = (state) => state.notes.status
+export const selectNoteAction = (state) => state.notes.action
 
 export default notesSlice.reducer
 

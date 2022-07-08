@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -24,6 +24,8 @@ import UserWidget from '../user/UserWidget';
 
 import { selectCurrentCategoryName } from '../../redux/categories/categoriesSlice';
 import { useSelector } from 'react-redux';
+import { selectNoteAction } from '../../redux/notes/notesSlice';
+import FormUpdateNote from '../note/FormUpdateNote';
 
 
 const drawerWidth = 240;
@@ -84,7 +86,8 @@ const mdTheme = createTheme({
       contrastText: '#000'
     },
     dark: {
-      main: '#000'
+      main: '#000',
+      contrastText: '#fff'
     }
   }
 })
@@ -94,10 +97,36 @@ function DashboardContent() {
   const largeScreen = useMediaQuery(mdTheme.breakpoints.up('md'));
 
   const currentCategory = useSelector(selectCurrentCategoryName)
+  const noteAction = useSelector(selectNoteAction)
+
+  let noteActionComponent
 
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  const setNoteAction = () => {
+    switch (noteAction) {
+      case 'create':
+        console.log('create')
+        noteActionComponent = <FormCreateNote />
+        break;
+        case 'update':
+        console.log('update')
+        noteActionComponent = <FormUpdateNote />
+        break;
+      case 'none':
+        noteActionComponent = <></>
+        break;
+      default: 
+        break;
+    }
+  }
+
+  useEffect(() => {
+    setNoteAction()
+    console.log(' set note in use effect')
+  }, [noteAction]) 
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -130,7 +159,6 @@ function DashboardContent() {
               sx={{ flexGrow: 1 }}
             >
               { currentCategory }
-              {/* Home */}
             </Typography>
             <UserWidget />
           </Toolbar>
@@ -181,7 +209,7 @@ function DashboardContent() {
                 <NoteContainer />
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
-                <FormCreateNote />
+                { noteActionComponent }
               </Grid>
               
               
