@@ -5,27 +5,27 @@ var authenticationService = require('./AuthenticationService')
 var confirmationService = require('../confirmation/ConfirmationService')
 
 router.get('/', confirmationService.isVerified, (req, res, next) => {
-  if (typeof req.headers.authorization != "undefined") {
+    if (typeof req.headers.authorization != "undefined") {
 
-    authenticationService.createSessionTokenBasic(req.headers, (err, token, user) => {
-      if (token) {
-        res.header("Authorization", "Bearer " + token);
+        authenticationService.createSessionTokenBasic(req.headers, (err, token, user) => {
+            if (token) {
+                res.header("Authorization", "Bearer " + token);
 
-        if (user) {
-          res.status(200).json({userName: user.userName});
-        }
-        else {
-          res.status(400).json({ Error: 'Something went wrong:' + err });
-        }
-      }
-      else {
-        res.status(401).json({ Error: 'Failed to create Token: ' + err });
-      }
-    });
-  }
-  else {
-    res.status(400).json({ Error: 'Authorization is undefined in Header!' })
-  }
+                if (user) {
+                    res.status(200).json({ userID: user._id });
+                }
+                else {
+                    res.status(400).json({ err });
+                }
+            }
+            else {
+                res.status(401).json({ err });
+            }
+        });
+    }
+    else {
+        res.status(400).json({ Error: '101' })
+    }
 })
 
 module.exports = router;
