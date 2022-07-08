@@ -61,10 +61,6 @@ export default function FormCreateNote() {
 
     const note = value
 
-    console.log(title)
-    console.log(categoryID)
-    console.log(note)
-
     dispatch(createNoteAsync({ title: title, note: note, categoryID: categoryID }))
 
     titleRef.current.value = ''

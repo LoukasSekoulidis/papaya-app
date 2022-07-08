@@ -3,11 +3,20 @@ import { asyncLocalStorage } from "../components/misc/asyncLocalStorage"
 const LOCAL_STORAGE_KEY = 'papaya.token'
 
 const API_URL = 'http://localhost:8080/api/v1/note'
+
 const token = localStorage.getItem(LOCAL_STORAGE_KEY)
 
 
 export const create = async (title, note, categoryID) => {
+
+    console.log('inside api')
+
+    if(categoryID === '') {
+        categoryID = null
+    }
+
     const url = `${API_URL}/create`
+
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -20,6 +29,8 @@ export const create = async (title, note, categoryID) => {
             categoryID: categoryID
         })
     })
+
+    console.log(response)
 
     const responseJSON = await response.json()
     if (response.ok) {

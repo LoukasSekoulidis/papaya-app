@@ -36,6 +36,7 @@ export const readNotesByCategoryAsync = createAsyncThunk(
 export const createNoteAsync = createAsyncThunk(
     'notes/createNoteAsync',
     async ({ title, note, categoryID }, { rejectWithValue }) => {
+        console.log('inside async thunk')
         const response = await noteAPI.create(title, note, categoryID)
         if (response.response) {
             return response.note
