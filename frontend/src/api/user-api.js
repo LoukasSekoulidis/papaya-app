@@ -1,5 +1,4 @@
 // React Functions
-// import  { Navigate } from 'react-router-dom'
 
 // NPM imports
 import { Buffer } from 'buffer'
@@ -101,4 +100,62 @@ export const verify = async (id) => {
             error: responseJSON.Error
         })
     }
+}
+
+export const getUser = async (userName, token) => {
+
+    const url = `http://localhost:8080/api/v1/user/${userName}`
+
+    const response = await fetch(url, {
+        method: 'GET', 
+        headers: {
+            Authorization: token,
+        },
+    })
+
+    const json = await response.json()
+
+    if(response.ok){
+        return ({
+            ok: true,
+            user: json
+        })
+    } else {
+        return({
+            ok: false,
+            error: json
+        })
+    }
+}
+
+export const update = async (token, userName, userMail, userPassword) => {
+    const url = `http://localhost:8080/api/v1/user/update/${userName}`
+
+    const response = await fetch(url, {
+        method: 'PUT',
+        withCredentials: true,
+        headers: {
+            'Authorization': token,
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+            userName: userName,
+            userMail: userMail,
+            password: userPassword
+        })
+    })
+    const responseJSON = await response.json()
+
+    if (response.ok) {
+        return ({
+            ok: true,
+            updated: responseJSON
+        })
+    } else {
+        return ({
+            ok: false,
+            error: responseJSON.Error
+        })
+    }
+
 }

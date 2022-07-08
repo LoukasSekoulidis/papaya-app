@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -16,16 +16,20 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
+import { PaletteMode } from '@mui/material';
+
+
 import NoteContainer from '../note/NoteContainer'
 import DashboardCategories from './DashboardCategories'
 import DashboardGeneral from './DashboardGeneral'
 import FormCreateNote from '../note/FormCreateNote';
+import FormCreateNoteMUI from '../note/FormCreateNoteMUI'
 import UserWidget from '../user/UserWidget';
 
+
 import { selectCurrentCategoryName } from '../../redux/categories/categoriesSlice';
+import { selectApperance } from '../../redux/user/userSlice';
 import { useSelector } from 'react-redux';
-import { selectNoteAction } from '../../redux/notes/notesSlice';
-import FormUpdateNote from '../note/FormUpdateNote';
 
 
 const drawerWidth = 240;
@@ -86,53 +90,56 @@ const mdTheme = createTheme({
       contrastText: '#000'
     },
     dark: {
-      main: '#000',
-      contrastText: '#fff'
-    }
+      main: '#000'
+    },
+    // mode: 'dark'
   }
 })
+
+
+const getDesignTokens = (mode) => ({
+  palette: {
+    mode,
+    ...(mode === 'light'
+      ? {
+        neutral: {
+          main: '#fff',
+          contrastText: '#000'
+        },
+        dark: {
+          main: '#000'
+        },
+        }
+      : {
+        neutral: {
+          main: '#000',
+          contrastText: '#fff'
+        },
+        dark: {
+          main: '#fff'
+        },
+        }),
+  },
+});
 
 function DashboardContent() {
   const [open, setOpen] = useState(true);
   const largeScreen = useMediaQuery(mdTheme.breakpoints.up('md'));
 
   const currentCategory = useSelector(selectCurrentCategoryName)
-  const noteAction = useSelector(selectNoteAction)
-
-  let noteActionComponent
+  const apperance = useSelector(selectApperance)
 
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
-  const setNoteAction = () => {
-    switch (noteAction) {
-      case 'create':
-        console.log('create')
-        noteActionComponent = <FormCreateNote />
-        break;
-        case 'update':
-        console.log('update')
-        noteActionComponent = <FormUpdateNote />
-        break;
-      case 'none':
-        noteActionComponent = <></>
-        break;
-      default: 
-        break;
-    }
-  }
-
-  useEffect(() => {
-    setNoteAction()
-    console.log(' set note in use effect')
-  }, [noteAction]) 
+  const darkModeTheme = createTheme(getDesignTokens(apperance))
 
   return (
-    <ThemeProvider theme={mdTheme}>
+    <ThemeProvider theme={darkModeTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar style={{ background: '#ffffff' }} position="absolute" open={open}>
+        <AppBar color='neutral' position="absolute" open={open}>
           <Toolbar 
             sx={{
               pr: '24px', // keep right padding when drawer closed
@@ -141,9 +148,10 @@ function DashboardContent() {
           >
             <IconButton
               edge="start"
-              style={{ color: 'black' }}
+              // style={{ color: 'black' }}
               aria-label="open drawer"
               onClick={toggleDrawer}
+              color='dark'
               sx={{
                 marginRight: '36px',
                 ...(open && { display: 'none' }),
@@ -154,11 +162,12 @@ function DashboardContent() {
             <Typography
               component="h1"
               variant="h6"
-              color={'black'}
+              color='neutral'
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              { currentCategory }
+              { currentCategory ? currentCategory : 'Home'}
+              {/* Home */}
             </Typography>
             <UserWidget />
           </Toolbar>
@@ -173,7 +182,7 @@ function DashboardContent() {
               px: [1],
             }}
           >
-            <IconButton onClick={toggleDrawer}>
+            <IconButton onClick={toggleDrawer} color='dark' >
               <ChevronLeftIcon />
             </IconButton>
           </Toolbar>
@@ -209,7 +218,7 @@ function DashboardContent() {
                 <NoteContainer />
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
-                { noteActionComponent }
+                <FormCreateNoteMUI />
               </Grid>
               
               
