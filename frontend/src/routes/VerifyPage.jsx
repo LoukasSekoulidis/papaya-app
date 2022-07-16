@@ -2,6 +2,7 @@
 // eslint-disable-next-line
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import ReturnButton from '../components/misc/ReturnButton'
 
 // CSS 
 import "../style/main.css"
@@ -36,6 +37,7 @@ const VerifyPage = () => {
       <div className='info_container'>
         <h1>{response}</h1>
         <h3>Thanks for using our service!</h3>
+        <ReturnButton />
       </div>
   )
 }

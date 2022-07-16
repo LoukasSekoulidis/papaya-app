@@ -107,8 +107,13 @@ const getDesignTokens = (mode) => ({
           contrastText: '#000'
         },
         dark: {
-          main: '#000'
+          main: '#000',
+          contrastText: '#fff'
         },
+        red: {
+          main: '#e53935',
+          contrastText: '#fff'
+        }
         }
       : {
         neutral: {
@@ -116,8 +121,13 @@ const getDesignTokens = (mode) => ({
           contrastText: '#fff'
         },
         dark: {
-          main: '#fff'
+          main: '#fff',
+          contrastText: '#000'
         },
+        red: {
+          main: '#e53935',
+          contrastText: '#000'
+        }
         }),
   },
 });
