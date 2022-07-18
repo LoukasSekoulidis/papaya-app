@@ -15,11 +15,11 @@ router.get('/', confirmationService.isVerified, (req, res, next) => {
                     res.status(200).json({ userID: user._id });
                 }
                 else {
-                    res.status(400).json({ err });
+                    res.status(400).json({ Error: err });
                 }
             }
             else {
-                res.status(401).json({ err });
+                res.status(401).json({ Error: err });
             }
         });
     }
