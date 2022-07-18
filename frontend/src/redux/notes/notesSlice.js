@@ -7,12 +7,15 @@ const initialState = {
     status: null,
     error: null,
     currentNoteID: null,
-    action: ''
+    action: '',
 }
+
 
 export const readAllNotesAsync = createAsyncThunk(
     'notes/readAllNotesAsync',
     async (userData, { rejectWithValue }) => {
+
+        console.log('read all notes')
         const response = await noteAPI.read()
         if (response.response) {
             return response.notes
@@ -63,8 +66,11 @@ export const deleteNoteAsync = createAsyncThunk(
 
 export const updateNoteAsync = createAsyncThunk(
     'notes/updateNoteAsync',
-    async ({ id, noteTitle, noteInput, categoryTitle }, { rejectWithValue }) => {
-        const response = await noteAPI.update(id, noteTitle, noteInput, categoryTitle)
+    async ({ id, noteTitle, noteText, categoryTitle }, { rejectWithValue }) => {
+        
+        // console.log(id)
+        console.log('in update note async')
+        const response = await noteAPI.update(id, noteTitle, noteText, categoryTitle)
         // console.log(response)
         if (response.response) {
             return response
@@ -80,12 +86,15 @@ export const notesSlice = createSlice({
     initialState,
     reducers: {
         setCreateOrUpdate: (state, payload) => {
-            // console.log(payload.payload)
             state.action = payload.payload
         },
         setCurrentNoteID: (state, payload) => {
             // console.log(payload.payload)
             state.currentNoteID = payload.payload
+        },
+        setUpdateStatus: (state, payload) => {
+            console.log(payload.payload)
+            state.updating = payload.payload
         }
     },
     extraReducers: (builder) => {
@@ -174,7 +183,8 @@ export const notesSlice = createSlice({
 
 export const {
     setCreateOrUpdate,
-    setCurrentNoteID
+    setCurrentNoteID,
+    setUpdateStatus
 } = notesSlice.actions
 
 export const selectNotes = (state) => state.notes.notes

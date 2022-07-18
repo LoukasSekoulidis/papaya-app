@@ -56,7 +56,6 @@ export default function ContextMenuCategory({contextMenu, handleClose, categoryI
             color: ''
         }
 
-        
         dispatch(updateCategoryAsync(update))
         dispatch(readAllCategoriesAsync())
 

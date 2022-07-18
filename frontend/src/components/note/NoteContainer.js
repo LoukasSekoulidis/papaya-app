@@ -5,19 +5,19 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { readNotesByCategoryAsync, readAllNotesAsync, selectNotes, selectNoteStatus, deleteNoteAsync, setCreateOrUpdate } from '../../redux/notes/notesSlice'
+import { readNotesByCategoryAsync, readAllNotesAsync, selectNotes, selectNoteStatus, deleteNoteAsync, setCreateOrUpdate, selectNoteAction, selectUpdatingStatus } from '../../redux/notes/notesSlice'
 
 import { CircularProgress, Button } from '@mui/material'
 
 
 // Components
-import Note from './Note'
+// import Note from './Note'
 import NoteMUI from './NoteMUI'
 
 const noteAPI = require('../../api/note-api')
 
 
-export default function NoteContainer() {
+export default function NoteContainer({updated, setUpdated}) {
 
   const [notes, setNotes] = useState([])
   const [error, setError] = useState()
@@ -58,6 +58,18 @@ export default function NoteContainer() {
 
   const notesStatus = useSelector(selectNoteStatus)
   const notesArray = useSelector(selectNotes)
+    
+  useEffect(() => {
+    if(updated) {
+      if (categoryID === undefined) {
+        dispatch(readAllNotesAsync())
+      } else {
+        dispatch(readNotesByCategoryAsync(categoryID))
+      }
+      setUpdated(false)
+    }
+    // eslint-disable-next-line
+  }, [updated])
 
   useEffect(() => {
     if (categoryID === undefined) {
@@ -67,6 +79,8 @@ export default function NoteContainer() {
     }
     // eslint-disable-next-line
   }, [])
+
+
 
   if (notesStatus === 'succeeded') {
     return (

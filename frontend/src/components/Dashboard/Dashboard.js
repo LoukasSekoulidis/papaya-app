@@ -22,7 +22,7 @@ import { PaletteMode } from '@mui/material';
 import NoteContainer from '../note/NoteContainer'
 import DashboardCategories from './DashboardCategories'
 import DashboardGeneral from './DashboardGeneral'
-import FormCreateNote from '../note/FormCreateNote';
+// import FormCreateNote from '../note/FormCreateNote';
 import FormCreateNoteMUI from '../note/FormCreateNoteMUI'
 import FormUpdateNoteMUI from '../note/FormUpdateNoteMUI'
 import UserWidget from '../user/UserWidget'
@@ -132,24 +132,32 @@ function DashboardContent() {
   const apperance = useSelector(selectApperance)
 
   const noteAction = useSelector(selectNoteAction)
+  const [updated, setUpdated] = useState()
 
   const [currentShownWindow, setCurrentShownWindow] = useState()
-  const createWindow = <FormCreateNoteMUI />
-  const updateWindow = <FormUpdateNoteMUI />
+  const createWindow = <FormCreateNoteMUI/>
+  const updateWindow = <FormUpdateNoteMUI setUpdated={setUpdated}/>
 
   useEffect(() => {
     if (noteAction === 'create') {
+      // console.log('create window')
       setCurrentShownWindow(createWindow)
-    } else if(noteAction === 'update') {
+
+    } else if(noteAction.includes('update')) {
+      // console.log('update window')
       setCurrentShownWindow(updateWindow)
+
     } else {
       setCurrentShownWindow(null)
+      
     }
   }, [noteAction])
 
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+
 
   const darkModeTheme = createTheme(getDesignTokens(apperance))
 
@@ -233,7 +241,7 @@ function DashboardContent() {
           >
             <Grid container spacing={3} direction={largeScreen?"row":"column-reverse"}>
               <Grid item xs={12} md={6} lg={6}>
-                <NoteContainer />
+                <NoteContainer updated={updated} setUpdated={setUpdated}/>
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
                 {currentShownWindow}

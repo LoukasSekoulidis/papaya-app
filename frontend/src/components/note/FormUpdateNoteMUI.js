@@ -10,24 +10,23 @@ import { Box, TextField, FormControl, FormGroup, Select, Button, InputLabel, Inp
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
 import { selectApperance } from '../../redux/user/userSlice';
-import { createNoteAsync, selectCurrentNoteID, updateNoteAsync } from '../../redux/notes/notesSlice'
+import { createNoteAsync, selectCurrentNoteID, selectUpdatingStatus, updateNoteAsync } from '../../redux/notes/notesSlice'
 import { readAllCategoriesAsync, selectCategories, selectCategoriesStatus, selectCurrentCategory } from '../../redux/categories/categoriesSlice'
+import { selectNoteAction, readAllNotesAsync, setUpdateStatus } from '../../redux/notes/notesSlice'
+
 
 // API
 const noteAPI = require('../../api/note-api')
 const categoryAPI = require('../../api/category-api')
 
-export default function FormCreateNote() {
+export default function FormCreateNote({setUpdated}) {
   const dispatch = useDispatch()
 
   const categoryArray = useSelector(selectCategories)
   const categoriesStatus = useSelector(selectCategoriesStatus)
 
-  // const currentSelectedCategory = useSelector(selectCurrentCategory)
-
-
-  // for markdown
-  const [value, setValue] = useState('')
+  const [noteTitle, setNoteTitle] = useState('')
+  const [noteText, setNoteText] = useState('')
 
   const [error, setError] = useState()
 
@@ -35,23 +34,26 @@ export default function FormCreateNote() {
 
   const [selectedCategory, setSelectedCategory] = useState('')
 
+  const [updating, setUpdating] = useState('false')
+
   const apperance = useSelector(selectApperance)
 
   const currentNoteID = useSelector(selectCurrentNoteID)
+
+  const noteAction = useSelector(selectNoteAction)
+  // const updating = useSelector(selectUpdatingStatus)
 
   const getCategories = async () => {
     dispatch(readAllCategoriesAsync())
   }
 
   const getNote = async () => {
-    // console.log('get note')
-    // console.log(currentNoteID)
     const id = currentNoteID
     const apiRequest = await noteAPI.getNote(id)
 
     if(apiRequest){
-      titleRef.current.value = apiRequest.note.noteTitle
-      setValue(apiRequest.note.noteInput)
+      setNoteTitle(apiRequest.note.noteTitle)
+      setNoteText(apiRequest.note.noteInput)
     } else {
       setError(apiRequest.error)
     //   setShow(true)
@@ -61,32 +63,21 @@ export default function FormCreateNote() {
   useEffect(() => {
     getCategories()
     getNote()
-  }, [])
-
-  const titleRef = useRef()
+  }, [noteAction])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const title = titleRef.current.value
-    const categoryID = selectedCategory
+    const id = currentNoteID
+    const categoryTitle = selectedCategory
 
-    const note = value
-
-    // console.log(title)
-    // console.log(categoryID)
-    // console.log(note)
-
-    dispatch(updateNoteAsync({ id: currentNoteID,  title: title, note: note, categoryID: categoryID }))
-
-    titleRef.current.value = ''
-    setValue('')
-    setSelectedCategory('')
+    dispatch(updateNoteAsync({ id, noteTitle, noteText, categoryTitle }))
+    setUpdated(true)
+    dispatch(readAllNotesAsync())
   }
 
   const handleChange = (e) => {
     setSelectedCategory(e.target.value);
-    // console.log(e.target.value);
   }
 
 if(categoriesStatus === 'succeeded') {
@@ -99,7 +90,8 @@ if(categoriesStatus === 'succeeded') {
               id="username"
               name="username"
               label='Titel'
-              inputRef={titleRef}
+              value={noteTitle}
+              onChange={(e) => {setNoteTitle(e.target.value)}}
             />
         <FormGroup>
           <Select
@@ -125,8 +117,8 @@ if(categoriesStatus === 'succeeded') {
               placeholder: 'Please enter Markdown text',
             }}
             className='mt-3'
-            value={value}
-            onChange={setValue}
+            value={noteText}
+            onChange={setNoteText}
           />
         </FormGroup>
         <Button 
