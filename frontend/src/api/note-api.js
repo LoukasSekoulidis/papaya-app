@@ -2,14 +2,14 @@
 import { asyncLocalStorage } from "../components/misc/asyncLocalStorage"
 const LOCAL_STORAGE_KEY = 'papaya.token'
 
-const API_URL = 'http://localhost:8080/api/v1/note'
+// const API_URL = 'http://localhost:8080/api/v1/note'
+const API_URL = 'http://papaya-app.online/api/v1/note'
 
-const token = localStorage.getItem(LOCAL_STORAGE_KEY)
+
+// const token = localStorage.getItem(LOCAL_STORAGE_KEY)
 
 
-export const create = async (title, note, categoryID) => {
-
-    console.log('inside api')
+export const create = async (token, title, note, categoryID) => {
 
     if(categoryID === '') {
         categoryID = null
@@ -30,8 +30,6 @@ export const create = async (title, note, categoryID) => {
         })
     })
 
-    console.log(response)
-
     const responseJSON = await response.json()
     if (response.ok) {
         return ({
@@ -47,19 +45,16 @@ export const create = async (title, note, categoryID) => {
     }
 }
 
-export const read = async () => {
+export const read = async (token) => {
 
-    const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
+    // const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
 
-    if (!asyncToken) {
-        console.log('no token')
-    }
     const url = `${API_URL}/myNotes`
     const response = await fetch(url, {
         method: 'GET',
         withCredentials: true,
         headers: {
-            'Authorization': asyncToken
+            'Authorization': token
         },
     })
     const responseJSON = await response.json()
@@ -78,7 +73,7 @@ export const read = async () => {
     }
 }
 
-export const remove = async (id) => {
+export const remove = async (token, id) => {
     const url = `${API_URL}/delete/${id}`
     const response = await fetch(url, {
         method: 'DELETE',
@@ -100,10 +95,10 @@ export const remove = async (id) => {
     }
 }
 
-export const update = async (id, noteTitle, noteInput, categoryID) => {
+export const update = async (token, id, noteTitle, noteInput, categoryID) => {
     const url = `${API_URL}/update/${id}`
 
-    const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
+    // const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
     
 
     const response = await fetch(url, {
@@ -137,7 +132,7 @@ export const update = async (id, noteTitle, noteInput, categoryID) => {
 }
 
 
-export const getNote = async (id) => {
+export const getNote = async (token, id) => {
 
     const url = `${API_URL}/myNotes/${id}`
     const response = await fetch(url, {
@@ -164,7 +159,7 @@ export const getNote = async (id) => {
 
 export const getNotesByCategory = async (categoryID) => {
 
-    const api = 'http://localhost:8080/api/v1/category/getAll/'
+    const api = 'http://papaya-app.online/api/v1/category/getAll/'
     const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
 
     if (!asyncToken) {

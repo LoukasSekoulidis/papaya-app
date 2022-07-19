@@ -16,7 +16,6 @@ export const loginAsync = createAsyncThunk(
         if(response.ok) {
             const token = response.token
             const userID = response.userID
-    
             // localStorage.setItem('papaya.token', token)
     
             return { token, userID }
@@ -49,7 +48,6 @@ export const userSlice = createSlice({
             state.status = 'succeeded'
             state.token = payload.token
             state.showLoginDialog = false
-            console.log(payload)
             state.user = payload.userID
             state.error = null
           })

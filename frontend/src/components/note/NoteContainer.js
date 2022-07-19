@@ -45,12 +45,6 @@ export default function NoteContainer() {
     return navigate(`/dashboard/note/${id}`)
   }
 
-  // const readNotesByCategory = async () => {
-  //   const apiRequest = await noteAPI.getNotesByCategory(categoryID)
-  //   const notesFromResponse = apiRequest.notes
-  //   setNotes(notesFromResponse)
-  // }
-
   const notesStatus = useSelector(selectNoteStatus)
   const notesArray = useSelector(selectNotes)
 

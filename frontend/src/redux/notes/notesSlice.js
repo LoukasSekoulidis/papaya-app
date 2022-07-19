@@ -10,8 +10,10 @@ const initialState = {
 
 export const readAllNotesAsync = createAsyncThunk(
     'notes/readAllNotesAsync',
-    async (userData, { rejectWithValue }) => {
-        const response = await noteAPI.read()
+    async (userData, { rejectWithValue, getState }) => {
+        const token = getState().user.token
+
+        const response = await noteAPI.read(token)
         if (response.response) {
             return response.notes
         } else {
@@ -22,8 +24,10 @@ export const readAllNotesAsync = createAsyncThunk(
 
 export const readNotesByCategoryAsync = createAsyncThunk(
     'notes/readNotesByCategoryAsync',
-    async (categoryId, { rejectWithValue }) => {
-        const response = await noteAPI.getNotesByCategory(categoryId)
+    async (categoryId, { rejectWithValue, getState }) => {
+        const token = getState().user.token
+
+        const response = await noteAPI.getNotesByCategory(token, categoryId)
         if (response.response) {
             return response.notes
         } else {
@@ -35,9 +39,11 @@ export const readNotesByCategoryAsync = createAsyncThunk(
 
 export const createNoteAsync = createAsyncThunk(
     'notes/createNoteAsync',
-    async ({ title, note, categoryID }, { rejectWithValue }) => {
+    async ({ title, note, categoryID }, { rejectWithValue, getState }) => {
+        const token = getState().user.token
+
         console.log('inside async thunk')
-        const response = await noteAPI.create(title, note, categoryID)
+        const response = await noteAPI.create(token, title, note, categoryID)
         if (response.response) {
             return response.note
         } else {
@@ -48,8 +54,10 @@ export const createNoteAsync = createAsyncThunk(
 
 export const deleteNoteAsync = createAsyncThunk(
     'notes/deleteNoteAsync',
-    async (id, { rejectWithValue }) => {
-        const response = await noteAPI.remove(id)
+    async (id, { rejectWithValue, getState }) => {
+        const token = getState().user.token
+
+        const response = await noteAPI.remove(token, id)
         if (response.response) {
             return response
         } else {
@@ -60,8 +68,10 @@ export const deleteNoteAsync = createAsyncThunk(
 
 export const updateNoteAsync = createAsyncThunk(
     'notes/updateNoteAsync',
-    async ({ id, noteTitle, noteInput, categoryTitle }, { rejectWithValue }) => {
-        const response = await noteAPI.update(id, noteTitle, noteInput, categoryTitle)
+    async ({ id, noteTitle, noteInput, categoryTitle }, { rejectWithValue, getState }) => {
+        const token = getState().user.token
+
+        const response = await noteAPI.update(token, id, noteTitle, noteInput, categoryTitle)
         console.log(response)
         if (response.response) {
             return response

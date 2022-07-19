@@ -13,8 +13,9 @@ const initialState = {
 
 export const readAllCategoriesAsync = createAsyncThunk(
     'categories/readAllCategoriesAsync',
-    async (userData, { rejectWithValue }) => {
-        const response = await categoryAPI.read()
+    async (userData, { rejectWithValue, getState }) => {
+        const token = getState().user.token
+        const response = await categoryAPI.read(token)
         if (response.response) {
             return response.categories
         } else {
@@ -25,8 +26,9 @@ export const readAllCategoriesAsync = createAsyncThunk(
 
 export const createCategoryAsync = createAsyncThunk(
     'categories/createCategoryAsync',
-    async (title, { rejectWithValue }) => {
-        const response = await categoryAPI.create(title)
+    async (title, { rejectWithValue, getState }) => {
+        const token = getState().user.token
+        const response = await categoryAPI.create(token, title)
         if (response.error) {
             return rejectWithValue(response.error)
         }
@@ -36,8 +38,9 @@ export const createCategoryAsync = createAsyncThunk(
 
 export const updateCategoryAsync = createAsyncThunk(
     'categories/updateCategoryAsync',
-    async (update, { rejectWithValue }) => {
-        const response = await categoryAPI.update(update.id, update.title, update.color)
+    async (update, { rejectWithValue, getState }) => {
+        const token = getState().user.token
+        const response = await categoryAPI.update(token, update.id, update.title, update.color)
         if (response.response) {
             return response.updated
         } else {
@@ -48,8 +51,9 @@ export const updateCategoryAsync = createAsyncThunk(
 
 export const deleteCategoryAsync = createAsyncThunk(
     'categories/deleteCategoryAsync',
-    async (id, { rejectWithValue }) => {
-        const response = await categoryAPI.remove(id)
+    async (id, { rejectWithValue, getState }) => {
+        const token = getState().user.token
+        const response = await categoryAPI.remove(token, id)
         if (response.response) {
             return response
         } else {
@@ -89,7 +93,7 @@ export const categoriesSlice = createSlice({
                 state.error = null
             })
             .addCase(readAllCategoriesAsync.rejected, (state, error) => {
-                // console.log('rejected')
+                console.log('read cat - rejected')
                 state.status = 'failed'
                 state.error = error.error.message
             })
@@ -105,7 +109,7 @@ export const categoriesSlice = createSlice({
                 state.error = null
             })
             .addCase(createCategoryAsync.rejected, (state, error) => {
-                // console.log('rejected')
+                console.log('create cat - rejected')
                 state.status = 'failed'
                 state.error = error.error.message
             })

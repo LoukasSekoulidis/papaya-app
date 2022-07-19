@@ -5,6 +5,8 @@ import { Buffer } from 'buffer'
 
 const LOCAL_STORAGE_KEY = 'papaya.token'
 
+const API_URL = 'http://papaya-app.online/api/v1/user'
+
 const encodeLoginData = (userMail, password) => {
     let data = `${userMail}:${password}` // usermail:password
     let encodedData = Buffer.from(data, 'ascii').toString('base64')
@@ -17,8 +19,8 @@ const saveToken = async (response) => {
 }
 
 export const createUser = async (mail, userName, password) => {
-    const API_URL = 'http://localhost:8080/api/v1/user/create'
-    const response = await fetch(API_URL, {
+    const url = `${API_URL}/create`
+    const response = await fetch(url, {
         method: 'POST',
         headers: {
             'content-type': 'application/json',
@@ -49,8 +51,8 @@ export const login = async (mail, password) => {
     const encodedData = encodeLoginData(mail, password)
     const authString = `Basic ${encodedData}`
 
-    const API_URL = 'http://localhost:8080/api/v1/login/'
-    const response = await fetch(API_URL, {
+    const url = 'http://papaya-app.online/api/v1/login/'
+    const response = await fetch(url, {
         method: 'GET', 
         headers: {
             Authorization: authString,
@@ -81,8 +83,8 @@ export const logout = () => {
 }
 
 export const verify = async (id) => {
-    const API_URL = `http://localhost:8080/api/v1/confirmation/${id}`
-    const response = await fetch(API_URL, {
+    const url = `http://papaya-app.online/api/v1/confirmation/${id}`
+    const response = await fetch(url, {
         method: 'GET',
     })
 
@@ -104,7 +106,9 @@ export const verify = async (id) => {
 
 export const getUser = async (id, token) => {
 
-    const url = `http://localhost:8080/api/v1/user/${id}`
+    // const url = `http://127.0.0.1:8080/api/v1/user/${id}`
+    const url = `${API_URL}/${id}`
+
 
     const response = await fetch(url, {
         method: 'GET', 
@@ -129,7 +133,10 @@ export const getUser = async (id, token) => {
 }
 
 export const update = async (token, id, userName, userMail, userPassword) => {
-    const url = `http://localhost:8080/api/v1/user/update/${id}`
+    
+    // const url = `http://127.0.0.1:8080/api/v1/user/update/${id}`
+    const url = `${API_URL}/update/${id}`
+    
 
     const response = await fetch(url, {
         method: 'PUT',

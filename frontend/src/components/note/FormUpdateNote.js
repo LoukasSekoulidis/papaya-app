@@ -1,13 +1,15 @@
 // React Functions
 import { React, useRef, useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import MDEditor from '@uiw/react-md-editor'
 
-
+import { selectToken } from '../../redux/user/userSlice'
 
 // CSS
 import { Button, Container, Alert } from 'react-bootstrap'
 import Form from 'react-bootstrap/Form'
+import ReturnButton from '../misc/ReturnButton'
 
 // API 
 const noteAPI = require('../../api/note-api')
@@ -16,6 +18,8 @@ const categoryAPI = require('../../api/category-api')
 
 
 export default function FormUpdateNote() {
+
+  const token = useSelector(selectToken)
 
   const [error, setError] = useState()
 
@@ -35,7 +39,8 @@ export default function FormUpdateNote() {
 
   const getNote = async () => {
     const id = params.id
-    const apiRequest = await noteAPI.getNote(id)
+    const apiRequest = await noteAPI.getNote(token, id)
+
 
     if(apiRequest){
       titleRef.current.value = apiRequest.note.noteTitle
@@ -55,7 +60,7 @@ export default function FormUpdateNote() {
       const note = value
 
 
-      const apiRequest = await noteAPI.update(params.id, title, note, categoryID)
+      const apiRequest = await noteAPI.update(token, params.id, title, note, categoryID)
 
       if (apiRequest.response) {
         return navigate(`/dashboard`)
@@ -66,7 +71,7 @@ export default function FormUpdateNote() {
   }
 
   const getCategories = async () => {
-    const apiRequest = await categoryAPI.read()
+    const apiRequest = await categoryAPI.read(token)
 
     if(apiRequest.response) {
         const categoriesFromResponse = apiRequest.categories
@@ -89,6 +94,7 @@ export default function FormUpdateNote() {
   return (
     <Container data-color-mode="light">
       <h2 className='mt-3'>Update a Note</h2>
+      <ReturnButton />
       <Form onSubmit={handleSubmit}>
         <Form.Group className='mt-3 mb-3' controlId="form.Name">
             <Form.Control ref={titleRef} type="text" placeholder="Enter title" />
