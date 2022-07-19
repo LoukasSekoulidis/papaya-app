@@ -77,11 +77,9 @@ function getByOwnerID(header, callback) {
     }
     Note.find({ ownerID: tokenInfos.userMail }, function (err, note) {
         if (err) {
-            console.log('304' + err)
-            return callback(err, null)
+            return callback('304', null)
         }
         else {
-            console.log('Notiz mit OwnerID gefunden.' + note)
             return callback(null, note)
         }
     })
@@ -90,11 +88,9 @@ function getByOwnerID(header, callback) {
 function getByNoteID(noteID, callback) {
     Note.findById(noteID, function (err, note) {
         if (err || note === null) {
-            console.log('305' + err)
-            return callback(err, null)
+            return callback('305', null)
         }
         else {
-            console.log('Notiz mit NotizID gefunden: ' + note)
             return callback(null, note)
         }
     })
@@ -145,11 +141,9 @@ function updateNote(noteID, props, callback) {
 function deleteNote(noteID, callback) {
     Note.findByIdAndDelete(noteID, function (err, note) {
         if (err) {
-            console.log('Notiz nicht gelöscht.' + err)
             return callback('308', null)
         }
         else {
-            console.log('Notiz gelöscht.')
             return callback(null, note)
         }
     })

@@ -22,7 +22,6 @@ function createCategory(props, callback) {
         if (err) {
             callback('202', null)
         } else {
-            console.log('New category created!')
             callback(null, category)
         }
     })
@@ -31,7 +30,7 @@ function createCategory(props, callback) {
 function updateCategory(categoryID, props, callback) {
     Category.findOne({ _id: categoryID }, function (err, category) {
         if (err) {
-            return callback(err)
+            return callback('203')
         }
         else if (!category) {
             return callback('203');
@@ -53,8 +52,7 @@ function updateCategory(categoryID, props, callback) {
 function deleteCategory(categoryID, callback) {
     Category.findOneAndDelete({ _id: categoryID }, function (err, category) {
         if (err) {
-            console.log('205' + err)
-            return callback(err, null)
+            return callback('205', null)
         }
         else {
             return callback(null, category)
@@ -78,7 +76,7 @@ function getAllChildrenOf(categoryID, callback) {
     Note.find({ categoryID: categoryID }, function (err, notes) {
         Category.find({ categoryTitle: categoryID }, function (err, category) {
             if (err) {
-                return callback('207' + categoryID);
+                return callback('207');
             }
             else {
                 if (err) {

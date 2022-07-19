@@ -8,7 +8,7 @@ const nodeMailer = require('../confirmation/ConfirmationMailer');
 function getUsers(callback) {
     userModel.find((err, users) => {
         if (err) {
-            return callback(err, null);
+            return callback('401', null);
         }
         else {
             return callback(null, users);
@@ -19,10 +19,10 @@ function getUsers(callback) {
 function getUser(userID, callback) {
     userModel.findById(userID, (err, user) => {
         if (err) {
-            return callback(err, null);
+            return callback('401', null);
         }
         else if (!user) {
-            return callback(`No User -- ${userID} -- in Database`, null);
+            return callback('401', null);
         }
         else {
             return callback(null, user);
@@ -42,13 +42,13 @@ function createUser(props, callback) {
     });
     newUser.save((err, user) => {
         if (err && err.code === 11000) {
-            return callback('Duplicate Key Error: User with given userMail already exists!', null);
+            return callback('402', null);
         }
         else if (err && err.name === 'ValidationError') {
-            return callback('Validation Error: Required attribute Missing: ' + err, null);
+            return callback('403' + err, null);
         }
         else if (err) {
-            return callback(err, null);
+            return callback('404', null);
         }
         else {
             nodeMailer.sendConfirmationMail(
@@ -64,10 +64,10 @@ function createUser(props, callback) {
 function updateUser(userID, props, callback) {
     userModel.findById(userID, function (err, user) {
         if (err) {
-            return callback(err)
+            return callback('401')
         }
         else if (!user) {
-            return callback(`Problem finding User: User with given userMail -- ${userID} -- does not exist!`);
+            return callback('401');
         }
         else {
             if (props.userMail !== user.userMail) {
@@ -88,7 +88,7 @@ function updateUser(userID, props, callback) {
             }
             user.save((err) => {
                 if (err) {
-                    return callback('Problem saving User: ' + err, null);
+                    return callback('405', null);
                 }
                 else {
                     return callback(null, user);
@@ -104,7 +104,7 @@ function deleteUser(userID, callback) {
             return callback(err);
         }
         else if (!deletetUser) {
-            return callback('Error deleting User: No user in database with given userName: ' + userName);
+            return callback('406');
         }
         else {
             return callback(null, userName);
