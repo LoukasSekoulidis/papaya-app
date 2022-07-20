@@ -17,7 +17,7 @@ const saveToken = async (response) => {
 }
 
 export const createUser = async (mail, userName, password) => {
-    const API_URL = 'http://localhost:8080/api/v1/user/create'
+    const API_URL = 'https://localhost:443/api/v1/user/create'
     const response = await fetch(API_URL, {
         method: 'POST',
         headers: {
@@ -32,13 +32,13 @@ export const createUser = async (mail, userName, password) => {
 
     const responseJSON = await response.json()
 
-    if (response.ok){
+    if (response.ok) {
         return ({
             response: true,
             error: null
         })
     } else {
-        return({
+        return ({
             response: false,
             error: responseJSON.Error
         })
@@ -49,9 +49,9 @@ export const login = async (mail, password) => {
     const encodedData = encodeLoginData(mail, password)
     const authString = `Basic ${encodedData}`
 
-    const API_URL = 'http://localhost:8080/api/v1/login/'
+    const API_URL = 'https://localhost:443/api/v1/login/'
     const response = await fetch(API_URL, {
-        method: 'GET', 
+        method: 'GET',
         headers: {
             Authorization: authString,
         },
@@ -61,7 +61,7 @@ export const login = async (mail, password) => {
 
     const responseJSON = await response.json()
 
-    if (response.ok){
+    if (response.ok) {
         return ({
             ok: true,
             token: response.headers.get('Authorization'),
@@ -69,7 +69,7 @@ export const login = async (mail, password) => {
             error: null
         })
     } else {
-        return({
+        return ({
             response: false,
             error: responseJSON.Error
         })
@@ -81,21 +81,21 @@ export const logout = () => {
 }
 
 export const verify = async (id) => {
-    const API_URL = `http://localhost:8080/api/v1/confirmation/${id}`
+    const API_URL = `https://localhost:443/api/v1/confirmation/${id}`
     const response = await fetch(API_URL, {
         method: 'GET',
     })
 
     const responseJSON = await response.json()
 
-    if (response.ok){
+    if (response.ok) {
         return ({
             response: true,
             error: null,
             user: responseJSON.userName
         })
     } else {
-        return({
+        return ({
             response: false,
             error: responseJSON.Error
         })
@@ -104,10 +104,10 @@ export const verify = async (id) => {
 
 export const getUser = async (id, token) => {
 
-    const url = `http://localhost:8080/api/v1/user/${id}`
+    const url = `https://localhost:443/api/v1/user/${id}`
 
     const response = await fetch(url, {
-        method: 'GET', 
+        method: 'GET',
         headers: {
             Authorization: token,
         },
@@ -115,13 +115,13 @@ export const getUser = async (id, token) => {
 
     const json = await response.json()
 
-    if(response.ok){
+    if (response.ok) {
         return ({
             ok: true,
             user: json
         })
     } else {
-        return({
+        return ({
             ok: false,
             error: json
         })
@@ -129,7 +129,7 @@ export const getUser = async (id, token) => {
 }
 
 export const update = async (token, id, userName, userMail, userPassword) => {
-    const url = `http://localhost:8080/api/v1/user/update/${id}`
+    const url = `https://localhost:443/api/v1/user/update/${id}`
 
     const response = await fetch(url, {
         method: 'PUT',
