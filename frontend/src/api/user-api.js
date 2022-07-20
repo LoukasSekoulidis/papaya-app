@@ -5,6 +5,8 @@ import { Buffer } from 'buffer'
 
 const LOCAL_STORAGE_KEY = 'papaya.token'
 
+const API_URL = 'http://papaya-app.online/api/v1/user'
+
 const encodeLoginData = (userMail, password) => {
     let data = `${userMail}:${password}` // usermail:password
     let encodedData = Buffer.from(data, 'ascii').toString('base64')
@@ -17,8 +19,8 @@ const saveToken = async (response) => {
 }
 
 export const createUser = async (mail, userName, password) => {
-    const API_URL = 'https://localhost:443/api/v1/user/create'
-    const response = await fetch(API_URL, {
+    const url = `${API_URL}/create`
+    const response = await fetch(url, {
         method: 'POST',
         headers: {
             'content-type': 'application/json',
@@ -32,13 +34,13 @@ export const createUser = async (mail, userName, password) => {
 
     const responseJSON = await response.json()
 
-    if (response.ok) {
+    if (response.ok){
         return ({
             response: true,
             error: null
         })
     } else {
-        return ({
+        return({
             response: false,
             error: responseJSON.Error
         })
@@ -49,9 +51,9 @@ export const login = async (mail, password) => {
     const encodedData = encodeLoginData(mail, password)
     const authString = `Basic ${encodedData}`
 
-    const API_URL = 'https://localhost:443/api/v1/login/'
-    const response = await fetch(API_URL, {
-        method: 'GET',
+    const url = 'http://papaya-app.online/api/v1/login/'
+    const response = await fetch(url, {
+        method: 'GET', 
         headers: {
             Authorization: authString,
         },
@@ -61,7 +63,7 @@ export const login = async (mail, password) => {
 
     const responseJSON = await response.json()
 
-    if (response.ok) {
+    if (response.ok){
         return ({
             ok: true,
             token: response.headers.get('Authorization'),
@@ -69,7 +71,7 @@ export const login = async (mail, password) => {
             error: null
         })
     } else {
-        return ({
+        return({
             response: false,
             error: responseJSON.Error
         })
@@ -81,21 +83,21 @@ export const logout = () => {
 }
 
 export const verify = async (id) => {
-    const API_URL = `https://localhost:443/api/v1/confirmation/${id}`
-    const response = await fetch(API_URL, {
+    const url = `http://papaya-app.online/api/v1/confirmation/${id}`
+    const response = await fetch(url, {
         method: 'GET',
     })
 
     const responseJSON = await response.json()
 
-    if (response.ok) {
+    if (response.ok){
         return ({
             response: true,
             error: null,
             user: responseJSON.userName
         })
     } else {
-        return ({
+        return({
             response: false,
             error: responseJSON.Error
         })
@@ -104,10 +106,12 @@ export const verify = async (id) => {
 
 export const getUser = async (id, token) => {
 
-    const url = `https://localhost:443/api/v1/user/${id}`
+    // const url = `http://127.0.0.1:8080/api/v1/user/${id}`
+    const url = `${API_URL}/${id}`
+
 
     const response = await fetch(url, {
-        method: 'GET',
+        method: 'GET', 
         headers: {
             Authorization: token,
         },
@@ -115,13 +119,13 @@ export const getUser = async (id, token) => {
 
     const json = await response.json()
 
-    if (response.ok) {
+    if(response.ok){
         return ({
             ok: true,
             user: json
         })
     } else {
-        return ({
+        return({
             ok: false,
             error: json
         })
@@ -129,7 +133,10 @@ export const getUser = async (id, token) => {
 }
 
 export const update = async (token, id, userName, userMail, userPassword) => {
-    const url = `https://localhost:443/api/v1/user/update/${id}`
+    
+    // const url = `http://127.0.0.1:8080/api/v1/user/update/${id}`
+    const url = `${API_URL}/update/${id}`
+    
 
     const response = await fetch(url, {
         method: 'PUT',

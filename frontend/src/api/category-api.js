@@ -1,28 +1,23 @@
-// import { useSelector } from 'react-redux'
-// import { selectToken  } from './redux/user/userSlice'
-
 import { asyncLocalStorage } from "../components/misc/asyncLocalStorage"
 
-const API_URL = 'http://localhost:8080/api/v1/category'
+const API_URL = 'http://papaya-app.online/api/v1/category'
 
-const LOCAL_STORAGE_KEY = 'papaya.token'
+// const LOCAL_STORAGE_KEY = 'papaya.token'
+// const token = localStorage.getItem(LOCAL_STORAGE_KEY)
 
-const token = localStorage.getItem(LOCAL_STORAGE_KEY)
+export const read = async (token) => {
 
-export const read = async () => {
-    const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
+    // const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
     
-    if(!asyncToken){
-        console.log('no token')
-    }
     const url = `${API_URL}`
     const response = await fetch(url, {
         method: 'GET',
         withCredentials: true,
         headers: {
-            'Authorization': asyncToken
+            'Authorization': token
         },
     })
+
     const responseJSON = await response.json()
 
     if (response.ok){
@@ -39,8 +34,8 @@ export const read = async () => {
     }
 }
 
-export const create = async (title) => {
-    console.log(title)
+export const create = async (token, title) => {
+
     const url = `${API_URL}/create`
     const response = await fetch(url, {
         method: 'POST',
@@ -68,7 +63,7 @@ export const create = async (title) => {
     }
 }
 
-export const update = async (id, title, color) => {
+export const update = async (token, id, title, color) => {
 
     const url = `${API_URL}/update/${id}`
     const response = await fetch(url, {
@@ -98,7 +93,7 @@ export const update = async (id, title, color) => {
     }
 }
 
-export const remove = async (id) => {
+export const remove = async (token, id) => {
     const url = `${API_URL}/delete/${id}`
     const response = await fetch(url, {
         method: 'DELETE',

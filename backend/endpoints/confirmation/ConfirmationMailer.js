@@ -24,7 +24,7 @@ function sendConfirmationMail(name, email, confirmationCode) {
       `<h1>Email Confirmation</h1>
         <h2>Hello ${name}</h2>
         <p>Please confirm your Papaya account by clicking on the following link</p>
-        <a href=http://localhost:3000/verify/${confirmationCode}> Click here</a>
+        <a href=http://papaya-app.online/verify/${confirmationCode}> Click here</a>
         </div>`,
   }).catch(err => console.log(err));
 }

@@ -13,13 +13,12 @@ export const loginAsync = createAsyncThunk(
     async (userData, { rejectWithValue }) => {
         const response = await userAPI.login(userData.mail, userData.password)
 
-        if (response.ok) {
+        if(response.ok) {
             const token = response.token
-            const userName = response.userName
-
+            const userID = response.userID
             // localStorage.setItem('papaya.token', token)
-
-            return { token, userName }
+    
+            return { token, userID }
         } else {
             console.log('error')
             return rejectWithValue(response.error)
@@ -40,35 +39,35 @@ export const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(loginAsync.pending, (state) => {
-                // console.log('pending')
-                state.status = 'loading'
-            })
-            .addCase(loginAsync.fulfilled, (state, { payload }) => {
-                // console.log(`fulfilled`)
-                state.status = 'succeeded'
-                state.token = payload.token
-                state.showLoginDialog = false
-                state.user = payload.userName
-                state.error = null
-            })
-            .addCase(loginAsync.rejected, (state, error) => {
-                // console.log('rejected')
-                state.status = 'failed'
-                state.error = error.payload
-                console.log(state.error)
-            })
+          .addCase(loginAsync.pending, (state) => {
+            // console.log('pending')
+            state.status = 'loading'
+          })
+          .addCase(loginAsync.fulfilled, (state, { payload }) => {
+            // console.log(`fulfilled`)
+            state.status = 'succeeded'
+            state.token = payload.token
+            state.showLoginDialog = false
+            state.user = payload.userID
+            state.error = null
+          })
+          .addCase(loginAsync.rejected, (state, error) => {
+            // console.log('rejected')
+            state.status = 'failed'
+            state.error = error.payload
+            console.log(state.error)
+          })
     },
 })
 
-export const {
+export const { 
     logout,
-    setApperance
+    setApperance 
 } = userSlice.actions
 
 export const selectToken = (state) => state.user.token
 export const selectError = (state) => state.user.error
 export const selectApperance = (state) => state.user.apperance
-export const selectUserName = (state) => state.user.user
+export const selectUserID = (state) => state.user.user
 
 export default userSlice.reducer;

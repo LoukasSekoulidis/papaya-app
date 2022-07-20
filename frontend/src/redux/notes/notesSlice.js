@@ -4,21 +4,16 @@ const noteAPI = require('../../api/note-api')
 
 const initialState = {
     notes: null,
-    error: null,
-    currentNoteID: null,
-    action: '',
-
     status: null,
-    updateFulfilledStatus: false,
+    error: null,
 }
-
 
 export const readAllNotesAsync = createAsyncThunk(
     'notes/readAllNotesAsync',
-    async (userData, { rejectWithValue }) => {
+    async (userData, { rejectWithValue, getState }) => {
+        const token = getState().user.token
 
-        console.log('read all notes')
-        const response = await noteAPI.read()
+        const response = await noteAPI.read(token)
         if (response.response) {
             return response.notes
         } else {
@@ -29,8 +24,10 @@ export const readAllNotesAsync = createAsyncThunk(
 
 export const readNotesByCategoryAsync = createAsyncThunk(
     'notes/readNotesByCategoryAsync',
-    async (categoryId, { rejectWithValue }) => {
-        const response = await noteAPI.getNotesByCategory(categoryId)
+    async (categoryId, { rejectWithValue, getState }) => {
+        const token = getState().user.token
+
+        const response = await noteAPI.getNotesByCategory(token, categoryId)
         if (response.response) {
             return response.notes
         } else {
@@ -42,10 +39,11 @@ export const readNotesByCategoryAsync = createAsyncThunk(
 
 export const createNoteAsync = createAsyncThunk(
     'notes/createNoteAsync',
-    async ({ title, note, categoryID }, { rejectWithValue }) => {
-        // console.log('create note async')
-        const response = await noteAPI.create(title, note, categoryID)
-        // console.log(response)
+    async ({ title, note, categoryID }, { rejectWithValue, getState }) => {
+        const token = getState().user.token
+
+        console.log('inside async thunk')
+        const response = await noteAPI.create(token, title, note, categoryID)
         if (response.response) {
             return response.note
         } else {
@@ -56,8 +54,10 @@ export const createNoteAsync = createAsyncThunk(
 
 export const deleteNoteAsync = createAsyncThunk(
     'notes/deleteNoteAsync',
-    async (id, { rejectWithValue }) => {
-        const response = await noteAPI.remove(id)
+    async (id, { rejectWithValue, getState }) => {
+        const token = getState().user.token
+
+        const response = await noteAPI.remove(token, id)
         if (response.response) {
             return response
         } else {
@@ -68,12 +68,11 @@ export const deleteNoteAsync = createAsyncThunk(
 
 export const updateNoteAsync = createAsyncThunk(
     'notes/updateNoteAsync',
-    async ({ id, noteTitle, noteText, categoryTitle }, { rejectWithValue }) => {
+    async ({ id, noteTitle, noteInput, categoryTitle }, { rejectWithValue, getState }) => {
+        const token = getState().user.token
 
-        // console.log(id)
-        console.log('in update note async')
-        const response = await noteAPI.update(id, noteTitle, noteText, categoryTitle)
-        // console.log(response)
+        const response = await noteAPI.update(token, id, noteTitle, noteInput, categoryTitle)
+        console.log(response)
         if (response.response) {
             return response
         } else {
@@ -88,15 +87,8 @@ export const notesSlice = createSlice({
     initialState,
     reducers: {
         setCreateOrUpdate: (state, payload) => {
-            state.action = payload.payload
-        },
-        setCurrentNoteID: (state, payload) => {
-            // console.log(payload.payload)
-            state.currentNoteID = payload.payload
-        },
-        setUpdateStatus: (state, payload) => {
             console.log(payload.payload)
-            state.updating = payload.payload
+            state.action = payload.payload
         }
     },
     extraReducers: (builder) => {
@@ -119,11 +111,9 @@ export const notesSlice = createSlice({
             })
             // createNoteAsync
             .addCase(createNoteAsync.pending, (state) => {
-                // console.log('pending create')
                 state.status = 'loading'
             })
             .addCase(createNoteAsync.fulfilled, (state, { payload }) => {
-                // console.log('success create')
                 state.notes = [...state.notes, payload]
                 state.status = 'succeeded'
                 state.error = null
@@ -169,37 +159,27 @@ export const notesSlice = createSlice({
             .addCase(updateNoteAsync.pending, (state) => {
                 console.log('pending')
                 state.status = 'loading'
-                state.updateFulfilledStatus = false
             })
             .addCase(updateNoteAsync.fulfilled, (state, { payload }) => {
                 console.log('fulfilled')
                 state.status = 'succeeded'
                 state.error = null
-                state.updateFulfilledStatus = true
             })
             .addCase(updateNoteAsync.rejected, (state, error) => {
                 console.log('rejected')
                 state.status = 'failed'
                 state.error = error.error.message
-                state.updateFulfilledStatus = true
             })
     },
 })
 
 export const {
-    setCreateOrUpdate,
-    setCurrentNoteID,
-    setUpdateStatus
+    setCreateOrUpdate
 } = notesSlice.actions
 
 export const selectNotes = (state) => state.notes.notes
 export const selectNoteStatus = (state) => state.notes.status
 export const selectNoteAction = (state) => state.notes.action
-export const selectCurrentNoteID = (state) => state.notes.currentNoteID
-
-export const selectUpdateStatus = (state) => state.notes.updateFulfilledStatus
-
-
 
 export default notesSlice.reducer
 

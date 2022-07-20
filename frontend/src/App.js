@@ -14,15 +14,16 @@ import { selectToken  } from './redux/user/userSlice'
 
 // import ProtectedRoute from './routes/ProtectedRoute'
 
-const LOCAL_STORAGE_KEY = 'papaya.token'
+// const LOCAL_STORAGE_KEY = 'papaya.token'
 
 
 const App = () => {
 
   const tokenStore = useSelector(selectToken)
-  const tokenLocalStorage = localStorage.getItem(LOCAL_STORAGE_KEY)
+  // const tokenLocalStorage = localStorage.getItem(LOCAL_STORAGE_KEY)
 
-  if(tokenStore || tokenLocalStorage) {
+  // if(tokenStore || tokenLocalStorage) {
+  if(tokenStore) {
     return (
       <Routes>
         <Route path='*' element={<NotFoundPage />} />

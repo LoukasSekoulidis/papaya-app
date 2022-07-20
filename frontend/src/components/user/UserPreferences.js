@@ -48,7 +48,8 @@ const UserPreferences = () => {
   const [colorHeadline, setColorHeadline] = useState()
 
   // const token = useSelector(selectToken) 
-  const token = localStorage.getItem(LOCAL_STORAGE_KEY)
+  // const token = localStorage.getItem(LOCAL_STORAGE_KEY)
+  const token = useSelector(selectToken)
   const userID = useSelector(selectUserID)
   const apperance = useSelector(selectApperance)
   const navigate = useNavigate()
