@@ -2,21 +2,19 @@
 import { asyncLocalStorage } from "../components/misc/asyncLocalStorage"
 const LOCAL_STORAGE_KEY = 'papaya.token'
 
-const API_URL = 'https://localhost:443/api/v1/note'
-
+const API_URL = 'http://localhost:8080/api/v1/note'
 const token = localStorage.getItem(LOCAL_STORAGE_KEY)
 
 
 export const create = async (title, note, categoryID) => {
+    const url = `${API_URL}/create`
+    // console.log(token)
+    // console.log('create in api')
 
-    console.log('inside api')
-
-    if (categoryID === '') {
+    if(categoryID === '') {
         categoryID = null
     }
-
-    const url = `${API_URL}/create`
-
+    
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -29,8 +27,6 @@ export const create = async (title, note, categoryID) => {
             categoryID: categoryID
         })
     })
-
-    console.log(response)
 
     const responseJSON = await response.json()
     if (response.ok) {
@@ -104,7 +100,10 @@ export const update = async (id, noteTitle, noteInput, categoryID) => {
     const url = `${API_URL}/update/${id}`
 
     const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
-
+    
+    if(categoryID === '') {
+        categoryID = null
+    }
 
     const response = await fetch(url, {
         method: 'PUT',
@@ -164,7 +163,7 @@ export const getNote = async (id) => {
 
 export const getNotesByCategory = async (categoryID) => {
 
-    const api = 'https://localhost:443/api/v1/category/getAll/'
+    const api = 'http://localhost:8080/api/v1/category/getAll/'
     const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
 
     if (!asyncToken) {

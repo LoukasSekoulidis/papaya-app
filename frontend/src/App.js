@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom"
 
 // Routes
 import SignUpPage from './routes/SignUpPage'
-import UpdateNotePage from './routes/UpdateNotePage'
 import NotFoundPage from './routes/NotFoundPage'
 import VerifyPage from './routes/VerifyPage'
 import LandingPage from './routes/LandingPage'
@@ -31,7 +30,6 @@ const App = () => {
         <Route path='/test' element={<TestPage />} />
         <Route path='/signup' element={<SignUpPage />} />
         <Route path='/landing' element={<LandingPage />} />
-        <Route path='/dashboard/note/:id' element={<UpdateNotePage />} />
         <Route path='/verify/:id' element={<VerifyPage />} />
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/dashboard/:id' element={<Dashboard />} />

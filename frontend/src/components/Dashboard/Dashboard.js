@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -22,14 +22,16 @@ import { PaletteMode } from '@mui/material';
 import NoteContainer from '../note/NoteContainer'
 import DashboardCategories from './DashboardCategories'
 import DashboardGeneral from './DashboardGeneral'
-import FormCreateNote from '../note/FormCreateNote';
+// import FormCreateNote from '../note/FormCreateNote';
 import FormCreateNoteMUI from '../note/FormCreateNoteMUI'
-import UserWidget from '../user/UserWidget';
+import FormUpdateNoteMUI from '../note/FormUpdateNoteMUI'
+import UserWidget from '../user/UserWidget'
 
 
-import { selectCurrentCategoryName } from '../../redux/categories/categoriesSlice';
-import { selectApperance } from '../../redux/user/userSlice';
-import { useSelector } from 'react-redux';
+import { selectCurrentCategoryName } from '../../redux/categories/categoriesSlice'
+import { selectApperance } from '../../redux/user/userSlice'
+import { selectNoteAction } from '../../redux/notes/notesSlice'
+import { useSelector } from 'react-redux'
 
 
 const drawerWidth = 240;
@@ -139,9 +141,33 @@ function DashboardContent() {
   const currentCategory = useSelector(selectCurrentCategoryName)
   const apperance = useSelector(selectApperance)
 
+  const noteAction = useSelector(selectNoteAction)
+  const [updated, setUpdated] = useState()
+
+  const [currentShownWindow, setCurrentShownWindow] = useState()
+  const createWindow = <FormCreateNoteMUI/>
+  const updateWindow = <FormUpdateNoteMUI setUpdated={setUpdated}/>
+
+  useEffect(() => {
+    if (noteAction === 'create') {
+      // console.log('create window')
+      setCurrentShownWindow(createWindow)
+
+    } else if(noteAction.includes('update')) {
+      // console.log('update window')
+      setCurrentShownWindow(updateWindow)
+
+    } else {
+      setCurrentShownWindow(null)
+      
+    }
+  }, [noteAction])
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+
 
   const darkModeTheme = createTheme(getDesignTokens(apperance))
 
@@ -225,10 +251,10 @@ function DashboardContent() {
           >
             <Grid container spacing={3} direction={largeScreen?"row":"column-reverse"}>
               <Grid item xs={12} md={6} lg={6}>
-                <NoteContainer />
+                <NoteContainer updated={updated} setUpdated={setUpdated}/>
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
-                <FormCreateNoteMUI />
+                {currentShownWindow}
               </Grid>
               
               
