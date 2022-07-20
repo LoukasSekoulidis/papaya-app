@@ -8,6 +8,7 @@ import { selectApperance } from '../../redux/user/userSlice';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { setCreateOrUpdate, setCurrentNoteID } from '../../redux/notes/notesSlice'
+import { selectToken } from '../../redux/user/userSlice'
 
 
 import Box from '@mui/material/Box';
@@ -21,6 +22,7 @@ const Note = ({ id, title, input, updateNote, deleteNote, error }) => {
 
     const [contextMenu, setContextMenu] = React.useState(null);
     const apperance = useSelector(selectApperance)
+    const token = useSelector(selectToken)
     const dispatch = useDispatch()
 
     const handleContextMenu = (event) => {
@@ -43,6 +45,7 @@ const Note = ({ id, title, input, updateNote, deleteNote, error }) => {
     };
 
     const showUpdateWindow = () => {
+        console.log('id: ', id)
         dispatch(setCurrentNoteID(id))
         dispatch(setCreateOrUpdate('update' + id))
     }
@@ -50,29 +53,29 @@ const Note = ({ id, title, input, updateNote, deleteNote, error }) => {
     return (
         <Box sx={{ minWidth: 275, mb: 1 }}>
             <Card variant="outlined">
-            <CardContent 
-                sx={{ mb: 5 }} 
-                data-color-mode={apperance} 
-                onClick={showUpdateWindow} 
-                onContextMenu={handleContextMenu} 
-                draggable 
-                onDrag={(e) => DragNDrop.handleDrag(e, id, title)} 
-                onDragEnd={(e) => DragNDrop.handleDrop(e)}
-            >
-                <Typography variant="h5" component="div">
-                {title}
-                </Typography>
-                {/* <Typography variant="body2"> */}
+                <CardContent
+                    sx={{ mb: 5 }}
+                    data-color-mode={apperance}
+                    onClick={showUpdateWindow}
+                    onContextMenu={handleContextMenu}
+                    draggable
+                    onDrag={(e) => DragNDrop.handleDrag(e, id, title)}
+                    onDragEnd={(e) => DragNDrop.handleDrop(e, token)}
+                >
+                    <Typography variant="h5" component="div">
+                        {title}
+                    </Typography>
+                    {/* <Typography variant="body2"> */}
                     <MDEditor.Markdown source={input} />
-                {/* </Typography> */}
-                <ContextMenuNote 
-                    contextMenu={contextMenu} 
-                    handleClose={handleClose} 
-                    deleteNote={deleteNote} 
-                    id={id}
-                />
-                {/* {error && <p style={{ 'color': 'rgb(255,0,0' }}>{error}</p>} */}
-            </CardContent>
+                    {/* </Typography> */}
+                    <ContextMenuNote
+                        contextMenu={contextMenu}
+                        handleClose={handleClose}
+                        deleteNote={deleteNote}
+                        id={id}
+                    />
+                    {/* {error && <p style={{ 'color': 'rgb(255,0,0' }}>{error}</p>} */}
+                </CardContent>
             </Card>
         </Box>
     )

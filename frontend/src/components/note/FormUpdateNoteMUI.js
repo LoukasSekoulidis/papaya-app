@@ -41,6 +41,8 @@ export default function FormCreateNote({ setUpdated }) {
     const currentNoteID = useSelector(selectCurrentNoteID)
 
     const noteAction = useSelector(selectNoteAction)
+
+    const token = useSelector(selectToken)
     // const updating = useSelector(selectUpdatingStatus)
 
     const getCategories = async () => {
@@ -49,7 +51,7 @@ export default function FormCreateNote({ setUpdated }) {
 
     const getNote = async () => {
         const id = currentNoteID
-        const apiRequest = await noteAPI.getNote(id)
+        const apiRequest = await noteAPI.getNote(token, id)
 
         if (apiRequest) {
             setNoteTitle(apiRequest.note.noteTitle)
@@ -71,7 +73,7 @@ export default function FormCreateNote({ setUpdated }) {
         const id = currentNoteID
         const categoryTitle = selectedCategory
 
-        dispatch(updateNoteAsync({ id, noteTitle, noteText, categoryTitle }))
+        dispatch(updateNoteAsync({ token, id, noteTitle, noteInput: noteText, categoryTitle }))
         setUpdated(true)
         dispatch(readAllNotesAsync())
     }

@@ -12,7 +12,7 @@ import ContextMenuCategory from '../misc/ContextMenuCategory'
 
 import { useDispatch } from 'react-redux'
 import { readNotesByCategoryAsync } from '../../redux/notes/notesSlice'
-import { readAllCategoriesAsync, deleteCategoryAsync, setCurrentCategoryID, setCurrentCategoryName} from '../../redux/categories/categoriesSlice';
+import { readAllCategoriesAsync, deleteCategoryAsync, setCurrentCategoryID, setCurrentCategoryName } from '../../redux/categories/categoriesSlice';
 
 import { DragNDrop } from '../misc/DragNDrop'
 
@@ -27,7 +27,7 @@ const DashboardCategory = ({ categoryTitle, id }) => {
         dispatch(readNotesByCategoryAsync(id))
         dispatch(setCurrentCategoryID(id))
         dispatch(setCurrentCategoryName(categoryTitle))
-        return
+        return navigate('/dashboard/' + id)
     }
 
     const [contextMenu, setContextMenu] = React.useState(null);

@@ -12,10 +12,10 @@ export const DragNDrop = {
         e.preventDefault();
         target = categoryID;
     },
-    handleDrop: async function (e, noteTitle, noteInput) {
+    handleDrop: async function (e, token, noteTitle, noteInput) {
         e.preventDefault();
         if (target !== '' && dragged !== '') {
-            const apiRequest = await noteAPI.update(dragged, noteTitle, noteInput, target)
+            const apiRequest = await noteAPI.update(token, dragged, noteTitle, noteInput, target)
         }
         target = ''
         dragged = ''

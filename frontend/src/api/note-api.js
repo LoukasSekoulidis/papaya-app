@@ -11,7 +11,7 @@ const API_URL = 'http://papaya-app.online/api/v1/note'
 
 export const create = async (token, title, note, categoryID) => {
 
-    if(categoryID === '') {
+    if (categoryID === '') {
         categoryID = null
     }
 
@@ -99,7 +99,10 @@ export const update = async (token, id, noteTitle, noteInput, categoryID) => {
     const url = `${API_URL}/update/${id}`
 
     // const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
-    
+
+    if (categoryID === '') {
+        categoryID = null
+    }
 
     const response = await fetch(url, {
         method: 'PUT',
@@ -157,20 +160,16 @@ export const getNote = async (token, id) => {
     }
 }
 
-export const getNotesByCategory = async (categoryID) => {
+export const getNotesByCategory = async (token, categoryID) => {
 
     const api = 'http://papaya-app.online/api/v1/category/getAll/'
-    const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
 
-    if (!asyncToken) {
-        console.log('no token')
-    }
     const url = `${api}${categoryID}`
     const response = await fetch(url, {
         method: 'GET',
         withCredentials: true,
         headers: {
-            'Authorization': asyncToken
+            'Authorization': token
         },
     })
     const responseJSON = await response.json()

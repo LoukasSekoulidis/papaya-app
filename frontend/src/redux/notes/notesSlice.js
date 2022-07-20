@@ -5,7 +5,12 @@ const noteAPI = require('../../api/note-api')
 const initialState = {
     notes: null,
     status: null,
+    currentNoteID: null,
+    action: '',
+
     error: null,
+    updateFulfilledStatus: false,
+
 }
 
 export const readAllNotesAsync = createAsyncThunk(
@@ -87,8 +92,15 @@ export const notesSlice = createSlice({
     initialState,
     reducers: {
         setCreateOrUpdate: (state, payload) => {
-            console.log(payload.payload)
             state.action = payload.payload
+        },
+        setCurrentNoteID: (state, payload) => {
+            // console.log(payload.payload)
+            state.currentNoteID = payload.payload
+        },
+        setUpdateStatus: (state, payload) => {
+            console.log(payload.payload)
+            state.updating = payload.payload
         }
     },
     extraReducers: (builder) => {
@@ -159,27 +171,38 @@ export const notesSlice = createSlice({
             .addCase(updateNoteAsync.pending, (state) => {
                 console.log('pending')
                 state.status = 'loading'
+                state.updateFulfilledStatus = false
+
             })
             .addCase(updateNoteAsync.fulfilled, (state, { payload }) => {
                 console.log('fulfilled')
                 state.status = 'succeeded'
                 state.error = null
+                state.updateFulfilledStatus = true
+
             })
             .addCase(updateNoteAsync.rejected, (state, error) => {
                 console.log('rejected')
                 state.status = 'failed'
                 state.error = error.error.message
+                state.updateFulfilledStatus = true
+
             })
     },
 })
 
 export const {
-    setCreateOrUpdate
+    setCreateOrUpdate,
+    setCurrentNoteID,
+    setUpdateStatus
 } = notesSlice.actions
 
 export const selectNotes = (state) => state.notes.notes
 export const selectNoteStatus = (state) => state.notes.status
 export const selectNoteAction = (state) => state.notes.action
+export const selectCurrentNoteID = (state) => state.notes.currentNoteID
+export const selectUpdateStatus = (state) => state.notes.updateFulfilledStatus
+
 
 export default notesSlice.reducer
 

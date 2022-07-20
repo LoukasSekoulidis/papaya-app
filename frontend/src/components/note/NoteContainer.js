@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { readNotesByCategoryAsync, readAllNotesAsync, selectNotes, selectNoteStatus, deleteNoteAsync, setCreateOrUpdate, selectNoteAction, selectUpdatingStatus, selectUpdateStatus } from '../../redux/notes/notesSlice'
+import { selectCurrentCategoryID } from '../../redux/categories/categoriesSlice'
 
 import { CircularProgress, Button } from '@mui/material'
 
