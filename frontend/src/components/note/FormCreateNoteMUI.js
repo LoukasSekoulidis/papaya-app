@@ -12,6 +12,7 @@ import { Box, TextField, FormControl, FormGroup, Select, Button, InputLabel, Inp
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
 import { createNoteAsync } from '../../redux/notes/notesSlice'
+
 import { readAllCategoriesAsync, selectCategories, selectCategoriesStatus, selectCurrentCategory } from '../../redux/categories/categoriesSlice'
 
 import { selectApperance } from '../../redux/user/userSlice';
@@ -22,112 +23,112 @@ const categoryAPI = require('../../api/category-api')
 
 
 export default function FormCreateNote() {
-  const dispatch = useDispatch()
+    const dispatch = useDispatch()
 
-  const categoryArray = useSelector(selectCategories)
-  const categoriesStatus = useSelector(selectCategoriesStatus)
+    const categoryArray = useSelector(selectCategories)
+    const categoriesStatus = useSelector(selectCategoriesStatus)
 
-  // const currentSelectedCategory = useSelector(selectCurrentCategory)
-
-
-  // for markdown
-  const [value, setValue] = useState('')
-
-  const [error, setError] = useState()
-
-  const [categories, setCategories] = useState([])
-
-  const [selectedCategory, setSelectedCategory] = useState('')
-
-  const apperance = useSelector(selectApperance)
+    // const currentSelectedCategory = useSelector(selectCurrentCategory)
 
 
-  const getCategories = async () => {
-    dispatch(readAllCategoriesAsync())
-  }
+    // for markdown
+    const [value, setValue] = useState('')
 
-  useEffect(() => {
-    getCategories()
-    
-  }, [])
+    const [error, setError] = useState()
 
-  const titleRef = useRef()
+    const [categories, setCategories] = useState([])
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+    const [selectedCategory, setSelectedCategory] = useState('')
 
-    const title = titleRef.current.value
-    const categoryID = selectedCategory
+    const apperance = useSelector(selectApperance)
 
-    const note = value
 
-    // console.log(title)
-    // console.log(categoryID)
-    // console.log(note)
+    const getCategories = async () => {
+        dispatch(readAllCategoriesAsync())
+    }
 
-    dispatch(createNoteAsync({ title: title, note: note, categoryID: categoryID }))
+    useEffect(() => {
+        getCategories()
 
-    titleRef.current.value = ''
-    setValue('')
-    setSelectedCategory('')
-  }
+    }, [])
 
-  const handleChange = (e) => {
-    setSelectedCategory(e.target.value);
-    // console.log(e.target.value);
-  }
+    const titleRef = useRef()
 
-if(categoriesStatus === 'succeeded') {
-  return (
-    <div>
-      <Box component="form" onSubmit={handleSubmit} noValidate data-color-mode={apperance}>
-        <TextField
-              style ={{width: '100%', marginBottom: '10px'}}
-              required
-              id="username"
-              name="username"
-              label='Titel'
-              inputRef={titleRef}
-            />
-        <FormGroup>
-          <Select
-            value={selectedCategory}
-            onChange={handleChange}
-            label='Select Category'
-            placeholder='Select'
-            defaultValue='Foobar'
-          >
-            {categoryArray.map(category => (
-              <MenuItem
-                key={category._id}
-                value={category._id}
-                id={category.categoryTitle}
-              >{category.categoryTitle}</MenuItem>
-            ))}
-          </Select>
-        </FormGroup>
-        <FormGroup className='mb-3'>
-          <MDEditor
-            commands={[]}
-            textareaProps={{
-              placeholder: 'Please enter Markdown text',
-            }}
-            className='mt-3'
-            value={value}
-            onChange={setValue}
-          />
-        </FormGroup>
-        <Button 
-          variant='contained' 
-          color='neutral' 
-          type="submit"
-        >
-          Create
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        const title = titleRef.current.value
+        const categoryID = selectedCategory
+
+        const note = value
+
+        // console.log(title)
+        // console.log(categoryID)
+        // console.log(note)
+
+        dispatch(createNoteAsync({ title: title, note: note, categoryID: categoryID }))
+
+        titleRef.current.value = ''
+        setValue('')
+        setSelectedCategory('')
+    }
+
+    const handleChange = (e) => {
+        setSelectedCategory(e.target.value);
+        // console.log(e.target.value);
+    }
+
+    if (categoriesStatus === 'succeeded') {
+        return (
+            <div>
+                <Box component="form" onSubmit={handleSubmit} noValidate data-color-mode={apperance}>
+                    <TextField
+                        style={{ width: '100%', marginBottom: '10px' }}
+                        required
+                        id="username"
+                        name="username"
+                        label='Titel'
+                        inputRef={titleRef}
+                    />
+                    <FormGroup>
+                        <Select
+                            value={selectedCategory}
+                            onChange={handleChange}
+                            label='Select Category'
+                            placeholder='Select'
+                            defaultValue='Foobar'
+                        >
+                            {categoryArray.map(category => (
+                                <MenuItem
+                                    key={category._id}
+                                    value={category._id}
+                                    id={category.categoryTitle}
+                                >{category.categoryTitle}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormGroup>
+                    <FormGroup className='mb-3'>
+                        <MDEditor
+                            commands={[]}
+                            textareaProps={{
+                                placeholder: 'Please enter Markdown text',
+                            }}
+                            className='mt-3'
+                            value={value}
+                            onChange={setValue}
+                        />
+                    </FormGroup>
+                    <Button
+                        variant='contained'
+                        color='neutral'
+                        type="submit"
+                    >
+                        Create
         </Button>
-        {error && <p>{error}</p>}
-      </Box>
-    </div>
-  )
-  
-}
+                    {error && <p>{error}</p>}
+                </Box>
+            </div>
+        )
+
+    }
 }

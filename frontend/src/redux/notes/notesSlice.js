@@ -4,10 +4,12 @@ const noteAPI = require('../../api/note-api')
 
 const initialState = {
     notes: null,
-    status: null,
     error: null,
     currentNoteID: null,
     action: '',
+
+    status: null,
+    updateFulfilledStatus: false,
 }
 
 
@@ -67,7 +69,7 @@ export const deleteNoteAsync = createAsyncThunk(
 export const updateNoteAsync = createAsyncThunk(
     'notes/updateNoteAsync',
     async ({ id, noteTitle, noteText, categoryTitle }, { rejectWithValue }) => {
-        
+
         // console.log(id)
         console.log('in update note async')
         const response = await noteAPI.update(id, noteTitle, noteText, categoryTitle)
@@ -167,16 +169,19 @@ export const notesSlice = createSlice({
             .addCase(updateNoteAsync.pending, (state) => {
                 console.log('pending')
                 state.status = 'loading'
+                state.updateFulfilledStatus = false
             })
             .addCase(updateNoteAsync.fulfilled, (state, { payload }) => {
                 console.log('fulfilled')
                 state.status = 'succeeded'
                 state.error = null
+                state.updateFulfilledStatus = true
             })
             .addCase(updateNoteAsync.rejected, (state, error) => {
                 console.log('rejected')
                 state.status = 'failed'
                 state.error = error.error.message
+                state.updateFulfilledStatus = true
             })
     },
 })
@@ -191,6 +196,10 @@ export const selectNotes = (state) => state.notes.notes
 export const selectNoteStatus = (state) => state.notes.status
 export const selectNoteAction = (state) => state.notes.action
 export const selectCurrentNoteID = (state) => state.notes.currentNoteID
+
+export const selectUpdateStatus = (state) => state.notes.updateFulfilledStatus
+
+
 
 export default notesSlice.reducer
 
