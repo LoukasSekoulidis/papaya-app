@@ -5,7 +5,7 @@ import { Buffer } from 'buffer'
 
 const LOCAL_STORAGE_KEY = 'papaya.token'
 
-const API_URL = 'http://papaya-app.online/api/v1/user'
+const API_URL = 'https://papaya-app.online/api/v1/user'
 
 const encodeLoginData = (userMail, password) => {
     let data = `${userMail}:${password}` // usermail:password
@@ -51,7 +51,7 @@ export const login = async (mail, password) => {
     const encodedData = encodeLoginData(mail, password)
     const authString = `Basic ${encodedData}`
 
-    const url = 'http://papaya-app.online/api/v1/login/'
+    const url = 'https://papaya-app.online/api/v1/login/'
     const response = await fetch(url, {
         method: 'GET', 
         headers: {
@@ -83,7 +83,7 @@ export const logout = () => {
 }
 
 export const verify = async (id) => {
-    const url = `http://papaya-app.online/api/v1/confirmation/${id}`
+    const url = `https://papaya-app.online/api/v1/confirmation/${id}`
     const response = await fetch(url, {
         method: 'GET',
     })

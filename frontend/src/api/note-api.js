@@ -2,8 +2,8 @@
 import { asyncLocalStorage } from "../components/misc/asyncLocalStorage"
 const LOCAL_STORAGE_KEY = 'papaya.token'
 
-// const API_URL = 'http://localhost:8080/api/v1/note'
-const API_URL = 'http://papaya-app.online/api/v1/note'
+// const API_URL = 'https://localhost:8080/api/v1/note'
+const API_URL = 'https://papaya-app.online/api/v1/note'
 
 
 // const token = localStorage.getItem(LOCAL_STORAGE_KEY)
@@ -162,7 +162,7 @@ export const getNote = async (token, id) => {
 
 export const getNotesByCategory = async (token, categoryID) => {
 
-    const api = 'http://papaya-app.online/api/v1/category/getAll/'
+    const api = 'https://papaya-app.online/api/v1/category/getAll/'
 
     const url = `${api}${categoryID}`
     const response = await fetch(url, {

@@ -1,6 +1,6 @@
 import { asyncLocalStorage } from "../components/misc/asyncLocalStorage"
 
-const API_URL = 'http://papaya-app.online/api/v1/category'
+const API_URL = 'https://papaya-app.online/api/v1/category'
 
 // const LOCAL_STORAGE_KEY = 'papaya.token'
 // const token = localStorage.getItem(LOCAL_STORAGE_KEY)
