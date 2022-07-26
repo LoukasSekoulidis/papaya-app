@@ -62,6 +62,14 @@ function createUser(props, callback) {
 };
 
 function updateUser(userID, props, callback) {
+    body = props.body;
+    header = props.headers;
+
+    if (typeof header.authorization !== "undefined") {
+        let token = header.authorization.split(" ")[1];
+        tokenInfos = jwt.decode(token);
+    }
+
     userModel.findById(userID, function (err, user) {
         if (err) {
             return callback('401')
@@ -70,21 +78,29 @@ function updateUser(userID, props, callback) {
             return callback('401');
         }
         else {
-            if (props.userMail !== user.userMail) {
+            if (tokenInfos.isAdministrator === false) {
+                console.log('Not an Admin!')
+                body.isAdministrator = user.isAdministrator
+                body.confirmed = user.confirmed
+            }
+            if (body.userMail !== user.userMail) {
                 console.log('userMail was changed')
-                const token = jwt.sign({ userMail: props.userMail }, config.get('session.tokenKey'));
-                props.confirmed = false;
-                props.confirmationCode = token;
+                const token = jwt.sign({ userMail: body.userMail }, config.get('session.tokenKey'));
+                body.confirmed = false;
+                body.confirmationCode = token;
 
-                Object.assign(user, props);
+                console.log(body)
+                Object.assign(user, body);
 
                 nodeMailer.sendConfirmationMail(
                     user.userName,
-                    props.userMail,
+                    body.userMail,
                     token
                 )
-            } else {
-                Object.assign(user, props);
+            }
+            else {
+                console.log(body)
+                Object.assign(user, body);
             }
             user.save((err) => {
                 if (err) {

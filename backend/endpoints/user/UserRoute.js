@@ -4,7 +4,7 @@ const router = express.Router();
 const userService = require('./UserService')
 const authenticationService = require('../authentication/AuthenticationService')
 
-router.get('/', authenticationService.isAuthenticated, (req, res, next) => {
+router.get('/', authenticationService.isAuthenticated, authenticationService.isAdministrator, (req, res, next) => {
     userService.getUsers((err, users) => {
         if (users) {
             res.status(200).json(users);
@@ -40,7 +40,7 @@ router.post('/create', (req, res, next) => {
 });
 
 router.put('/update/:userID', authenticationService.isAuthenticated, (req, res, next) => {
-    userService.updateUser(req.url.split('/')[2], req.body, (err, updatedUser) => {
+    userService.updateUser(req.url.split('/')[2], req, (err, updatedUser) => {
         if (updatedUser) {
             res.status(200).json(updatedUser);
         }

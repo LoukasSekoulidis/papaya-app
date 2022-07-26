@@ -54,11 +54,11 @@ function isAuthenticated(req, res, next) {
         var privateKey = config.get('session.tokenKey');
 
         jwt.verify(token, privateKey, { algorithm: "HS256" }, (err, user) => {
+
             if (err) {
                 res.status(401).json({ Error: "105" });
                 return;
             }
-            req.userMail = user.userMail
             return next();
         });
     } else {
@@ -97,4 +97,5 @@ function isAdministrator(req, res, next) {
 module.exports = {
     createSessionTokenBasic,
     isAuthenticated,
+    isAdministrator
 }
