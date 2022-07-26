@@ -47,6 +47,10 @@ const UserWidget = () => {
     return navigate('/userPreferences')
   }
 
+  const navToUserManagment = () => {
+    return navigate('/control')
+  }
+
 
   return (
     <React.Fragment>
@@ -117,6 +121,12 @@ const UserWidget = () => {
             <Settings fontSize="small" />
           </ListItemIcon>
           Preferences
+        </MenuItem>
+        <MenuItem onClick={navToUserManagment}>
+          <ListItemIcon>
+            <Settings fontSize="small" />
+          </ListItemIcon>
+          User Managment
         </MenuItem>
         <MenuItem onClick={logout}>
           <ListItemIcon>

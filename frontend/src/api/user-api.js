@@ -132,11 +132,36 @@ export const getUser = async (id, token) => {
     }
 }
 
+export const getAllUser = async (token) => {
+
+    const url = `${API_URL}`
+
+    const response = await fetch(url, {
+        method: 'GET', 
+        headers: {
+            Authorization: token,
+        },
+    })
+
+    const json = await response.json()
+
+    if(response.ok){
+        return ({
+            ok: true,
+            users: json
+        })
+    } else {
+        return({
+            ok: false,
+            error: json
+        })
+    }
+}
+
+
 export const update = async (token, id, userName, userMail, userPassword) => {
     
-    // const url = `http://127.0.0.1:8080/api/v1/user/update/${id}`
     const url = `${API_URL}/update/${id}`
-    
 
     const response = await fetch(url, {
         method: 'PUT',

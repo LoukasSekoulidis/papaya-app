@@ -7,6 +7,7 @@ import VerifyPage from './routes/VerifyPage'
 import LandingPage from './routes/LandingPage'
 import Dashboard from './components/Dashboard/Dashboard'
 import UserPreferences from './routes/UserPreferencesPage'
+import UserManagment from './routes/UserManagmentPage'
 import TestPage from "./routes/TestPage"
 
 import { useSelector } from 'react-redux'
@@ -35,6 +36,7 @@ const App = () => {
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/dashboard/:id' element={<Dashboard />} />
         <Route path='/userPreferences' element={<UserPreferences />} />
+        <Route path='/control' element={<UserManagment />} />
       </Routes>
     )
   }
