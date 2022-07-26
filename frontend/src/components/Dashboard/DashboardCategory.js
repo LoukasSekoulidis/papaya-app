@@ -18,7 +18,7 @@ import { DragNDrop } from '../misc/DragNDrop'
 
 const categoryAPI = require('../../api/category-api')
 
-const DashboardCategory = ({ categoryTitle, id }) => {
+const DashboardCategory = ({ categoryTitle, id, catColor }) => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -59,7 +59,7 @@ const DashboardCategory = ({ categoryTitle, id }) => {
     return (
         <div onContextMenu={handleContextMenu}>
             <ListItemButton onClick={handleOnClick} draggable onDragOver={(e) => DragNDrop.handleOver(e, id)}>
-                <ListItemIcon>
+                <ListItemIcon style={{ color: catColor }}>
                     <NoiseControlOffIcon />
                 </ListItemIcon>
                 <ListItemText primary={categoryTitle} />

@@ -30,7 +30,6 @@ app.use('/api/v1/category', categoryRoutes);
 database.initDB((error, db) => {
     if (db) {
         console.log('Database succesfully binded');
-
     }
     else {
         console.log('Database binding not succesfull');
@@ -47,6 +46,7 @@ app.use((err, req, res, next) => {
 });
 
 const port = 8080;
+
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);
 })

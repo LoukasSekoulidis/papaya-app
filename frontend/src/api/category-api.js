@@ -8,7 +8,7 @@ const API_URL = 'https://papaya-app.online/api/v1/category'
 export const read = async (token) => {
 
     // const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
-    
+
     const url = `${API_URL}`
     const response = await fetch(url, {
         method: 'GET',
@@ -20,22 +20,23 @@ export const read = async (token) => {
 
     const responseJSON = await response.json()
 
-    if (response.ok){
+    if (response.ok) {
         return ({
             response: true,
             error: null,
             categories: responseJSON
         })
     } else {
-        return({
+        return ({
             response: false,
             error: responseJSON.Error
         })
     }
 }
 
-export const create = async (token, title) => {
+export const create = async (token, title, color) => {
 
+    console.log(title + ' ' + color)
     const url = `${API_URL}/create`
     const response = await fetch(url, {
         method: 'POST',
@@ -44,19 +45,22 @@ export const create = async (token, title) => {
             'content-type': 'application/json',
         },
         body: JSON.stringify({
-            categoryTitle: title
+            categoryTitle: title,
+            color: color
         })
     })
 
     const responseJSON = await response.json()
 
-    if (response.ok){
+    console.log(responseJSON)
+
+    if (response.ok) {
         return ({
             response: true,
             error: null
         })
     } else {
-        return({
+        return ({
             response: false,
             error: responseJSON.Error
         })
@@ -80,13 +84,13 @@ export const update = async (token, id, title, color) => {
     })
     const responseJSON = await response.json()
 
-    if (response.ok){
+    if (response.ok) {
         return ({
             response: true,
             updated: responseJSON
         })
     } else {
-        return({
+        return ({
             response: false,
             error: responseJSON.Error
         })
@@ -103,12 +107,12 @@ export const remove = async (token, id) => {
         },
     })
 
-    if (response.ok){
+    if (response.ok) {
         return ({
             response: true,
         })
     } else {
-        return({
+        return ({
             response: false,
             error: `${response.status}: ${response.statusText}`
         })

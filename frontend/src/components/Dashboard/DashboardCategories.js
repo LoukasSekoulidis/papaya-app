@@ -3,6 +3,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 import ListSubheader from '@mui/material/ListSubheader';
 import AddIcon from '@mui/icons-material/Add';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import NoiseControlOffIcon from '@mui/icons-material/NoiseControlOff';
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -25,6 +27,8 @@ const DashboardCategories = () => {
     const open = useSelector(selectOpenCreateModal)
 
     const [category, setCategory] = useState('')
+    const [color, setColor] = useState('')
+
 
     const dispatch = useDispatch()
 
@@ -45,13 +49,14 @@ const DashboardCategories = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        dispatch(createCategoryAsync(category))
+        console.log(category + '  ' + color)
+        dispatch(createCategoryAsync({ category: category, color: color }))
         dispatch(readAllCategoriesAsync())
 
         handleClose()
 
         setCategory('')
+        setColor('')
     }
 
     const handleOpen = () => {
@@ -94,7 +99,7 @@ const DashboardCategories = () => {
                         categoryTitle={category.categoryTitle}
                         key={uuidv4()}
                         id={category._id}
-
+                        catColor={category.color}
                     />
                 ))}
 
@@ -114,6 +119,52 @@ const DashboardCategories = () => {
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
                         />
+                        <TextField
+                            style={{ width: '100%' }}
+                            margin="normal"
+                            name="color"
+                            label="Category Color"
+                            type="text"
+                            id="categoryColor"
+                            value={color}
+                            onChange={(e) => setColor(e.target.value)}
+                        />
+                        <ListItemIcon style={{ color: 'red' }} onClick={(e) => setColor('red')}>
+                            <NoiseControlOffIcon />
+                        </ListItemIcon>
+                        <ListItemIcon style={{ color: 'blue' }} onClick={(e) => setColor('blue')} >
+                            <NoiseControlOffIcon />
+                        </ListItemIcon>
+                        <ListItemIcon style={{ color: 'yellow' }} onClick={(e) => setColor('yellow')} >
+                            <NoiseControlOffIcon />
+                        </ListItemIcon>
+                        <ListItemIcon style={{ color: 'green' }} onClick={(e) => setColor('green')} >
+                            <NoiseControlOffIcon />
+                        </ListItemIcon>
+                        <ListItemIcon style={{ color: 'brown' }} onClick={(e) => setColor('brown')} >
+                            <NoiseControlOffIcon />
+                        </ListItemIcon>
+                        <ListItemIcon style={{ color: 'black' }} onClick={(e) => setColor('black')} >
+                            <NoiseControlOffIcon />
+                        </ListItemIcon>
+                        <ListItemIcon style={{ color: 'gray' }} onClick={(e) => setColor('gray')} >
+                            <NoiseControlOffIcon />
+                        </ListItemIcon>
+                        <ListItemIcon style={{ color: 'pink' }} onClick={(e) => setColor('pink')} >
+                            <NoiseControlOffIcon />
+                        </ListItemIcon>
+                        <ListItemIcon style={{ color: 'violet' }} onClick={(e) => setColor('violet')} >
+                            <NoiseControlOffIcon />
+                        </ListItemIcon>
+                        <ListItemIcon style={{ color: 'coral' }} onClick={(e) => setColor('coral')} >
+                            <NoiseControlOffIcon />
+                        </ListItemIcon>
+                        <ListItemIcon style={{ color: 'teal' }} onClick={(e) => setColor('teal')} >
+                            <NoiseControlOffIcon />
+                        </ListItemIcon>
+                        <ListItemIcon style={{ color: 'orange' }} onClick={(e) => setColor('orange')} >
+                            <NoiseControlOffIcon />
+                        </ListItemIcon>
                         <Button
                             style={{ width: '100%' }}
                             type="submit"
