@@ -34,13 +34,13 @@ export const createUser = async (mail, userName, password) => {
 
     const responseJSON = await response.json()
 
-    if (response.ok){
+    if (response.ok) {
         return ({
             response: true,
             error: null
         })
     } else {
-        return({
+        return ({
             response: false,
             error: responseJSON.Error
         })
@@ -53,7 +53,7 @@ export const login = async (mail, password) => {
 
     const url = 'https://papaya-app.online/api/v1/login/'
     const response = await fetch(url, {
-        method: 'GET', 
+        method: 'GET',
         headers: {
             Authorization: authString,
         },
@@ -63,7 +63,7 @@ export const login = async (mail, password) => {
 
     const responseJSON = await response.json()
 
-    if (response.ok){
+    if (response.ok) {
         return ({
             ok: true,
             token: response.headers.get('Authorization'),
@@ -71,7 +71,7 @@ export const login = async (mail, password) => {
             error: null
         })
     } else {
-        return({
+        return ({
             response: false,
             error: responseJSON.Error
         })
@@ -90,14 +90,14 @@ export const verify = async (id) => {
 
     const responseJSON = await response.json()
 
-    if (response.ok){
+    if (response.ok) {
         return ({
             response: true,
             error: null,
             user: responseJSON.userName
         })
     } else {
-        return({
+        return ({
             response: false,
             error: responseJSON.Error
         })
@@ -111,7 +111,7 @@ export const getUser = async (id, token) => {
 
 
     const response = await fetch(url, {
-        method: 'GET', 
+        method: 'GET',
         headers: {
             Authorization: token,
         },
@@ -119,13 +119,13 @@ export const getUser = async (id, token) => {
 
     const json = await response.json()
 
-    if(response.ok){
+    if (response.ok) {
         return ({
             ok: true,
             user: json
         })
     } else {
-        return({
+        return ({
             ok: false,
             error: json
         })
@@ -137,7 +137,7 @@ export const getAllUser = async (token) => {
     const url = `${API_URL}`
 
     const response = await fetch(url, {
-        method: 'GET', 
+        method: 'GET',
         headers: {
             Authorization: token,
         },
@@ -145,13 +145,13 @@ export const getAllUser = async (token) => {
 
     const json = await response.json()
 
-    if(response.ok){
+    if (response.ok) {
         return ({
             ok: true,
             users: json
         })
     } else {
-        return({
+        return ({
             ok: false,
             error: json
         })
@@ -160,7 +160,7 @@ export const getAllUser = async (token) => {
 
 
 export const update = async (token, id, userName, userMail, userPassword) => {
-    
+
     const url = `${API_URL}/update/${id}`
 
     const response = await fetch(url, {
@@ -182,6 +182,37 @@ export const update = async (token, id, userName, userMail, userPassword) => {
         return ({
             ok: true,
             updated: responseJSON
+        })
+    } else {
+        return ({
+            ok: false,
+            error: responseJSON.Error
+        })
+    }
+
+}
+
+
+export const resetPassword = async (userMail) => {
+
+    const url = `${API_URL}/resetPassword/${userMail}`
+
+    // const url = `http://127.0.0.1:8080/api/v1/user/resetPassword/${userMail}`
+
+    const response = await fetch(url, {
+        method: 'PUT',
+        withCredentials: true,
+        headers: {
+            'content-type': 'application/json',
+        }
+    })
+    const responseJSON = await response.json()
+    console.log(responseJSON)
+
+    if (response.ok) {
+        return ({
+            ok: true,
+            success: responseJSON.Success
         })
     } else {
         return ({

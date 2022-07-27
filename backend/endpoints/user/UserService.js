@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
+var randomstring = require("randomstring");
 
 const User = require('./UserModel');
 const userModel = require('./UserModel');
@@ -72,6 +73,7 @@ function updateUser(userID, props, callback) {
 
     userModel.findById(userID, function (err, user) {
         if (err) {
+            clg
             return callback('401')
         }
         else if (!user) {
@@ -114,6 +116,33 @@ function updateUser(userID, props, callback) {
     });
 }
 
+function resetPassword(userMail, callback) {
+    userModel.findOne({ userMail: userMail }, function (err, user) {
+
+        if (err || !user) {
+            return callback('401')
+        }
+        else {
+            const tempPW = randomstring.generate(8)
+            user.password = tempPW
+            user.save((err) => {
+                if (err) {
+                    return callback('405', null);
+                }
+                else {
+
+                    nodeMailer.sendPasswordResetMail(user.userName, user.userMail, tempPW)
+                    return callback(null, user);
+                }
+            })
+        }
+    })
+}
+
+function updatePassword(body, callback) {
+
+}
+
 function deleteUser(userID, callback) {
     userModel.findByIdAndDelete(userID, function (err, deletetUser) {
         if (err) {
@@ -134,5 +163,6 @@ module.exports = {
     createUser,
     updateUser,
     deleteUser,
+    resetPassword
 };
 

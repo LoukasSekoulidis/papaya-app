@@ -22,7 +22,7 @@ GET http://localhost:8080/api/v1/confirmation/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVC
 ###
 # @name loginTest
 GET http://localhost:8080/api/v1/login
-Authorization: Basic c2Vrb3VsaWRpcy5sdWthc0BpY2xvdWQuY29tOlRlc3RQVw==
+Authorization: Basic czg0OTU3QGJodC1iZXJsaW4uZGU6bk4xWDlkWGM=
 
 @testToken = {{loginTest.response.headers.Authorization}}
 
@@ -67,10 +67,16 @@ Content-Type: application/json
 Authorization: {{testToken}}
 
 {
-    "userName": "Lukas Sekul",
-    "userMail": "sekoulidis.lukas@icloud.com",
+    "userName": "Lukas Sekulidis",
+    "userMail": "s84957@bht-berlin.de",
     "isAdministrator" : true
 }
+
+###
+PUT http://localhost:8080/api/v1/user/resetPassword/y@y.y
+Content-Type: application/json
+
+
 
 // Rufe alle User ab. Es sollten 2 User zurückgegeben werden.
 ###
