@@ -43,10 +43,14 @@ function isVerified(req, res, next) {
             }
             else {
                 console.log(user)
-                if (user.confirmed == true) {
-                    return next();
-                }
-                else {
+                if (user) {
+                    if (user.confirmed == true) {
+                        return next();
+                    }
+                    else {
+                        res.status(400).json({ Error: '103' });
+                    }
+                } else {
                     res.status(400).json({ Error: '103' });
                 }
             }

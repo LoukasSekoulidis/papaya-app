@@ -138,8 +138,31 @@ function resetPassword(userMail, callback) {
     })
 }
 
-function updatePassword(body, callback) {
+function updatePassword(req, callback) {
+    header = req.headers
+    body = req.body
 
+    console.log('Update Password: ', body)
+    if (typeof header.authorization !== "undefined") {
+        let token = header.authorization.split(" ")[1];
+        tokenInfos = jwt.decode(token);
+    }
+    userModel.findOne({ userMail: tokenInfos.userMail }, function (err, user) {
+        user.comparePassword(body.currentPassword, (err, isMatch) => {
+            if (isMatch) {
+                console.log(user)
+                user.password = body.newPassword
+                console.log(user)
+                user.save((err) => {
+                    if (err) {
+                        return callback('405', null)
+                    } else {
+                        return callback(null, user)
+                    }
+                })
+            }
+        })
+    })
 }
 
 function deleteUser(userID, callback) {
@@ -192,5 +215,6 @@ module.exports = {
     updateUser,
     deleteUser,
     resetPassword,
+    updatePassword,
     createDefaultAdmin
 };

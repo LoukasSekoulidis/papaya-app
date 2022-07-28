@@ -84,7 +84,7 @@ export const logout = () => {
 }
 
 export const verify = async (id) => {
-    
+
     const url = `${rootURL}/confirmation/${id}`
 
     const response = await fetch(url, {
@@ -179,6 +179,38 @@ export const update = async (token, id, userName, userMail, userPassword) => {
         })
     })
     const responseJSON = await response.json()
+
+    if (response.ok) {
+        return ({
+            ok: true,
+            updated: responseJSON
+        })
+    } else {
+        return ({
+            ok: false,
+            error: responseJSON.Error
+        })
+    }
+}
+
+export const updatePassword = async (token, currentPassword, newPassword) => {
+
+    const url = `${API_URL}/updatePassword`
+
+    const response = await fetch(url, {
+        method: 'PUT',
+        withCredentials: true,
+        headers: {
+            'Authorization': token,
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+            currentPassword: currentPassword,
+            newPassword: newPassword,
+        })
+    })
+    const responseJSON = await response.json()
+    console.log(response)
 
     if (response.ok) {
         return ({

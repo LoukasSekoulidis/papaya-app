@@ -61,6 +61,17 @@ router.put('/resetPassword/:userMail', (req, res, next) => {
     })
 })
 
+router.put('/updatePassword', (req, res, next) => {
+    userService.updatePassword(req, (err, user) => {
+        if (user) {
+            res.status(200).json({ Succes: 'New Password set!' });
+        } else {
+            res.status(404).json({ Error: err });
+        }
+    })
+})
+
+
 router.delete('/delete/:userID', authenticationService.isAuthenticated, (req, res, next) => {
     userService.deleteUser(req.url.split('/')[2], (err, deletedUser) => {
         if (deletedUser) {
@@ -72,5 +83,7 @@ router.delete('/delete/:userID', authenticationService.isAuthenticated, (req, re
         }
     });
 });
+
+
 
 module.exports = router;
