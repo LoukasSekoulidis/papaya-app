@@ -156,12 +156,41 @@ function deleteUser(userID, callback) {
     })
 }
 
+function createDefaultAdmin(callback) {
+    userModel.findOne({ userMail: 'admin@admin.com' }, function (err, res) {
+        if (err) {
+            callback('Not able to check if admin exists: ' + err, null);
+        }
+        if (res) {
+            callback('Default admin already exists in Databse!', null);
+        } else {
+            console.log('User Service: Do not have admin account yet. Creating default admin account!');
+            var adminUser = new User();
+            adminUser.password = "123";
+            adminUser.userName = "Default Administrator Account";
+            adminUser.userMail = "admin@admin.com"
+            adminUser.isAdministrator = true;
+            adminUser.confirmed = true;
+            adminUser.confirmationCode = 'NotNeeded'
+
+            adminUser.save((err) => {
+                if (err) {
+                    callback('Not able to save default admin account: ' + err, null);
+                }
+                else {
+                    callback(null, adminUser);
+                }
+            });
+        }
+    })
+}
+
 module.exports = {
     getUsers,
     getUser,
     createUser,
     updateUser,
     deleteUser,
-    resetPassword
+    resetPassword,
+    createDefaultAdmin
 };
-

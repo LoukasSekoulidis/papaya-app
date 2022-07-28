@@ -9,6 +9,8 @@ const authenticationRoutes = require('./endpoints/authentication/AuthenticationR
 const confirmationRoutes = require('./endpoints/confirmation/ConfirmationRoute');
 const categoryRoutes = require('./endpoints/category/CategoryRoute');
 
+const userService = require('./endpoints/user/UserService')
+
 const cors = require('cors')
 
 const app = express();
@@ -34,6 +36,14 @@ database.initDB((error, db) => {
     else {
         console.log('Database binding not succesfull');
     }
+    console.log('Pre create default admin')
+    userService.createDefaultAdmin((err, result) => {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log(result)
+        }
+    })
 });
 
 /* Error Handler: */
