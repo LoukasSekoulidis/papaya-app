@@ -14,7 +14,7 @@ import { CircularProgress, Button } from '@mui/material'
 import NoteMUI from './NoteMUI'
 
 
-export default function NoteContainer({ updated, setUpdated }) {
+export default function NoteContainer({ updated, setUpdated, setCurrentShownWindow }) {
 
     const [notes, setNotes] = useState([])
     const [error, setError] = useState()
@@ -31,8 +31,10 @@ export default function NoteContainer({ updated, setUpdated }) {
         dispatch(deleteNoteAsync(id))
 
         if (categoryID === undefined) {
+            setCurrentShownWindow(null)
             dispatch(readAllNotesAsync())
         } else {
+            setCurrentShownWindow(null)
             dispatch(readNotesByCategoryAsync(categoryID))
         }
     }

@@ -248,7 +248,7 @@ function DashboardContent() {
           >
             <Grid container spacing={3} direction={largeScreen?"row":"column-reverse"}>
               <Grid item xs={12} md={6} lg={6}>
-                <NoteContainer updated={updated} setUpdated={setUpdated}/>
+                <NoteContainer updated={updated} setCurrentShownWindow={setCurrentShownWindow} setUpdated={setUpdated}/>
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
                 {currentShownWindow}

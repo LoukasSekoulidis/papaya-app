@@ -71,7 +71,8 @@ export default function ContextMenuCategory({ contextMenu, handleClose, category
     const getCategory = async () => {
         const response = await categoryAPI.getOne(token, categoryID)
         if(response.ok) {
-            setCategory(category)
+            setCategory(response.category.categoryTitle)
+            setColor(response.category.color)
         }
     }
 

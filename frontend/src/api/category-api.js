@@ -14,7 +14,6 @@ export const read = async (token) => {
     })
 
     const responseJSON = await response.json()
-    console.log(responseJSON)
 
     if (response.ok) {
         return ({
