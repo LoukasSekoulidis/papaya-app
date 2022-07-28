@@ -120,6 +120,7 @@ export const notesSlice = createSlice({
                 // console.log('rejected')
                 state.status = 'failed'
                 state.error = error.error.message
+                console.log(error)
             })
             // createNoteAsync
             .addCase(createNoteAsync.pending, (state) => {
@@ -134,6 +135,7 @@ export const notesSlice = createSlice({
                 // console.log('rejected')
                 state.status = 'failed'
                 state.error = error.error.message
+                console.log(error)
             })
             // deleteNoteAsync
             .addCase(deleteNoteAsync.pending, (state) => {

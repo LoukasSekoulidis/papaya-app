@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 
 import { TextField, Box, Container, Button } from '@mui/material';
 
+import ReturnButton from '..//misc/ReturnButton'
+
 const userAPI = require('../../api/user-api')
 
 
@@ -60,6 +62,7 @@ function FormPasswordReset() {
                 >
                     Reset Password
                  </Button>
+                <ReturnButton />
             </Box>
         </Container >
     )

@@ -1,7 +1,11 @@
 // React Functions
 import { React, useState } from "react"
-import { useDispatch } from 'react-redux';
-import { loginAsync } from '../../redux/user/userSlice'
+
+import { useDispatch, useSelector } from 'react-redux'
+
+import { loginAsync, selectError } from '../../redux/user/userSlice'
+
+import { ErrorHandler } from '../misc/ErrorHandler'
 
 // Components
 import TemplateLogin from "./TemplateLogin"
@@ -9,9 +13,10 @@ import TemplateLogin from "./TemplateLogin"
 
 export default function FormLogin() {
 
-    const [error, setError] = useState()
     const dispatch = useDispatch()
 
+    let error = useSelector(selectError)
+    console.log(error)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,15 +25,16 @@ export default function FormLogin() {
         const mail = data.get('email')
         const password = data.get('password')
 
+
         dispatch(loginAsync({ mail, password }))
 
     }
-  
+
     return (
         <div>
             <TemplateLogin
                 handleSubmit={handleSubmit}
-                error={error}  
+                error={ErrorHandler(error)}
             />
         </div>
     )
