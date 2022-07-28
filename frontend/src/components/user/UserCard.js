@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { ListGroup, Button } from 'react-bootstrap'
 
 
-const UserCard = ({ user, deleteUser, setCurrentUser, getUserToDelete }) => {
+const UserCard = ({ user, setCurrentUser, getUserToDelete }) => {
 
     const [statusColor, setStatusColor] = useState()
 

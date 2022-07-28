@@ -14,6 +14,17 @@ router.get('/', AuthenticationService.isAuthenticated, function (req, res) {
   })
 })
 
+router.get('/:categoryID', AuthenticationService.isAuthenticated, function (req, res) {
+  let urlID = req.url.split('/')[1];
+  CategoryService.getCategory(urlID, (err, result) => {
+    if (err) {
+      res.status(400).json({ Error: err })
+    } else {
+      res.status(200).json(result)
+    }
+  })
+})
+
 router.get('/getAll/:categoryID', AuthenticationService.isAuthenticated, function (req, res) {
   let urlID = req.url.split('/')[2];
   CategoryService.getAllChildrenOf(urlID, (err, result) => {

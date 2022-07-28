@@ -12,7 +12,7 @@ router.get('/', confirmationService.isVerified, (req, res, next) => {
                 res.header("Authorization", "Bearer " + token);
 
                 if (user) {
-                    res.status(200).json({ userID: user._id });
+                    res.status(200).json({ userID: user._id, adminStatus: user.isAdministrator });
                 }
                 else {
                     res.status(400).json({ Error: err });

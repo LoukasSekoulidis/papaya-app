@@ -16,17 +16,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import { PaletteMode } from '@mui/material';
-
-
 import NoteContainer from '../note/NoteContainer'
 import DashboardCategories from './DashboardCategories'
 import DashboardGeneral from './DashboardGeneral'
-// import FormCreateNote from '../note/FormCreateNote';
 import FormCreateNoteMUI from '../note/FormCreateNoteMUI'
 import FormUpdateNoteMUI from '../note/FormUpdateNoteMUI'
 import UserWidget from '../user/UserWidget'
-
 
 import { selectCurrentCategoryName } from '../../redux/categories/categoriesSlice'
 import { selectApperance } from '../../redux/user/userSlice'
@@ -137,12 +132,13 @@ const getDesignTokens = (mode) => ({
 function DashboardContent() {
   const [open, setOpen] = useState(true);
   const largeScreen = useMediaQuery(mdTheme.breakpoints.up('md'));
-
+  
   const currentCategory = useSelector(selectCurrentCategoryName)
   const apperance = useSelector(selectApperance)
 
   const noteAction = useSelector(selectNoteAction)
   const [updated, setUpdated] = useState()
+
 
   const [currentShownWindow, setCurrentShownWindow] = useState()
   const createWindow = <FormCreateNoteMUI/>
@@ -161,6 +157,7 @@ function DashboardContent() {
       setCurrentShownWindow(null)
       
     }
+    //eslint-disable-next-line
   }, [noteAction])
 
   const toggleDrawer = () => {

@@ -16,9 +16,9 @@ export const loginAsync = createAsyncThunk(
         if(response.ok) {
             const token = response.token
             const userID = response.userID
-            // localStorage.setItem('papaya.token', token)
+            const adminStatus = response.adminStatus
     
-            return { token, userID }
+            return { token, userID, adminStatus }
         } else {
             console.log('error')
             return rejectWithValue(response.error)
@@ -49,6 +49,7 @@ export const userSlice = createSlice({
             state.token = payload.token
             state.showLoginDialog = false
             state.user = payload.userID
+            state.adminStatus = payload.adminStatus
             state.error = null
           })
           .addCase(loginAsync.rejected, (state, error) => {
@@ -69,5 +70,6 @@ export const selectToken = (state) => state.user.token
 export const selectError = (state) => state.user.error
 export const selectApperance = (state) => state.user.apperance
 export const selectUserID = (state) => state.user.user
+export const selectUserAdminStatus = (state) => state.user.adminStatus
 
 export default userSlice.reducer;

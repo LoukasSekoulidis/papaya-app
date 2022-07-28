@@ -73,7 +73,6 @@ function updateUser(userID, props, callback) {
 
     userModel.findById(userID, function (err, user) {
         if (err) {
-            clg
             return callback('401')
         }
         else if (!user) {
@@ -152,7 +151,7 @@ function deleteUser(userID, callback) {
             return callback('406');
         }
         else {
-            return callback(null, userName);
+            return callback(null, deletetUser);
         }
     })
 }

@@ -59,6 +59,7 @@ function isAuthenticated(req, res, next) {
                 res.status(401).json({ Error: "105" });
                 return;
             }
+            req.userMail = user.userMail;
             return next();
         });
     } else {

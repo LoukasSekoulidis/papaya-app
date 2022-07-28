@@ -61,7 +61,7 @@ function deleteCategory(categoryID, callback) {
 }
 
 function getAllCategories(userMail, callback) {
-    console.log(userMail)
+    console.log('in get all cat ' + userMail)
     Category.find({ ownerID: userMail }, function (err, categories) {
         if (err) {
             return callback('206')
@@ -90,10 +90,22 @@ function getAllChildrenOf(categoryID, callback) {
     })
 }
 
+function getCategory(categoryID, callback) {
+    console.log(categoryID);
+    Category.findOne({ _id: categoryID }, function (err, category) {
+        if (err) {
+            return callback('208')
+        } else {
+            return callback(null, category)
+        }
+    }) 
+}
+
 module.exports = {
     createCategory,
     updateCategory,
     deleteCategory,
     getAllChildrenOf,
-    getAllCategories
+    getAllCategories,
+    getCategory
 }

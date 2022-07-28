@@ -5,25 +5,19 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { readNotesByCategoryAsync, readAllNotesAsync, selectNotes, selectNoteStatus, deleteNoteAsync, setCreateOrUpdate, selectNoteAction, selectUpdatingStatus, selectUpdateStatus } from '../../redux/notes/notesSlice'
-import { selectCurrentCategoryID } from '../../redux/categories/categoriesSlice'
+import { readNotesByCategoryAsync, readAllNotesAsync, selectNotes, selectNoteStatus, deleteNoteAsync, setCreateOrUpdate, selectUpdateStatus } from '../../redux/notes/notesSlice'
 
 import { CircularProgress, Button } from '@mui/material'
 
 
 // Components
-// import Note from './Note'
 import NoteMUI from './NoteMUI'
-
-const noteAPI = require('../../api/note-api')
 
 
 export default function NoteContainer({ updated, setUpdated }) {
 
     const [notes, setNotes] = useState([])
     const [error, setError] = useState()
-    // use this to pre select category in selector
-    const [selectedCategory, setSelectedCategory] = useState()
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -51,26 +45,8 @@ export default function NoteContainer({ updated, setUpdated }) {
         dispatch(setCreateOrUpdate('create'))
     }
 
-    // const readNotesByCategory = async () => {
-    //   const apiRequest = await noteAPI.getNotesByCategory(categoryID)
-    //   const notesFromResponse = apiRequest.notes
-    //   setNotes(notesFromResponse)
-    // }
-
     const notesStatus = useSelector(selectNoteStatus)
     const notesArray = useSelector(selectNotes)
-
-    // useEffect(() => {
-    //     if (updated) {
-    //         if (categoryID === undefined) {
-    //             dispatch(readAllNotesAsync())
-    //         } else {
-    //             dispatch(readNotesByCategoryAsync(categoryID))
-    //         }
-    //         setUpdated(false)
-    //     }
-    //     // eslint-disable-next-line
-    // }, [updated])
 
     useEffect(() => {
         if (categoryID === undefined) {

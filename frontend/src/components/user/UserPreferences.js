@@ -1,4 +1,4 @@
-import { React, useRef, useState, useEffect } from 'react'
+import { React, useState, useEffect } from 'react'
 
 import { Container } from 'react-bootstrap'
 import Form from 'react-bootstrap/Form'
@@ -14,12 +14,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { InputLabel, Box, Typography, Modal, Input, FormControl, FormHelperText, TextField, InputAdornment, IconButton, OutlinedInput, FilledInput } from '@mui/material';
-// import FormControl from '@mui/material/FormControl'
-
-const LOCAL_STORAGE_KEY = 'papaya.token'
-
-// import 
+import { InputLabel, Box, Typography, Modal, FormControl, InputAdornment, IconButton, FilledInput } from '@mui/material';
 
 const userAPI = require('../../api/user-api')
 
@@ -38,7 +33,7 @@ const UserPreferences = () => {
   const [showPasswordNew, setShowPasswordNew] = useState(false)
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false)
 
-
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false)
 
   const [error, setError] = useState()
   const [confirm, setConfirm] = useState()
@@ -70,9 +65,16 @@ const UserPreferences = () => {
     setShowPasswordConfirm(!showPasswordConfirm)
   }
 
+  const hideConfirmDelete = () => {
+    setShowConfirmDelete(false)
+  }
 
   const hideEditUserModal = () => {
     setShowOpenEditModal(false)
+  }
+
+  const openConfirmDelete = () => {
+    setShowConfirmDelete(true)
   }
 
   const openEditModal = () => {
@@ -105,7 +107,20 @@ const UserPreferences = () => {
 
   }
 
+  const deleteUser = async () => {
+    const response = await userAPI.deleteUser(token, userID)
+    if(response.ok) {
+      return navigate('/delete')
+      // return window.location.reload(false)
+    } else {
+      setError(response.error)
+    }
+  }
 
+  const handleConfirmDelete = () => {
+    deleteUser()
+    hideConfirmDelete()
+}
 
   const getUser = async () => {
       const response = await userAPI.getUser(userID, token)
@@ -178,6 +193,40 @@ const UserPreferences = () => {
 
   return (
     <div>
+          <Modal 
+            // show={showConfirmDelete} 
+            // onHide={hideConfirmDelete}
+            open={showConfirmDelete} 
+            onClose={hideConfirmDelete}
+          >
+            <Box sx={style}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Do you really want to delete your account?
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Please consider, that this can't be undone.
+                <br></br>
+                <Button 
+                  variant="contained" 
+                  color='error'
+                  onClick={handleConfirmDelete}
+                  sx={{ mt: 2 }}
+                  >
+                    Confirm
+                </Button>
+                <Button 
+                  // className='m-2' 
+                  id="CancelDeleteUserButton" 
+                  variant="contained" 
+                  color='success'
+                  onClick={hideConfirmDelete}
+                  sx={{ ml: 2, mt: 2 }}
+                >
+                    Cancel
+                </Button>
+              </Typography>
+            </Box>
+          </Modal>
           <Modal
             open={showOpenEditModal}
             onClose={hideEditUserModal}
@@ -388,6 +437,16 @@ const UserPreferences = () => {
                     // sx={{ ml: 2 }}
                   >
                     Change Password
+                  </Button>
+                  <Button 
+                    // color='dark'
+                    onClick={openConfirmDelete}
+                    variant="contained" 
+                    color='error'
+                    // color='red'
+                    sx={{ ml: 2 }}
+                  >
+                    Delete Account
                   </Button>
                 { error && <p style={{ color: 'red' }}>{ error }</p>}
                 { confirm && <p style={{ color: 'green' }}>{ confirm }</p>}

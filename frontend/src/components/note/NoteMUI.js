@@ -45,7 +45,6 @@ const Note = ({ id, title, input, updateNote, deleteNote, error }) => {
     };
 
     const showUpdateWindow = () => {
-        console.log('id: ', id)
         dispatch(setCurrentNoteID(id))
         dispatch(setCreateOrUpdate('update' + id))
     }

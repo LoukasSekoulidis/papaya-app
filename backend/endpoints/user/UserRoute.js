@@ -64,6 +64,7 @@ router.put('/resetPassword/:userMail', (req, res, next) => {
 router.delete('/delete/:userID', authenticationService.isAuthenticated, (req, res, next) => {
     userService.deleteUser(req.url.split('/')[2], (err, deletedUser) => {
         if (deletedUser) {
+            console.log('first')
             res.status(200).json({ Deleted: deletedUser });
         }
         else {

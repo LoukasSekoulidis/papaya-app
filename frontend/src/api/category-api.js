@@ -1,13 +1,8 @@
-import { asyncLocalStorage } from "../components/misc/asyncLocalStorage"
-
-const API_URL = 'https://papaya-app.online/api/v1/category'
-
-// const LOCAL_STORAGE_KEY = 'papaya.token'
-// const token = localStorage.getItem(LOCAL_STORAGE_KEY)
+// GLOBAL VARIABLES
+const rootURL = process.env.REACT_APP_ROOT_URL
+const API_URL = `${rootURL}/category`
 
 export const read = async (token) => {
-
-    // const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
 
     const url = `${API_URL}`
     const response = await fetch(url, {
@@ -19,6 +14,7 @@ export const read = async (token) => {
     })
 
     const responseJSON = await response.json()
+    console.log(responseJSON)
 
     if (response.ok) {
         return ({
@@ -34,9 +30,35 @@ export const read = async (token) => {
     }
 }
 
+export const getOne = async (token, id) => {
+
+    const url = `${API_URL}/${id}`
+    const response = await fetch(url, {
+        method: 'GET',
+        withCredentials: true,
+        headers: {
+            'Authorization': token
+        },
+    })
+
+    const responseJSON = await response.json()
+
+    if (response.ok) {
+        return ({
+            ok: true,
+            error: null,
+            category: responseJSON
+        })
+    } else {
+        return ({
+            ok: false,
+            error: responseJSON.Error
+        })
+    }
+}
+
 export const create = async (token, title, color) => {
 
-    console.log(title + ' ' + color)
     const url = `${API_URL}/create`
     const response = await fetch(url, {
         method: 'POST',
@@ -51,8 +73,6 @@ export const create = async (token, title, color) => {
     })
 
     const responseJSON = await response.json()
-
-    console.log(responseJSON)
 
     if (response.ok) {
         return ({

@@ -4,21 +4,13 @@ import { useNavigate } from 'react-router-dom'
 
 // Components
 import FormTemplate from "./FormTemplate"
-// import AlertBox from './AlertBox'
 
 // CSS
-// import { Alert } from 'react-bootstrap'
 const userAPI = require('../../api/user-api')
 
 
 export default function LoginForm() {
 
-    // const [showError, setShowError] = useState(false)
-    // const [errorMessage, setErrorMessage] = useState({
-    //     errorTitle: 'Title',
-    //     errorMessage: 'Message'
-    // })
-    // const [show, setShow] = useState(false)
     const [error, setError] = useState()
 
     const navigate = useNavigate()

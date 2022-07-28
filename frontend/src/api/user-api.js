@@ -1,11 +1,10 @@
-// React Functions
-
-// NPM imports
 import { Buffer } from 'buffer'
 
-const LOCAL_STORAGE_KEY = 'papaya.token'
+// GLOBAL VARIABLES
+const rootURL = process.env.REACT_APP_ROOT_URL
+const API_URL = `${rootURL}/user`
 
-const API_URL = 'https://papaya-app.online/api/v1/user'
+const LOCAL_STORAGE_KEY = 'papaya.token'
 
 const encodeLoginData = (userMail, password) => {
     let data = `${userMail}:${password}` // usermail:password
@@ -51,7 +50,8 @@ export const login = async (mail, password) => {
     const encodedData = encodeLoginData(mail, password)
     const authString = `Basic ${encodedData}`
 
-    const url = 'https://papaya-app.online/api/v1/login/'
+    const url = `${rootURL}/login/`
+
     const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -68,6 +68,7 @@ export const login = async (mail, password) => {
             ok: true,
             token: response.headers.get('Authorization'),
             userID: responseJSON.userID,
+            adminStatus: responseJSON.adminStatus,
             error: null
         })
     } else {
@@ -83,7 +84,9 @@ export const logout = () => {
 }
 
 export const verify = async (id) => {
-    const url = `https://papaya-app.online/api/v1/confirmation/${id}`
+    
+    const url = `${rootURL}/confirmation/${id}`
+
     const response = await fetch(url, {
         method: 'GET',
     })
@@ -106,7 +109,6 @@ export const verify = async (id) => {
 
 export const getUser = async (id, token) => {
 
-    // const url = `http://127.0.0.1:8080/api/v1/user/${id}`
     const url = `${API_URL}/${id}`
 
 
@@ -189,15 +191,46 @@ export const update = async (token, id, userName, userMail, userPassword) => {
             error: responseJSON.Error
         })
     }
+}
 
+export const updateAsAdmin = async (token, id, userName, userMail, userPassword, isAdministrator, confirmed) => {
+
+    const url = `${API_URL}/update/${id}`
+
+    const response = await fetch(url, {
+        method: 'PUT',
+        withCredentials: true,
+        headers: {
+            'Authorization': token,
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+            userName: userName,
+            userMail: userMail,
+            password: userPassword,
+            isAdministrator: isAdministrator,
+            confirmed: confirmed
+        })
+    })
+    const responseJSON = await response.json()
+
+    if (response.ok) {
+        return ({
+            ok: true,
+            updated: responseJSON
+        })
+    } else {
+        return ({
+            ok: false,
+            error: responseJSON.Error
+        })
+    }
 }
 
 
 export const resetPassword = async (userMail) => {
 
     const url = `${API_URL}/resetPassword/${userMail}`
-
-    // const url = `http://127.0.0.1:8080/api/v1/user/resetPassword/${userMail}`
 
     const response = await fetch(url, {
         method: 'PUT',
@@ -221,4 +254,27 @@ export const resetPassword = async (userMail) => {
         })
     }
 
+}
+
+export const deleteUser = async (token, id) => {
+
+    const url = `${API_URL}/delete/${id}`
+    const response = await fetch(url, {
+        method: 'DELETE',
+        withCredentials: true,
+        headers: {
+            'Authorization': token
+        },
+    })
+
+    if (response.ok) {
+        return ({
+            ok: true,
+        })
+    } else {
+        return ({
+            ok: false,
+            error: `${response.status}: ${response.statusText}`
+        })
+    }
 }

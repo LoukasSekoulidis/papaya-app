@@ -1,23 +1,22 @@
 // React Functions
-import { React, useRef, useState, useEffect } from 'react'
+import { React, useState, useEffect } from 'react'
 
 // Markdown
 import MDEditor from '@uiw/react-md-editor'
 
 // CSS
-import { Box, TextField, FormControl, FormGroup, Select, Button, InputLabel, Input, FormHelperText, MenuItem } from '@mui/material'
+import { Box, TextField, FormGroup, Select, Button, MenuItem } from '@mui/material'
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
 import { selectApperance, selectToken } from '../../redux/user/userSlice';
-import { createNoteAsync, selectCurrentNoteID, selectUpdatingStatus, updateNoteAsync } from '../../redux/notes/notesSlice'
-import { readAllCategoriesAsync, selectCategories, selectCategoriesStatus, selectCurrentCategory } from '../../redux/categories/categoriesSlice'
-import { selectNoteAction, readAllNotesAsync, setUpdateStatus } from '../../redux/notes/notesSlice'
+import { selectCurrentNoteID, updateNoteAsync } from '../../redux/notes/notesSlice'
+import { readAllCategoriesAsync, selectCategories, selectCategoriesStatus } from '../../redux/categories/categoriesSlice'
+import { selectNoteAction, readAllNotesAsync } from '../../redux/notes/notesSlice'
 
 
 // API
 const noteAPI = require('../../api/note-api')
-const categoryAPI = require('../../api/category-api')
 
 export default function FormCreateNote({ setUpdated }) {
     const dispatch = useDispatch()
@@ -114,7 +113,8 @@ export default function FormCreateNote({ setUpdated }) {
                     </FormGroup>
                     <FormGroup className='mb-3'>
                         <MDEditor
-                            commands={[]}
+                            // remove comment to remove toolbar
+                            // commands={[]}
                             textareaProps={{
                                 placeholder: 'Please enter Markdown text',
                             }}

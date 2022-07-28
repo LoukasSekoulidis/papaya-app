@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { v4 as uuidv4 } from 'uuid';
+
 import { useEffect, useState } from 'react'
 import { selectToken } from '../../redux/user/userSlice'
 import { useSelector } from 'react-redux'
@@ -26,6 +28,7 @@ const UserContainer = () => {
 
     // states for form edit
     const [userMailEditState, setUserMailEditState] = useState()
+    const [userIDEditState, setUserIDEditState] = useState()
     const [userNameEditState, setUserNameEditState] = useState()
     const [userPasswordEditState, setUserPasswordEditState] = useState()
     const [isAdminEditState, setIsAdminEditState] = useState()
@@ -65,6 +68,7 @@ const UserContainer = () => {
 
     const setValues = (user) => {
       setUserMailEditState(user.userMail)
+      setUserIDEditState(user._id)
 
       setUserNameEditState(user.userName)
       setUserPasswordEditState(user.password)
@@ -101,20 +105,22 @@ const UserContainer = () => {
     }
 
     const handleConfirmDelete = () => {
-      deleteUser(userMailEditState)
+      // deleteUser(userMailEditState)
+      deleteUser(userIDEditState)
       hideConfirmDelete()
   }
 
     const handleSubmit = async (e) => {
       e.preventDefault()
 
+      const id = userIDEditState
       const userMail = userMailEditState
       const userName = userNameEditState
       const userPassword = userPasswordEditState
       const isAdministrator = isAdminEditState
       const confirmed = isConfirmedEditState
 
-      const response = await userAPI.update(token, userMail, userName, userPassword, isAdministrator, confirmed)
+      const response = await userAPI.updateAsAdmin(token, id, userName, userMail, userPassword, isAdministrator, confirmed)
       if(response.ok) {
         setGotAllUsers(false)
         hideEditUserModal()
@@ -221,7 +227,7 @@ const UserContainer = () => {
               {allUsers.map(user => (
                 <UserCard
                 id={"UserItem" + user.userID}
-                key={user.userID}
+                key={uuidv4()}
                 user = {user}
                 openEditUserModal = { openEditUserModal }
                 deleteUser = { deleteUser }

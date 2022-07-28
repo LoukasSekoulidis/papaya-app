@@ -13,11 +13,7 @@ import ResetPassword from "./routes/ResetPasswordPage"
 
 import { useSelector } from 'react-redux'
 import { selectToken } from './redux/user/userSlice'
-
-// import ProtectedRoute from './routes/ProtectedRoute'
-
-// const LOCAL_STORAGE_KEY = 'papaya.token'
-
+import DeleteConfirm from "./routes/DeleteConfirm"
 
 const App = () => {
 
@@ -39,6 +35,7 @@ const App = () => {
                 <Route path='/userPreferences' element={<UserPreferences />} />
                 <Route path='/control' element={<UserManagment />} />
                 <Route path='/resetPassword' element={<ResetPassword />} />
+                <Route path='/delete' element={<DeleteConfirm />} />
             </Routes>
         )
     }

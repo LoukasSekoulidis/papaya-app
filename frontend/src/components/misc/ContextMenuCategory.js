@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import Paper from '@mui/material/Paper';
 import MenuItem from '@mui/material/MenuItem';
@@ -16,9 +16,11 @@ import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal'
 import TextField from '@mui/material/TextField';
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { readAllCategoriesAsync, updateCategoryAsync } from '../../redux/categories/categoriesSlice';
+import { selectToken } from '../../redux/user/userSlice'
 
+const categoryAPI = require('../../api/category-api')
 
 export default function ContextMenuCategory({ contextMenu, handleClose, categoryID, deleteCategory }) {
 
@@ -32,6 +34,8 @@ export default function ContextMenuCategory({ contextMenu, handleClose, category
         boxShadow: 24,
         p: 4,
     };
+
+    const token = useSelector(selectToken)
 
     const [open, setOpen] = useState(false)
     const [category, setCategory] = useState('')
@@ -60,11 +64,21 @@ export default function ContextMenuCategory({ contextMenu, handleClose, category
         }
 
         dispatch(updateCategoryAsync(update))
-
         dispatch(readAllCategoriesAsync())
-
         setCategory('')
     }
+
+    const getCategory = async () => {
+        const response = await categoryAPI.getOne(token, categoryID)
+        if(response.ok) {
+            setCategory(category)
+        }
+    }
+
+    useEffect(() => {
+        getCategory()
+    }, [])
+    
 
     return (
         <div>

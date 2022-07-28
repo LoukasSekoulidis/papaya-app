@@ -1,13 +1,6 @@
 // GLOBAL VARIABLES
-import { asyncLocalStorage } from "../components/misc/asyncLocalStorage"
-const LOCAL_STORAGE_KEY = 'papaya.token'
-
-// const API_URL = 'https://localhost:8080/api/v1/note'
-const API_URL = 'https://papaya-app.online/api/v1/note'
-
-
-// const token = localStorage.getItem(LOCAL_STORAGE_KEY)
-
+const rootURL = process.env.REACT_APP_ROOT_URL
+const API_URL = `${rootURL}/note`
 
 export const create = async (token, title, note, categoryID) => {
 
@@ -47,8 +40,6 @@ export const create = async (token, title, note, categoryID) => {
 
 export const read = async (token) => {
 
-    // const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
-
     const url = `${API_URL}/myNotes`
     const response = await fetch(url, {
         method: 'GET',
@@ -74,6 +65,7 @@ export const read = async (token) => {
 }
 
 export const remove = async (token, id) => {
+
     const url = `${API_URL}/delete/${id}`
     const response = await fetch(url, {
         method: 'DELETE',
@@ -96,9 +88,8 @@ export const remove = async (token, id) => {
 }
 
 export const update = async (token, id, noteTitle, noteInput, categoryID) => {
-    const url = `${API_URL}/update/${id}`
 
-    // const asyncToken = await asyncLocalStorage.getItem(LOCAL_STORAGE_KEY)
+    const url = `${API_URL}/update/${id}`
 
     if (categoryID === '') {
         categoryID = null
@@ -108,7 +99,6 @@ export const update = async (token, id, noteTitle, noteInput, categoryID) => {
         method: 'PUT',
         withCredentials: true,
         headers: {
-            // 'Authorization': asyncToken,
             'Authorization': token,
             'content-type': 'application/json',
         },
@@ -131,7 +121,6 @@ export const update = async (token, id, noteTitle, noteInput, categoryID) => {
             error: responseJSON.Error
         })
     }
-
 }
 
 
@@ -162,7 +151,7 @@ export const getNote = async (token, id) => {
 
 export const getNotesByCategory = async (token, categoryID) => {
 
-    const api = 'https://papaya-app.online/api/v1/category/getAll/'
+    const api = `${rootURL}/category/getAll/`
 
     const url = `${api}${categoryID}`
     const response = await fetch(url, {

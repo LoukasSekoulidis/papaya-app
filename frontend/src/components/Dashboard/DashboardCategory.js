@@ -16,8 +16,6 @@ import { readAllCategoriesAsync, deleteCategoryAsync, setCurrentCategoryID, setC
 
 import { DragNDrop } from '../misc/DragNDrop'
 
-const categoryAPI = require('../../api/category-api')
-
 const DashboardCategory = ({ categoryTitle, id, catColor }) => {
 
     const navigate = useNavigate()

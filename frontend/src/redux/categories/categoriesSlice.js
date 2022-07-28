@@ -28,7 +28,8 @@ export const createCategoryAsync = createAsyncThunk(
     'categories/createCategoryAsync',
     async ({ category, color }, { rejectWithValue, getState }) => {
         const token = getState().user.token
-        console.log(category + '  ' + color)
+        
+        // console.log('inside async ' + category + '  ' + color)
         const response = await categoryAPI.create(token, category, color)
         if (response.error) {
             return rejectWithValue(response.error)

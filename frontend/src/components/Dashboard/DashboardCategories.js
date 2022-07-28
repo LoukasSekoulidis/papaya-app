@@ -17,12 +17,8 @@ import DashboardCategory from './DashboardCategory'
 import { useDispatch, useSelector } from 'react-redux'
 import { readAllCategoriesAsync, selectCategories, selectCategoriesStatus, showCreateModal, closeCreateModal, selectOpenCreateModal, createCategoryAsync } from '../../redux/categories/categoriesSlice'
 
-
-const categoryAPI = require('../../api/category-api')
-
 const DashboardCategories = () => {
 
-    // const [categories, setCategories] = useState([])
     const [error, setError] = useState()
     const open = useSelector(selectOpenCreateModal)
 
@@ -31,21 +27,6 @@ const DashboardCategories = () => {
 
 
     const dispatch = useDispatch()
-
-    // const getCategories = async () => {
-    //     const apiRequest = await categoryAPI.read()
-
-    //     if (apiRequest.response) {
-    //         const categoriesFromResponse = apiRequest.categories
-    //         for (let index = 0; index < categoriesFromResponse.length; index++) {
-    //             let category = categoriesFromResponse[index]
-    //             setCategories(prevArray => [...prevArray, category])
-    //         }
-    //         // return categoriesFromResponse
-    //     } else {
-    //         // return apiRequest.error
-    //     }
-    // }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -69,6 +50,7 @@ const DashboardCategories = () => {
 
     useEffect(() => {
         dispatch(readAllCategoriesAsync())
+    //eslint-disable-next-line
     }, [])
 
     const categorieArray = useSelector(selectCategories)

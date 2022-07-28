@@ -5,21 +5,14 @@ import { React, useRef, useState, useEffect } from 'react'
 import MDEditor from '@uiw/react-md-editor'
 
 // CSS
-import Form from 'react-bootstrap/Form'
-
-import { Box, TextField, FormControl, FormGroup, Select, Button, InputLabel, Input, FormHelperText, MenuItem } from '@mui/material'
+import { Box, TextField, FormGroup, Select, Button, MenuItem } from '@mui/material'
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
 import { createNoteAsync } from '../../redux/notes/notesSlice'
-import { readAllCategoriesAsync, selectCategories, selectCategoriesStatus, selectCurrentCategory } from '../../redux/categories/categoriesSlice'
+import { readAllCategoriesAsync, selectCategories, selectCategoriesStatus } from '../../redux/categories/categoriesSlice'
 
 import { selectApperance } from '../../redux/user/userSlice';
-
-
-// API
-const categoryAPI = require('../../api/category-api')
-
 
 export default function FormCreateNote() {
   const dispatch = useDispatch()
@@ -107,7 +100,8 @@ if(categoriesStatus === 'succeeded') {
         </FormGroup>
         <FormGroup className='mb-3'>
           <MDEditor
-            commands={[]}
+            // remove comment to remove toolbar
+            // commands={[]}
             textareaProps={{
               placeholder: 'Please enter Markdown text',
             }}
