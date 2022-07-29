@@ -12,15 +12,17 @@ export default function TemplateLogin({ handleSubmit, error }) {
             <CssBaseline />
             <Box
                 sx={{
-                    marginTop: 8,
+                    marginTop: 3,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                 }}
             >
-                <Typography component="h1" variant="h5">
+                <h1> Papaya </h1>
+                <h3> The simplified Note-Taking-App </h3>
+                {/* <Typography style={{ marginTop: 80 }} component="h1" variant="h5">
                     Sign in
-          </Typography>
+          </Typography> */}
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                     <TextField
                         style={{ width: '100%' }}

@@ -5,9 +5,9 @@ import React from 'react'
 import FormLogin from '../components/user/FormLogin'
 
 const LandingPage = () => {
-  return (
-    <FormLogin />
-  )
+    return (
+        <FormLogin />
+    )
 }
 
 export default LandingPage
